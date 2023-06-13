@@ -1,1 +1,2 @@
 - [Devin Jaggernauth](https://github.com/mentalcaries)👻
+-[Nuriya Akhmedova](https://github.com/NuriyaAkh)😃
