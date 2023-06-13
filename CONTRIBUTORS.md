@@ -1,3 +1,4 @@
 - [Devin Jaggernauth](https://github.com/mentalcaries)👻
 - [Nuriya Akhmedova](https://github.com/NuriyaAkh)😃
 - [Amanda DiNoto](https://github.com/Amanda2900)🌷
+- [Shraddha](https://github.com/5hraddha) 💻
