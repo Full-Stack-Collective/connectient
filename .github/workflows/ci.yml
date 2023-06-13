@@ -1,0 +1,32 @@
+# CI name
+name: Run linters and specs
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  suite:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install node on the runner
+        uses: actions/setup-node@v2
+        with:
+          node-version: 19.x
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run Prettier
+        run: npm run format:check

@@ -1,2 +1,3 @@
 - [Devin Jaggernauth](https://github.com/mentalcaries)👻
 - [Nuriya Akhmedova](https://github.com/NuriyaAkh)😃
+- [Shraddha](https://github.com/5hraddha) 💻
