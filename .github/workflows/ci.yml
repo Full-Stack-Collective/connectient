@@ -28,5 +28,10 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
-      - name: Run Prettier
+      - name: Run Prettier Formatting
+        run: npm run format:fix
+
+      - name: Run Prettier Check
         run: npm run format:check
+
+      
