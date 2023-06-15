@@ -19,10 +19,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         {children}
-        <footer className="m-auto p-2 min-h-[5vh]">
-          <p className="text-center text-sm opacity-50">
-            &copy; {year} Full Stack Collective{' '}
-          </p>{' '}
+        <footer>
+          Footer text
         </footer>
       </body>
     </html>
