@@ -9,7 +9,7 @@ const formatCommand = 'prettier --write'
 
 module.exports = {
   '*.{js,jsx,ts,tsx,css}': [buildEslintCommand],
-  '!*.{js,jsx,ts,tsx,css,scss}': [formatCommand],
+  // '!*.{js,jsx,ts,tsx,css,scss}': [formatCommand],
 }
 
 // /* eslint-env node */
