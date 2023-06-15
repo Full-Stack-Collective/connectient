@@ -12,4 +12,5 @@ module.exports = {
   '*.{js,jsx,ts,tsx}': [formatCommand, eslintCommand],
   '*.{css,scss}': [formatCommand, stylelintCommand],
   '!*.{js,jsx,ts,tsx,css,scss}': [formatCommand],
+  '!*.{module.css}': [formatCommand],
 }
