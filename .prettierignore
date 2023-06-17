@@ -1,8 +1,8 @@
 node_modules
+public
 .next
 .husky
 coverage
 .prettierignore
 .stylelintignore
 .eslintignore
-public
