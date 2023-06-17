@@ -5,7 +5,7 @@ import styles from '@styles/header.module.css'
 
 const Header = () => {
   return (
-    <div className={styles.header}>
+    <header className={styles.header}>
       <Link href="/">
         <Image
           src={logo}
@@ -13,7 +13,7 @@ const Header = () => {
           width={240}
         />
       </Link>
-    </div>
+    </header>
   )
 }
 
