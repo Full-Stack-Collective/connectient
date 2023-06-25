@@ -20,14 +20,12 @@ const LoginForm = () => {
   })
 
   const onSubmit = handleSubmit((data) => {
-    // Log in browser
+    // Log in the browser
     console.log(data)
     startTransition(() => {
       loginFormAction(data)
     })
   })
-
-  console.log(errors)
 
   return (
     <form
