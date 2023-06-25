@@ -10,7 +10,7 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm<LoginFormData>({
     defaultValues: {
       userName: '',
@@ -78,9 +78,13 @@ const LoginForm = () => {
       </div>
       <div className={styles.loginFormSection}>
         <button
-          className={styles.submitButton}
+          className={
+            !isDirty || (isDirty && !isValid)
+              ? styles.submitButtonDisabled
+              : styles.submitButton
+          }
           type="submit"
-          // disabled={!isValid}
+          disabled={!isDirty || (isDirty && !isValid)}
         >
           Submit
         </button>
