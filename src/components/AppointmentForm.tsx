@@ -1,10 +1,36 @@
 'use client'
 
+import { useForm } from 'react-hook-form'
+import type AppointmentFormData from '@/types/AppointmentFormData'
 import styles from '@styles/appointmentForm.module.css'
 
 const AppointmentForm = () => {
+  const defaultValues = {
+    email: '',
+    dob: new Date(),
+    apptDate: new Date(),
+    apptType: '',
+    optionalDescription: '',
+    emergency: false,
+  }
+
+  const {
+    handleSubmit,
+    formState: { errors, isValid, isDirty },
+  } = useForm<AppointmentFormData>({
+    defaultValues,
+    mode: 'onChange',
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
+  })
+
   return (
-    <form className={styles.apptForm}>
+    <form
+      className={styles.apptForm}
+      onSubmit={(event) => void onSubmit(event)}
+    >
       <div className={styles.apptFormSection}>
         <label htmlFor="email" className={styles.inputLabel}>
           Email:{' '}
@@ -33,7 +59,7 @@ const AppointmentForm = () => {
           Appointment type:{' '}
         </label>
         <select id="apptType" className={styles.input}>
-          <option value="" disabled selected hidden>
+          <option value="" disabled hidden>
             Select one
           </option>
           <option value="examination">Examination</option>
