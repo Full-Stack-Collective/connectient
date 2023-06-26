@@ -1,6 +1,7 @@
 import styles from '../styles.module.css'
 import test from '@styles/test.module.css'
 import LoginForm from '@/components/LoginForm'
+import Appointments from '@/components/Appointments'
 
 export default function Admin() {
   return (
@@ -8,6 +9,7 @@ export default function Admin() {
       <h1 className={test.text}>Welcome to the Admin page!</h1>
       <p>Please enter your username and password to be granted access.</p>
       <LoginForm />
+      <Appointments />
     </main>
   )
 }
