@@ -2,11 +2,12 @@
 
 import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
-import { loginFormAction, type LoginFormData } from './actions'
+import { loginFormAction } from './actions'
+import type LoginFormData from '@/types/LoginFormData'
 import styles from '@styles/loginform.module.css'
 
 const LoginForm = () => {
-  const [isPending, startTransition] = useTransition()
+  const [, startTransition] = useTransition()
   const {
     register,
     handleSubmit,

@@ -1,9 +1,6 @@
 'use server'
 
-export type LoginFormData = {
-  userName: string
-  userPassword: string
-}
+import type LoginFormData from '@/types/LoginFormData'
 
 export const loginFormAction = (data: LoginFormData): void => {
   console.log(
