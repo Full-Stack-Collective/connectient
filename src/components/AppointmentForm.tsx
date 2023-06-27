@@ -11,8 +11,8 @@ const AppointmentForm = () => {
 
   const defaultValues = {
     email: '',
-    dob: new Date().toLocaleDateString(),
-    apptDate: new Date().toLocaleDateString(),
+    dob: '',
+    apptDate: '',
     apptType: '',
     optionalDescription: '',
     emergency: '',
