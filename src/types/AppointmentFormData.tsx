@@ -4,7 +4,7 @@ type AppointmentFormData = {
   apptDate: Date
   apptType: string
   optionalDescription: string
-  emergency: boolean
+  emergency: string
 }
 
 export default AppointmentFormData
