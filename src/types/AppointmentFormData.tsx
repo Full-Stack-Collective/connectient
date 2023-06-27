@@ -1,7 +1,7 @@
 type AppointmentFormData = {
   email: string
-  dob: Date
-  apptDate: Date
+  dob: string
+  apptDate: string
   apptType: string
   optionalDescription: string
   emergency: string

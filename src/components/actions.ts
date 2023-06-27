@@ -12,8 +12,8 @@ export const loginFormAction = (data: LoginFormData): void => {
 export const appointmentFormAction = (data: AppointmentFormData): void => {
   console.log(
     `Email: ${data.email} | 
-      Date of birth: ${data.dob.toLocaleDateString()} | 
-      Appointment Date: ${data.apptDate.toLocaleDateString()} | 
+      Date of birth: ${data.dob} | 
+      Appointment Date: ${data.apptDate} | 
       Appointment Type: ${data.apptType} |
       Optional Description: ${data.optionalDescription} |
       Emergency: ${data.emergency}`,
