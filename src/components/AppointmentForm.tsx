@@ -10,6 +10,9 @@ const AppointmentForm = () => {
   const [, startTransition] = useTransition()
 
   const defaultValues = {
+    firstName: '',
+    lastName: '',
+    phoneNum: '',
     email: '',
     dob: '',
     apptDate: '',
@@ -39,6 +42,58 @@ const AppointmentForm = () => {
       className={styles.apptForm}
       onSubmit={(event) => void onSubmit(event)}
     >
+      <div className={styles.apptFormSection}>
+        <label htmlFor="firstName" className={styles.inputLabel}>
+          First name:{' '}
+        </label>
+        <input
+          type="text"
+          id="firstName"
+          className={styles.input}
+          placeholder="Enter first name"
+          {...register('firstName', {
+            required: 'First name is required.',
+          })}
+        />
+        <p className={styles.error}>
+          {errors.firstName && errors.firstName.message}
+        </p>
+      </div>
+      <div className={styles.apptFormSection}>
+        <label htmlFor="lastName" className={styles.inputLabel}>
+          Last name:{' '}
+        </label>
+        <input
+          type="text"
+          id="lastName"
+          className={styles.input}
+          placeholder="Enter last name"
+          {...register('lastName', {
+            required: 'Last name is required.',
+          })}
+        />
+        <p className={styles.error}>
+          {errors.lastName && errors.lastName.message}
+        </p>
+      </div>
+      <div className={styles.apptFormSection}>
+        <label htmlFor="phoneNum" className={styles.inputLabel}>
+          Phone contact:{' '}
+        </label>
+        <input
+          type="tel"
+          id="phoneNum"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          className={styles.input}
+          placeholder="Ex: 123-456-7890"
+          {...register('phoneNum', {
+            required: 'Phone contact is required.',
+          })}
+        />
+        <p className={styles.error}>
+          {errors.phoneNum && errors.phoneNum.message}
+        </p>
+      </div>
       <div className={styles.apptFormSection}>
         <label htmlFor="email" className={styles.inputLabel}>
           Email:{' '}

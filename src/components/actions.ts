@@ -11,7 +11,10 @@ export const loginFormAction = (data: LoginFormData): void => {
 
 export const appointmentFormAction = (data: AppointmentFormData): void => {
   console.log(
-    `Email: ${data.email} | 
+    `First Name: ${data.firstName} |
+      Last Name: ${data.lastName} |
+      Phone Number: ${data.phoneNum} |
+      Email: ${data.email} | 
       Date of birth: ${data.dob} | 
       Appointment Date: ${data.apptDate} | 
       Appointment Type: ${data.apptType} |
