@@ -16,8 +16,8 @@ const LandingPage = () => {
       <p>
         If you are ready, click on &quot;Get Started&quot; below to proceed.
       </p>
-      <Link href="/appointments">
-        <button className={styles.button}>Get Started</button>
+      <Link href="/appointments" className={styles.link}>
+        Get Started
       </Link>
     </div>
   )
