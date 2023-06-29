@@ -46,7 +46,7 @@ const LoginForm = () => {
             required: 'Username is required.',
             minLength: {
               value: 4,
-              message: 'Username should be atleast 4 chars long',
+              message: 'Username should be at least 4 chars long',
             },
           })}
         />
@@ -67,7 +67,7 @@ const LoginForm = () => {
             required: 'Password is required.',
             minLength: {
               value: 8,
-              message: 'Password should be atleast 8 chars long',
+              message: 'Password should be at least 8 chars long',
             },
           })}
         />
