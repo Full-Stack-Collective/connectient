@@ -54,6 +54,10 @@ const AppointmentForm = () => {
           placeholder="Enter first name"
           {...register('firstName', {
             required: 'First name is required.',
+            minLength: {
+              value: 2,
+              message: 'First name should be at least 2 chars long.',
+            },
           })}
         />
         <p className={styles.error}>
@@ -71,6 +75,10 @@ const AppointmentForm = () => {
           placeholder="Enter last name"
           {...register('lastName', {
             required: 'Last name is required.',
+            minLength: {
+              value: 2,
+              message: 'Last name should be at least 2 chars long.',
+            },
           })}
         />
         <p className={styles.error}>
