@@ -16,6 +16,7 @@ const AppointmentForm = () => {
     email: '',
     dob: '',
     apptDate: '',
+    apptTime: '',
     apptType: '',
     optionalDescription: '',
     emergency: '',
@@ -144,6 +145,25 @@ const AppointmentForm = () => {
         />
         <p className={styles.error}>
           {errors.apptDate && errors.apptDate.message}
+        </p>
+      </div>
+      <div className={styles.apptFormSection}>
+        <label htmlFor="apptTime" className={styles.inputLabel}>
+          Appointment Time Preference:{' '}
+        </label>
+        <select
+          id="apptTime"
+          className={styles.input}
+          {...register('apptTime', {
+            required: 'Appointment time preference is required.',
+          })}
+        >
+          <option value="morning">Morning</option>
+          <option value="afternoon">Afternoon</option>
+          <option value="flexible">Flexible</option>
+        </select>
+        <p className={styles.error}>
+          {errors.apptTime && errors.apptTime.message}
         </p>
       </div>
       <div className={styles.apptFormSection}>

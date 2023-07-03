@@ -17,6 +17,7 @@ export const appointmentFormAction = (data: AppointmentFormData): void => {
       Email: ${data.email} | 
       Date of birth: ${data.dob} | 
       Appointment Date: ${data.apptDate} | 
+      Appointment Time: ${data.apptTime} |
       Appointment Type: ${data.apptType} |
       Optional Description: ${data.optionalDescription} |
       Emergency: ${data.emergency}`,
