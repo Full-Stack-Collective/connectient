@@ -6,3 +6,4 @@ coverage
 .prettierignore
 .stylelintignore
 .eslintignore
+.gitignore
