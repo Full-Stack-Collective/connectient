@@ -1,4 +1,5 @@
-import supabase from '@/db/supabase'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 
 interface Appointment {
   id: string
@@ -10,6 +11,8 @@ interface Appointment {
 }
 
 const Appointments = async () => {
+  const supabase = createServerComponentClient({ cookies })
+
   const { data: appointments } = await supabase.from('Appointments').select()
 
   return (

@@ -5,8 +5,13 @@ import { useForm } from 'react-hook-form'
 import { loginFormAction } from './actions'
 import type LoginFormData from '@/types/LoginFormData'
 import styles from '@styles/loginform.module.css'
+import { useRouter } from 'next/navigation'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 const LoginForm = () => {
+  const router = useRouter()
+  const supabase = createClientComponentClient()
+
   const [, startTransition] = useTransition()
   const {
     register,
@@ -20,12 +25,19 @@ const LoginForm = () => {
     mode: 'onChange',
   })
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     // Log in the browser
+    const { userName, userPassword } = data
     console.log(data)
-    startTransition(() => {
-      loginFormAction(data)
+    await supabase.auth.signInWithPassword({
+      email: userName,
+      password: userPassword,
     })
+
+    router.refresh()
+    // startTransition(() => {
+    //   loginFormAction(data)
+    // })
   })
 
   return (
