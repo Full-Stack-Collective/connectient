@@ -1,19 +1,19 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
 interface Appointment {
-  id: string
-  first_name: string
-  last_name: string
-  email: string
-  mobile_phone: string
-  requested_date: string
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile_phone: string;
+  requested_date: string;
 }
 
 const Appointments = async () => {
-  const supabase = createServerComponentClient({ cookies })
+  const supabase = createServerComponentClient({ cookies });
 
-  const { data: appointments } = await supabase.from('Appointments').select()
+  const { data: appointments } = await supabase.from('Appointments').select();
 
   return (
     <div>
@@ -37,9 +37,9 @@ const Appointments = async () => {
               email,
               mobile_phone,
               requested_date,
-            } = appointment
+            } = appointment;
 
-            const date = new Date(requested_date).toDateString()
+            const date = new Date(requested_date).toDateString();
 
             return (
               <tr key={id}>
@@ -49,12 +49,12 @@ const Appointments = async () => {
                 <td>{mobile_phone}</td>
                 <td>{date}</td>
               </tr>
-            )
+            );
           })}
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default Appointments
+export default Appointments;

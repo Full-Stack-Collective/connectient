@@ -1,19 +1,17 @@
-'use client'
+'use client';
 
-import { useState, useTransition } from 'react'
-import { useForm } from 'react-hook-form'
-import { loginFormAction } from './actions'
-import type LoginFormData from '@/types/LoginFormData'
-import styles from '@styles/loginform.module.css'
-import { useRouter } from 'next/navigation'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import type LoginFormData from '@/types/LoginFormData';
+import styles from '@styles/loginform.module.css';
+import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 const LoginForm = () => {
-  const router = useRouter()
-  const supabase = createClientComponentClient()
+  const router = useRouter();
+  const supabase = createClientComponentClient();
 
-  const [, startTransition] = useTransition()
-  const [loginErrorMessage, setloginErrorMessage] = useState('')
+  const [loginErrorMessage, setloginErrorMessage] = useState('');
   const {
     register,
     handleSubmit,
@@ -24,23 +22,23 @@ const LoginForm = () => {
       userPassword: '',
     },
     mode: 'onChange',
-  })
+  });
 
   const onSubmit = handleSubmit(async (data) => {
     // Log in the browser
-    setloginErrorMessage('')
-    const { userName, userPassword } = data
+    setloginErrorMessage('');
+    const { userName, userPassword } = data;
 
     const {
       data: { user, session },
     } = await supabase.auth.signInWithPassword({
       email: userName,
       password: userPassword,
-    })
+    });
 
-    if (!user || !session) setloginErrorMessage('Invalid login')
-    router.refresh()
-  })
+    if (!user || !session) setloginErrorMessage('Invalid login');
+    router.refresh();
+  });
 
   return (
     <form
@@ -104,7 +102,7 @@ const LoginForm = () => {
         <p className={styles.error}>{loginErrorMessage}</p>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;
