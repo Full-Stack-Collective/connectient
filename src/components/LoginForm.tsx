@@ -1,6 +1,6 @@
 'use client'
 
-import { useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { loginFormAction } from './actions'
 import type LoginFormData from '@/types/LoginFormData'
@@ -13,6 +13,7 @@ const LoginForm = () => {
   const supabase = createClientComponentClient()
 
   const [, startTransition] = useTransition()
+  const [loginErrorMessage, setloginErrorMessage] = useState('')
   const {
     register,
     handleSubmit,
@@ -27,17 +28,18 @@ const LoginForm = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     // Log in the browser
+    setloginErrorMessage('')
     const { userName, userPassword } = data
-    console.log(data)
-    await supabase.auth.signInWithPassword({
+
+    const {
+      data: { user, session },
+    } = await supabase.auth.signInWithPassword({
       email: userName,
       password: userPassword,
     })
 
+    if (!user || !session) setloginErrorMessage('Invalid login')
     router.refresh()
-    // startTransition(() => {
-    //   loginFormAction(data)
-    // })
   })
 
   return (
@@ -99,6 +101,7 @@ const LoginForm = () => {
         >
           Submit
         </button>
+        <p className={styles.error}>{loginErrorMessage}</p>
       </div>
     </form>
   )
