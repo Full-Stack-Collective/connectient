@@ -12,7 +12,7 @@ export const createAppointment = async (
       throw new Error('Failed to create appointment api')
     }
 
-    return appointmentData // Return the created appointment record
+    return appointmentData
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(
