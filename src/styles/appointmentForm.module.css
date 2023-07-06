@@ -57,3 +57,15 @@
   background-color: rgb(90 91 94);
   color: #fff;
 }
+
+.link {
+  margin: 0;
+  padding: 10px;
+  border: none;
+  font-size: 20px;
+  font-weight: 500;
+  background-color: rgb(0 94 255);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
