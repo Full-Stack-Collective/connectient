@@ -6,7 +6,6 @@ export default function Appointment() {
   return (
     <main className={styles.main}>
       <h1 className={test.text}>Welcome to the appointment request page</h1>
-
       <AppointmentForm />
     </main>
   )

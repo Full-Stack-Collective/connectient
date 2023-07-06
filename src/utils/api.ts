@@ -8,7 +8,6 @@ export const createAppointment = async (
     const { error }: { data: Appointment | null; error: unknown } =
       await supabase.from('Appointments').insert([appointmentData])
     if (error || !appointmentData) {
-      console.log(appointmentData)
       throw new Error('Failed to create appointment api')
     }
 
