@@ -1,6 +1,6 @@
-import AppointmentForm from '@/components/AppointmentForm'
-import styles from '../styles.module.css'
-import test from '@styles/test.module.css'
+import AppointmentForm from '@/components/AppointmentForm';
+import styles from '../styles.module.css';
+import test from '@styles/test.module.css';
 
 export default function Appointment() {
   return (
@@ -9,5 +9,5 @@ export default function Appointment() {
       <p>Submit the form below to request an appointment.</p>
       <AppointmentForm />
     </main>
-  )
+  );
 }

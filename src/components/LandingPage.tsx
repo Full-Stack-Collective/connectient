@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import styles from '@styles/landingPage.module.css'
-import dentalScheduling from '@public/dentalScheduling.png'
-import Image from 'next/image'
+import Link from 'next/link';
+import styles from '@styles/landingPage.module.css';
+import dentalScheduling from '@public/dentalScheduling.png';
+import Image from 'next/image';
 
 const LandingPage = () => {
   return (
@@ -20,6 +20,6 @@ const LandingPage = () => {
         Get Started
       </Link>
     </div>
-  )
-}
-export default LandingPage
+  );
+};
+export default LandingPage;

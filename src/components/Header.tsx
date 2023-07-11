@@ -1,7 +1,7 @@
-import Image from 'next/image'
-import logo from '@public/connectient.png'
-import Link from 'next/link'
-import styles from '@styles/header.module.css'
+import Image from 'next/image';
+import logo from '@public/connectient.png';
+import Link from 'next/link';
+import styles from '@styles/header.module.css';
 
 const Header = () => {
   return (
@@ -14,7 +14,7 @@ const Header = () => {
         />
       </Link>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

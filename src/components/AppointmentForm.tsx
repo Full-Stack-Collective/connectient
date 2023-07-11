@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { useTransition } from 'react'
-import { useForm } from 'react-hook-form'
-import { appointmentFormAction } from './actions'
-import type AppointmentFormData from '@/types/AppointmentFormData'
-import styles from '@styles/appointmentForm.module.css'
+import { useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import { appointmentFormAction } from './actions';
+import type AppointmentFormData from '@/types/AppointmentFormData';
+import styles from '@styles/appointmentForm.module.css';
 
 const AppointmentForm = () => {
-  const [, startTransition] = useTransition()
+  const [, startTransition] = useTransition();
 
   const defaultValues = {
     firstName: '',
@@ -20,7 +20,7 @@ const AppointmentForm = () => {
     apptType: '',
     optionalDescription: '',
     emergency: '',
-  }
+  };
 
   const {
     register,
@@ -29,14 +29,14 @@ const AppointmentForm = () => {
   } = useForm<AppointmentFormData>({
     defaultValues,
     mode: 'onChange',
-  })
+  });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    console.log(data);
     startTransition(() => {
-      appointmentFormAction(data)
-    })
-  })
+      appointmentFormAction(data);
+    });
+  });
 
   return (
     <form
@@ -250,7 +250,7 @@ const AppointmentForm = () => {
         </button>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default AppointmentForm
+export default AppointmentForm;

@@ -1,7 +1,7 @@
 import styles from '../styles.module.css';
 import test from '@styles/test.module.css';
 import LoginForm from '@/components/LoginForm';
-import Appointments from '@/components/Appointments';
+import AppointmentDashboard from '@/components/AppointmentDashboard';
 import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import AdminLogout from '@/components/AdminLogout';
@@ -24,7 +24,7 @@ export default async function Admin() {
       ) : (
         <>
           <AdminLogout />
-          <Appointments />
+          <AppointmentDashboard />
         </>
       )}
     </main>
