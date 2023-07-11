@@ -6,7 +6,6 @@ export default function Appointment() {
   return (
     <main className={styles.main}>
       <h1 className={test.text}>Welcome to the appointment request page</h1>
-      <p>Submit the form below to request an appointment.</p>
       <AppointmentForm />
     </main>
   )
