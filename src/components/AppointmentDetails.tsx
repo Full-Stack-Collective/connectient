@@ -1,7 +1,7 @@
-import { Appointment } from '@/types/AppointmentFormData'
+import { AppointmentFormData } from '@/types/AppointmentFormData'
 
 interface AppointmentDetailsProps {
-  appointment: Appointment
+  appointment: AppointmentFormData
 }
 
 function AppointmentDetails({ appointment }: AppointmentDetailsProps) {

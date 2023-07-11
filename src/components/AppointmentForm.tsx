@@ -2,16 +2,16 @@
 
 import { useTransition, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { AppointmentFormData, Appointment } from '@/types/AppointmentFormData'
+import { AppointmentFormData } from '@/types/AppointmentFormData'
 import styles from '@styles/appointmentForm.module.css'
-import { createAppointment } from '@/utils/api'
 import AppointmentDetails from './AppointmentDetails'
 import Link from 'next/link'
+import { createAppointmentFormAction } from './actions'
 
 const AppointmentForm = () => {
   const [, startTransition] = useTransition()
   const [createdAppointment, setCreatedAppointment] =
-    useState<Appointment | null>(null)
+    useState<AppointmentFormData | null>(null)
 
   const defaultValues: AppointmentFormData = {
     first_name: '',
@@ -38,7 +38,7 @@ const AppointmentForm = () => {
 
   const onSubmit = handleSubmit((data) => {
     startTransition(() => {
-      createAppointment(data)
+      createAppointmentFormAction(data)
         .then((createdAppointment) => {
           console.log('Appointment created:', createdAppointment)
           setCreatedAppointment(createdAppointment)
@@ -51,9 +51,10 @@ const AppointmentForm = () => {
         })
     })
   })
+
   const handleRequestAnotherAppointment = () => {
     setCreatedAppointment(null)
-    reset()
+    reset(defaultValues)
   }
   return (
     <>
@@ -297,5 +298,4 @@ const AppointmentForm = () => {
     </>
   )
 }
-
 export default AppointmentForm
