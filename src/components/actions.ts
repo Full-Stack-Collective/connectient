@@ -1,5 +1,7 @@
 'use server';
 import supabase from '@/db/supabase';
+import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 import type { AppointmentFormData } from '@/types/AppointmentFormData';
 import type LoginFormData from '@/types/LoginFormData';
 import { PostgrestError } from '@supabase/supabase-js';
@@ -32,5 +34,24 @@ export const createAppointmentFormAction = async (
       // Handle other types of errors
     }
     throw new Error('Failed to create appointment');
+  }
+};
+
+export const updateAppointment = async (
+  appointmentId: string,
+  isScheduled: boolean,
+) => {
+  const supabase = createServerActionClient({ cookies });
+  try {
+    const { error }: { error: PostgrestError | null } = await supabase
+      .from('Appointments')
+      .update({ is_scheduled: isScheduled })
+      .eq('id', appointmentId);
+
+    if (error) {
+      throw new Error('Failed to update appointment schedule.');
+    }
+  } catch (error) {
+    console.error(error);
   }
 };
