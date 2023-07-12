@@ -1,13 +1,17 @@
-'use client'
+'use client';
 
-import { useTransition } from 'react'
-import { useForm } from 'react-hook-form'
-import { loginFormAction } from './actions'
-import type LoginFormData from '@/types/LoginFormData'
-import styles from '@styles/loginform.module.css'
+import { useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
+import type LoginFormData from '@/types/LoginFormData';
+import styles from '@styles/loginform.module.css';
+import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 const LoginForm = () => {
-  const [, startTransition] = useTransition()
+  const router = useRouter();
+  const supabase = createClientComponentClient();
+
+  const [loginErrorMessage, setloginErrorMessage] = useState('');
   const {
     register,
     handleSubmit,
@@ -18,15 +22,23 @@ const LoginForm = () => {
       userPassword: '',
     },
     mode: 'onChange',
-  })
+  });
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     // Log in the browser
-    console.log(data)
-    startTransition(() => {
-      loginFormAction(data)
-    })
-  })
+    setloginErrorMessage('');
+    const { userName, userPassword } = data;
+
+    const {
+      data: { user, session },
+    } = await supabase.auth.signInWithPassword({
+      email: userName,
+      password: userPassword,
+    });
+
+    if (!user || !session) setloginErrorMessage('Invalid login');
+    router.refresh();
+  });
 
   return (
     <form
@@ -87,9 +99,10 @@ const LoginForm = () => {
         >
           Submit
         </button>
+        <p className={styles.error}>{loginErrorMessage}</p>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;
