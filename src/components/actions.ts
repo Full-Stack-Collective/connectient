@@ -2,7 +2,6 @@
 import supabase from '@/db/supabase';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import type { AppointmentFormData } from '@/types/AppointmentFormData';
 import type LoginFormData from '@/types/LoginFormData';
 import { PostgrestError } from '@supabase/supabase-js';
 
@@ -13,8 +12,8 @@ export const loginFormAction = (data: LoginFormData): void => {
 };
 
 export const createAppointmentFormAction = async (
-  appointmentData: AppointmentFormData,
-): Promise<AppointmentFormData> => {
+  appointmentData: Appointment,
+): Promise<Appointment> => {
   try {
     const { error }: { error: PostgrestError | null } = await supabase
       .from('Appointments')
@@ -22,17 +21,21 @@ export const createAppointmentFormAction = async (
 
     if (error || !appointmentData) {
       throw new Error('Failed to create appointment');
+      throw new Error('Failed to create appointment');
     }
     return appointmentData;
     // Handle successful form submission ( display success message, or maybe navigate to confirmation page ?)
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Failed to create appointment:', error.message);
+      console.error('Failed to create appointment:', error.message);
       // Handle specific error (e.g., display error message, show error notification)
     } else {
       console.error('Failed to create appointment:', error);
+      console.error('Failed to create appointment:', error);
       // Handle other types of errors
     }
+    throw new Error('Failed to create appointment');
     throw new Error('Failed to create appointment');
   }
 };

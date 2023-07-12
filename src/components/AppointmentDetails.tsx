@@ -1,10 +1,4 @@
-import { AppointmentFormData } from '@/types/AppointmentFormData';
-
-interface AppointmentDetailsProps {
-  appointment: AppointmentFormData;
-}
-
-function AppointmentDetails({ appointment }: AppointmentDetailsProps) {
+function AppointmentDetails({ appointment }: { appointment: Appointment }) {
   return (
     <div>
       <h2>Your Appointment Request Details</h2>
