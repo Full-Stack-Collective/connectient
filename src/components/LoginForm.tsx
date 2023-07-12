@@ -4,7 +4,7 @@ import { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { loginFormAction } from './actions'
 import type LoginFormData from '@/types/LoginFormData'
-import styles from '@styles/loginform.module.css'
+import styles from '@styles/loginForm.module.css'
 
 const LoginForm = () => {
   const [, startTransition] = useTransition()
