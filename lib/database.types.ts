@@ -11,24 +11,24 @@ export interface Database {
     Tables: {
       Appointments: {
         Row: {
-          appointment_type: string | null;
-          created_at: string | null;
-          created_by: string | null;
-          description: string | null;
-          dob: string | null;
-          email: string;
           first_name: string;
-          id: string;
-          is_cancelled: boolean | null;
-          is_emergency: boolean | null;
-          is_scheduled: boolean | null;
           last_name: string;
+          appointment_type: string | null;
           mobile_phone: string;
+          email: string;
+          dob: string | null;
           requested_date: string | null;
           requested_time: string | null;
-          scheduled_by: string | null;
-          scheduled_date: string | null;
-          scheduled_time: string | null;
+          description: string | null;
+          created_at?: string | null;
+          created_by?: string | null;
+          id?: string;
+          is_cancelled?: boolean | null;
+          is_emergency?: boolean | null;
+          is_scheduled?: boolean | null;
+          scheduled_by?: string | null;
+          scheduled_date?: string | null;
+          scheduled_time?: string | null;
         };
         Insert: {
           appointment_type?: string | null;
