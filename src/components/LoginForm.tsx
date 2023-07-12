@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type LoginFormData from '@/types/LoginFormData';
-import styles from '@styles/loginform.module.css';
+import styles from '@styles/loginForm.module.css';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
