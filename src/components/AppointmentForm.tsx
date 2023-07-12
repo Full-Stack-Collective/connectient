@@ -1,19 +1,19 @@
-'use client'
+'use client';
 
-import { useTransition, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { AppointmentFormData } from '@/types/AppointmentFormData'
-import styles from '@styles/appointmentForm.module.css'
-import AppointmentDetails from './AppointmentDetails'
-import Link from 'next/link'
-import { createAppointmentFormAction } from './actions'
+import { useTransition, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { AppointmentFormData } from '@/types/AppointmentFormData';
+import styles from '@styles/appointmentForm.module.css';
+import AppointmentDetails from './AppointmentDetails';
+import Link from 'next/link';
+import { createAppointmentFormAction } from './actions';
 
 const AppointmentForm = () => {
-  const [, startTransition] = useTransition()
+  const [, startTransition] = useTransition();
   const [createdAppointment, setCreatedAppointment] =
-    useState<AppointmentFormData | null>(null)
+    useState<Appointment | null>(null);
 
-  const defaultValues: AppointmentFormData = {
+  const defaultValues: Appointment = {
     first_name: '',
     last_name: '',
     mobile_phone: '',
@@ -24,7 +24,7 @@ const AppointmentForm = () => {
     appointment_type: '',
     description: '',
     is_emergency: '',
-  }
+  };
 
   const {
     register,
@@ -34,28 +34,28 @@ const AppointmentForm = () => {
   } = useForm<AppointmentFormData>({
     defaultValues,
     mode: 'onChange',
-  })
+  });
 
   const onSubmit = handleSubmit((data) => {
     startTransition(() => {
       createAppointmentFormAction(data)
         .then((createdAppointment) => {
-          console.log('Appointment created:', createdAppointment)
-          setCreatedAppointment(createdAppointment)
+          console.log('Appointment created:', createdAppointment);
+          setCreatedAppointment(createdAppointment);
         })
         .catch((error) => {
-          console.error('Failed to create appointment:', error)
+          console.error('Failed to create appointment:', error);
           console.log(
             'Appointment request not sent, please try again or call the phone number 123-123-1234',
-          )
-        })
-    })
-  })
+          );
+        });
+    });
+  });
 
   const handleRequestAnotherAppointment = () => {
-    setCreatedAppointment(null)
-    reset(defaultValues)
-  }
+    setCreatedAppointment(null);
+    reset(defaultValues);
+  };
   return (
     <>
       {createdAppointment ? (
@@ -296,6 +296,6 @@ const AppointmentForm = () => {
         </>
       )}
     </>
-  )
-}
-export default AppointmentForm
+  );
+};
+export default AppointmentForm;
