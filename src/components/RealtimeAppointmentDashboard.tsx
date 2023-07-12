@@ -3,7 +3,6 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Appointment from '@/types/Appointment';
 import DashboardRow from '@components/DashboardRow';
 
 type RealtimeAppointmentDashboardProps = {
@@ -13,7 +12,7 @@ type RealtimeAppointmentDashboardProps = {
 const RealtimeAppointmentDashboard = ({
   appointments,
 }: RealtimeAppointmentDashboardProps) => {
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
   const router = useRouter();
 
   useEffect(() => {

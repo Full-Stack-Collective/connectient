@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 const AdminLogout = () => {
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();

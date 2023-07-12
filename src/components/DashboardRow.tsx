@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import styles from '@styles/appointmentDashboard.module.css';
-import Appointment from '@/types/Appointment';
 import AppointmentDescriptionPopup from '@components/AppointmentDescriptionPopup';
 
 type DashboardRowProps = {
@@ -38,10 +37,10 @@ const DashboardRow = ({ appointment }: DashboardRowProps) => {
         <p className={styles.rowElement}>{email}</p>
         <p className={styles.rowElement}>{mobile_phone}</p>
         <p className={styles.rowElement}>
-          {new Date(requested_date).toDateString()}
+          {new Date(requested_date!).toDateString()}
         </p>
         <p className={styles.rowElement}>
-          {is_scheduled ? new Date(scheduled_date).toDateString() : '✘'}
+          {is_scheduled ? new Date(scheduled_date!).toDateString() : '✘'}
         </p>
       </div>
       {isAppointementDescriptionPopupOpen ? (

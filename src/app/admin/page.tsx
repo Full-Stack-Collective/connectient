@@ -7,7 +7,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import AdminLogout from '@/components/AdminLogout';
 
 export default async function Admin() {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
 
   const {
     data: { session },

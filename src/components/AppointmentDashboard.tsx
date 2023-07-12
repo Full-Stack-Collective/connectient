@@ -1,11 +1,10 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import RealtimeAppointmentDashboard from '@components/RealtimeAppointmentDashboard';
-import Appointment from '@/types/Appointment';
 import styles from '@styles/appointmentDashboard.module.css';
 
 const AppointmentDashboard = async () => {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
 
   const { data: appointments }: { data: Appointment[] | null } = await supabase
     .from('Appointments')
