@@ -1,10 +1,4 @@
-import { AppointmentFormData } from '@/types/AppointmentFormData'
-
-interface AppointmentDetailsProps {
-  appointment: AppointmentFormData
-}
-
-function AppointmentDetails({ appointment }: AppointmentDetailsProps) {
+function AppointmentDetails({ appointment }: { appointment: Appointment }) {
   return (
     <div>
       <h2>Your Appointment Request Details</h2>
@@ -19,7 +13,7 @@ function AppointmentDetails({ appointment }: AppointmentDetailsProps) {
       {appointment.description && <p>Description: {appointment.description}</p>}
       <p>Emergency: {appointment.is_emergency}</p>
     </div>
-  )
+  );
 }
 
-export default AppointmentDetails
+export default AppointmentDetails;

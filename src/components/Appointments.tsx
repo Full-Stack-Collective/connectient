@@ -1,15 +1,6 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 
-interface Appointment {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  mobile_phone: string;
-  requested_date: string;
-}
-
 const Appointments = async () => {
   const supabase = createServerComponentClient({ cookies });
 
@@ -39,15 +30,13 @@ const Appointments = async () => {
               requested_date,
             } = appointment;
 
-            const date = new Date(requested_date).toDateString();
-
             return (
               <tr key={id}>
                 <td>{first_name}</td>
                 <td>{last_name}</td>
                 <td>{email}</td>
                 <td>{mobile_phone}</td>
-                <td>{date}</td>
+                <td>{requested_date}</td>
               </tr>
             );
           })}
