@@ -13,6 +13,7 @@ const AppointmentDashboard = async () => {
 
   // Can we generate from the database?
   const columnTitles: string[] = [
+    'Emergency?',
     'First Name',
     'Last Name',
     'Email',
