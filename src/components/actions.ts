@@ -1,6 +1,7 @@
 'use server';
 import supabase from '@/db/supabase';
 import type LoginFormData from '@/types/LoginFormData';
+import { transporter, mailOptions } from '@/config/nodemailer';
 
 export const loginFormAction = (data: LoginFormData): void => {
   console.log(
@@ -29,5 +30,19 @@ export const createAppointmentFormAction = async (
       // Handle other types of errors
     }
     throw new Error('Failed to create appointment');
+  }
+};
+
+export const emailHandler = async (appointmentData: Appointment) => {
+  try {
+    await transporter.sendMail({
+      ...mailOptions,
+      subject: `Appointment confirmation for ${appointmentData.first_name} ${appointmentData.last_name}`,
+      text: 'This is test string.',
+      html: '<h1>Test title</h1><p>Some body text.<p>',
+    });
+    return appointmentData;
+  } catch (error) {
+    throw new Error('Failed to send confirmation email.');
   }
 };

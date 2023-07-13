@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import styles from '@styles/appointmentForm.module.css';
 import AppointmentDetails from './AppointmentDetails';
 import Link from 'next/link';
-import { createAppointmentFormAction } from './actions';
+import { createAppointmentFormAction, emailHandler } from './actions';
 
 const AppointmentForm = () => {
   const [, startTransition] = useTransition();
@@ -47,6 +47,16 @@ const AppointmentForm = () => {
           console.log(
             'Appointment request not sent, please try again or call the phone number 123-123-1234',
           );
+        });
+      emailHandler(data)
+        .then((appointmentData) => {
+          console.log(
+            'Sucessfully sent email for appointment: ',
+            appointmentData,
+          );
+        })
+        .catch((error) => {
+          console.log(error);
         });
     });
   });
