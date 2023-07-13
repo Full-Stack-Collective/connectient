@@ -2,6 +2,7 @@
 import supabase from '@/db/supabase';
 import type LoginFormData from '@/types/LoginFormData';
 import { transporter, mailOptions } from '@/config/nodemailer';
+import { generateEmailContent } from '@/config/emailContent';
 
 export const loginFormAction = (data: LoginFormData): void => {
   console.log(
@@ -37,9 +38,8 @@ export const emailHandler = async (appointmentData: Appointment) => {
   try {
     await transporter.sendMail({
       ...mailOptions,
-      subject: `Appointment confirmation for ${appointmentData.first_name} ${appointmentData.last_name}`,
-      text: 'This is test string.',
-      html: '<h1>Test title</h1><p>Some body text.<p>',
+      ...generateEmailContent(appointmentData),
+      subject: `Appointment request for ${appointmentData.first_name} ${appointmentData.last_name}`,
     });
     return appointmentData;
   } catch (error) {

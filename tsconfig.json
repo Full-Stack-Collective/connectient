@@ -32,7 +32,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/config/nodemailer.tsx"
+    "src/config/nodemailer.ts",
+    "src/config/emailContent.js"
   ],
   "exclude": ["node_modules"]
 }
