@@ -41,22 +41,22 @@ const AppointmentForm = () => {
         .then((createdAppointment) => {
           console.log('Appointment created:', createdAppointment);
           setCreatedAppointment(createdAppointment);
+          emailHandler(createdAppointment)
+            .then((appointmentData) => {
+              console.log(
+                'Sucessfully sent email for appointment: ',
+                appointmentData,
+              );
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.error('Failed to create appointment:', error);
           console.log(
             'Appointment request not sent, please try again or call the phone number 123-123-1234',
           );
-        });
-      emailHandler(data)
-        .then((appointmentData) => {
-          console.log(
-            'Sucessfully sent email for appointment: ',
-            appointmentData,
-          );
-        })
-        .catch((error) => {
-          console.log(error);
         });
     });
   });

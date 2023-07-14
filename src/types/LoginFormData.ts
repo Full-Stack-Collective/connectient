@@ -1,6 +1,6 @@
 type LoginFormData = {
-  userName: string
-  userPassword: string
-}
+  userName: string;
+  userPassword: string;
+};
 
-export default LoginFormData
+export default LoginFormData;
