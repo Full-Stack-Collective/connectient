@@ -42,13 +42,12 @@ const AppointmentForm = () => {
     setCreatedAppointment(createdAppointment);
     setIsPreviewMode(true);
   });
+
   const handleConfirmAppointment = (createdAppointment: Appointment) => {
-    console.log('submit');
     startTransition(() => {
       createAppointmentFormAction(createdAppointment)
         .then((createdAppointment) => {
           console.log('Appointment created:', createdAppointment);
-          // setCreatedAppointment(createdAppointment);
           setIsAppointmentDetailsPopupOpen(true);
           reset(defaultValues);
           setErrorMessage('');
@@ -90,9 +89,10 @@ const AppointmentForm = () => {
             <p>Description: {createdAppointment?.description}</p>
           )}
           <p>Emergency: {createdAppointment?.is_emergency}</p>
-          <button onClick={handleGoBack}>Go Back</button>
-          <button onClick={() => handleConfirmAppointment(createdAppointment)}>
-            Confirm Appointment
+          <button onClick={handleGoBack}>Go Back </button>
+
+          <button onClick={() => handleConfirmAppointment(createdAppointment!)}>
+            Submit
           </button>
         </>
       ) : (
