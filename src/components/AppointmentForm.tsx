@@ -184,7 +184,7 @@ const AppointmentForm = () => {
                 Appointment date:{' '}
               </label>
 
-              <Calendar />
+              <Calendar monthLimit={3} />
               <input
                 type="date"
                 id="requested_date"
