@@ -6,6 +6,7 @@ import styles from '@styles/appointmentForm.module.css';
 import AppointmentDetails from './AppointmentDetails';
 import Link from 'next/link';
 import { createAppointmentFormAction } from './actions';
+import Calendar from './Calendar';
 
 const AppointmentForm = () => {
   const [, startTransition] = useTransition();
@@ -182,6 +183,8 @@ const AppointmentForm = () => {
               <label htmlFor="requested_date" className={styles.inputLabel}>
                 Appointment date:{' '}
               </label>
+
+              <Calendar />
               <input
                 type="date"
                 id="requested_date"
