@@ -43,11 +43,10 @@ export const emailHandler = async (appointmentData: Appointment) => {
     await transporter.sendMail({
       ...mailOptions,
       ...generateEmailContent(appointmentData),
-      subject: `Appointment request for ${appointmentData.first_name} ${appointmentData.last_name}`,
     });
     return appointmentData;
   } catch (error) {
-    throw new Error('Failed to send confirmation email.');
+    throw new Error('Failed to send request email.');
   }
 };
 
