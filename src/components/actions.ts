@@ -25,14 +25,11 @@ export const createAppointmentFormAction = async (
       throw new Error('Failed to create appointment');
     }
     return appointmentData;
-    // Handle successful form submission ( display success message, or maybe navigate to confirmation page ?)
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('Failed to create appointment:', error.message);
-      // Handle specific error (e.g., display error message, show error notification)
     } else {
       console.error('Failed to create appointment:', error);
-      // Handle other types of errors
     }
     throw new Error('Failed to create appointment');
   }
