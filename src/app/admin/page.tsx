@@ -1,9 +1,8 @@
-import styles from '../styles.module.css';
-import test from '@styles/test.module.css';
-import LoginForm from '@/components/LoginForm';
-import AppointmentDashboard from '@/components/AppointmentDashboard';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import styles from '../styles.module.css';
+import AppointmentDashboard from '@/components/AppointmentDashboard';
 import AdminLogout from '@/components/AdminLogout';
 
 export default async function Admin() {
@@ -13,20 +12,14 @@ export default async function Admin() {
     data: { session },
   } = await supabase.auth.getSession();
 
+  if (!session) {
+    redirect('/admin/unauthenticated');
+  }
+
   return (
     <main className={styles.main}>
-      {!session ? (
-        <>
-          <h1 className={test.text}>Welcome to the Admin page!</h1>
-          <p>Please enter your username and password to be granted access.</p>
-          <LoginForm />
-        </>
-      ) : (
-        <>
-          <AdminLogout />
-          <AppointmentDashboard />
-        </>
-      )}
+      <AdminLogout />
+      <AppointmentDashboard />
     </main>
   );
 }
