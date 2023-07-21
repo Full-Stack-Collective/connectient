@@ -46,7 +46,10 @@ const LoginForm = () => {
       onSubmit={(event) => void onSubmit(event)}
     >
       <div className={styles.loginFormSection}>
-        <label className={styles.inputLabel} htmlFor="userName">
+        <label
+          className={`${styles.inputLabel} ${styles.required}`}
+          htmlFor="userName"
+        >
           Username
         </label>
         <input
@@ -67,7 +70,10 @@ const LoginForm = () => {
         </p>
       </div>
       <div className={styles.loginFormSection}>
-        <label className={styles.inputLabel} htmlFor="userPassword">
+        <label
+          className={`${styles.inputLabel} ${styles.required}`}
+          htmlFor="userPassword"
+        >
           Password
         </label>
         <input
