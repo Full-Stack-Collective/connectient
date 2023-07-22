@@ -1,11 +1,15 @@
 'use client';
 
-import { useTransition, useState } from 'react';
+import { useTransition, useState, SyntheticEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from '@styles/appointmentForm.module.css';
 import { createAppointmentFormAction } from './actions';
 import AppointmentDetailsPopup from './AppointmentDetailsPopup';
 import ErrorPopup from './ErrorPopup';
+import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
+import 'react-phone-number-input/style.css';
+import { isPossiblePhoneNumber } from 'react-phone-number-input';
+
 const AppointmentForm = () => {
   const [, startTransition] = useTransition();
   const [createdAppointment, setCreatedAppointment] =
@@ -30,6 +34,7 @@ const AppointmentForm = () => {
 
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isValid, isDirty },
     reset,
@@ -157,15 +162,22 @@ const AppointmentForm = () => {
               >
                 Phone contact:{' '}
               </label>
-              <input
-                type="tel"
+              <PhoneInputWithCountry
                 id="mobile_phone"
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                className={styles.input}
-                placeholder="Ex: 123-456-7890"
-                {...register('mobile_phone', {
-                  required: 'Phone contact is required.',
-                })}
+                international={true}
+                addInternationalOption={false}
+                countryCallingCodeEditable={false}
+                countryOptionsOrder={['TT']}
+                limitMaxLength={true}
+                defaultCountry="TT"
+                control={control}
+                name="mobile_phone"
+                rules={{
+                  required: 'Phone number is required.',
+                  vaidate:
+                    isPossiblePhoneNumber ||
+                    'Please enter a valid phone number.',
+                }}
               />
               <p className={styles.error}>
                 {errors.mobile_phone && errors.mobile_phone.message}

@@ -38,7 +38,11 @@ const AppointmentDescriptionPopup = ({
 
   const handleConfirmScheduleChange = () => {
     setIsChecked((prevValue) => {
-      startTransition(() => updateAppointment(id!, !prevValue));
+      startTransition(async () => {
+        await updateAppointment(id!, !prevValue);
+        // await read from DB const itemFromDb = await function
+        //call email handler
+      });
       return !prevValue;
     });
   };
