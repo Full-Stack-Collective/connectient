@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition, useState, SyntheticEvent } from 'react';
+import { useTransition, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from '@styles/appointmentForm.module.css';
 import { createAppointmentFormAction } from './actions';
@@ -172,10 +172,11 @@ const AppointmentForm = () => {
                 defaultCountry="TT"
                 control={control}
                 name="mobile_phone"
+                defaultValue=""
                 rules={{
                   required: 'Phone number is required.',
-                  vaidate:
-                    isPossiblePhoneNumber ||
+                  validate: (value: string) =>
+                    isPossiblePhoneNumber(`${value}`) ||
                     'Please enter a valid phone number.',
                 }}
               />
@@ -203,7 +204,7 @@ const AppointmentForm = () => {
                       'The email should have at most 50 characters',
                     matchPattern: (v) =>
                       /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-                      'Email address must be a valid address',
+                      'Email address must be a valid address.',
                   },
                 })}
               />
