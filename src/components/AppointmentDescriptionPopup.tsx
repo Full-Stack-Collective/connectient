@@ -3,12 +3,10 @@
 import { useState, useTransition } from 'react';
 import {
   emailConfirmationHandler,
-  emailHandler,
   getAppointment,
   updateAppointment,
 } from './actions';
 import styles from '@styles/appointmentDescriptionPopup.module.css';
-import Appointment from '@/app/appointment/page';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
 
 type AppointmentDescriptionPopupProps = {
