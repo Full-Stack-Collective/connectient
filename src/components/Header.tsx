@@ -15,7 +15,7 @@ import Logo from './Logo';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [windowWidth, setWindowWidth] = useState(0);
 
   const handleMenuItemsClick = useCallback(() => {
     if (windowWidth < 768) {
@@ -24,6 +24,10 @@ const Header = () => {
       setIsMenuOpen(true);
     }
   }, [windowWidth]);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+  }, []);
 
   useEffect(() => {
     const handleWindowResize = () => {
