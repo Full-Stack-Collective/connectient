@@ -1,9 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './globals.css';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'Connectient',
@@ -17,10 +14,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        {children}
-        <Footer />
+      <body className="font-sans-serif text-lg">
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          {children}
+          <Footer />
+        </div>
       </body>
     </html>
   );
