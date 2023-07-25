@@ -48,11 +48,15 @@ export const generateConfirmationEmailContent = (
   data: ConfirmationEmailData,
 ) => {
   const stringData = Object.entries(data).reduce((str: string, [key, val]) => {
-    return (str += `${CONFIRMATION_MESSAGE_FIELDS[key]}: \n${val} \n\n`);
+    return (str += `${CONFIRMATION_MESSAGE_FIELDS[key]}: \n${
+      val as string
+    } \n\n`);
   }, '');
 
   const htmlData = Object.entries(data).reduce((str, [key, val]) => {
-    return (str += `<h3 class="form-heading" align="left">${CONFIRMATION_MESSAGE_FIELDS[key]}</h3><p class="form-answer" align="left">${val}</p>`);
+    return (str += `<h3 class="form-heading" align="left">${
+      CONFIRMATION_MESSAGE_FIELDS[key]
+    }</h3><p class="form-answer" align="left">${val as string}</p>`);
   }, '');
   return {
     subject: `Appointment Confirmation`,
