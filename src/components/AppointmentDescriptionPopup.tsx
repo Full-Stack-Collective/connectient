@@ -47,6 +47,9 @@ const AppointmentDescriptionPopup = ({
         await updateAppointment(id!, !prevValue);
         if (isChecked === false) {
           const data = await getAppointment(id);
+          if (!data) {
+            throw new Error('Invalid data.');
+          }
           const appFromDB: ConfirmationEmailData = data[0];
           await emailConfirmationHandler(appFromDB);
           console.log('Successfully sent confirmation email for: ', appFromDB);
