@@ -1,4 +1,8 @@
-const CONTACT_MESSAGE_FIELDS = {
+type ContactMessageFields = {
+  [key: string]: string;
+};
+
+const CONTACT_MESSAGE_FIELDS: ContactMessageFields = {
   first_name: 'First Name: ',
   last_name: 'Last Name: ',
   mobile_phone: 'Phone Number: ',
@@ -11,13 +15,15 @@ const CONTACT_MESSAGE_FIELDS = {
   is_emergency: 'Is this an emergency? ',
 };
 
-export const generateEmailContent = (data) => {
-  const stringData = Object.entries(data).reduce((str, [key, val]) => {
-    return (str += `${CONTACT_MESSAGE_FIELDS[key]}: \n${val} \n\n`);
+export const generateEmailContent = (data: Appointment) => {
+  const stringData = Object.entries(data).reduce((str: string, [key, val]) => {
+    return (str += `${CONTACT_MESSAGE_FIELDS[key]}: \n${val as string} \n\n`);
   }, '');
 
   const htmlData = Object.entries(data).reduce((str, [key, val]) => {
-    return (str += `<h3 class="form-heading" align="left">${CONTACT_MESSAGE_FIELDS[key]}</h3><p class="form-answer" align="left">${val}</p>`);
+    return (str += `<h3 class="form-heading" align="left">${
+      CONTACT_MESSAGE_FIELDS[key]
+    }</h3><p class="form-answer" align="left">${val as string}</p>`);
   }, '');
   return {
     subject: `Appointment request`,
