@@ -25,6 +25,7 @@
     --destructive-foreground: 210 40% 98%;
     --ring: 215 20.2% 65.1%;
     --radius: 0.5rem;
+    --body-gradient: 210 40% 96.1%;
   }
 
   .dark {
@@ -47,6 +48,7 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 85.7% 97.3%;
     --ring: 217.2 32.6% 17.5%;
+    --body-gradient: 222.2 47.4% 8.2%;
   }
 }
 
@@ -64,8 +66,8 @@ body {
   background-size: 100px 100px;
   background-image: linear-gradient(
       to right,
-      rgb(242, 240, 240) 1px,
+      hsl(var(--body-gradient)) 1px,
       transparent 1px
     ),
-    linear-gradient(to bottom, rgb(242, 240, 240) 1px, transparent 1px);
+    linear-gradient(to bottom, hsl(var(--body-gradient)) 1px, transparent 1px);
 }

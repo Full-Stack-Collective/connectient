@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/components/theme-provider';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import './globals.css';
@@ -15,11 +16,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans-serif text-lg">
-        <div className="min-h-screen flex flex-col">
-          <Header />
-          {children}
-          <Footer />
-        </div>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <div className="min-h-screen flex flex-col">
+            <Header />
+            {children}
+            <Footer />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -24,20 +24,26 @@ const Footer = () => {
             </address>
           </div>
           <div className="min-w-fit flex flex-col gap-2 items-center md:items-start">
-            <Link href="/">Home</Link>
-            <Link href="/">Features</Link>
-            <Link href="/appointment">Request Appointment</Link>
+            <Link href="/" className="hover:underline ease-in-out">
+              Home
+            </Link>
+            <Link href="/" className="hover:underline ease-in-out">
+              Features
+            </Link>
+            <Link href="/appointment" className="hover:underline ease-in-out">
+              Request Appointment
+            </Link>
           </div>
           <div className="w-full flex gap-2 md:flex-col justify-center md:justify-start md:items-end">
             <a
               href="https://www.facebook.com/southtrinidaddentist/"
-              className="no-underline flex gap-1"
+              className="no-underline flex gap-1 hover:underline ease-in-out"
             >
               <Facebook /> Facebook
             </a>
             <a
               href="https://www.instagram.com/essentialdentalsolutions/"
-              className="no-underline flex gap-1"
+              className="no-underline flex gap-1 hover:underline ease-in-out"
             >
               <Instagram /> Instagram
             </a>
