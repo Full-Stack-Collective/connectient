@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import Image from 'next/image';
-import logo from '@public/connectient-logo.png';
 import Link from 'next/link';
 import {
   NavigationMenu,
@@ -13,6 +11,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
+import Logo from './Logo';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,13 +42,7 @@ const Header = () => {
   return (
     <header className="bg-background">
       <div className="m-auto max-w-7xl w-full py-6 px-4 flex justify-between relative">
-        <Link href="/">
-          <Image
-            src={logo}
-            alt="Connectient logo, icon with two people communicating"
-            className="w-32 md:w-44"
-          />
-        </Link>
+        <Logo />
         {!isMenuOpen && windowWidth < 768 && (
           <Button
             variant="ghost"
