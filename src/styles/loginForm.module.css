@@ -21,6 +21,12 @@
   font-weight: 500;
 }
 
+.inputLabel.required::after {
+  content: '*';
+  color: red;
+  visibility: visible;
+}
+
 .input {
   margin: 0;
   padding: 6px 8px;
