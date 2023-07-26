@@ -2,6 +2,8 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+import LoginForm from '@/components/LoginForm';
+
 const Unauthenticated = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });
 
@@ -10,10 +12,14 @@ const Unauthenticated = async () => {
   } = await supabase.auth.getSession();
 
   if (session) {
-    redirect('/admin');
+    redirect('/admin/dashboard');
   }
 
-  return <p>Sign in to check appointments</p>;
+  return (
+    <main className="flex-1 flex justify-center items-center">
+      <LoginForm />
+    </main>
+  );
 };
 
 export default Unauthenticated;

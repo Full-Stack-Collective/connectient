@@ -37,10 +37,12 @@ const AppointmentDescriptionPopup = ({
   const [, startTransition] = useTransition();
 
   const handleConfirmScheduleChange = () => {
-    setIsChecked((prevValue) => {
-      startTransition(() => updateAppointment(id!, !prevValue));
-      return !prevValue;
-    });
+    if (id) {
+      setIsChecked((prevValue) => {
+        startTransition(() => updateAppointment(id, !prevValue));
+        return !prevValue;
+      });
+    }
   };
 
   return (
@@ -51,7 +53,7 @@ const AppointmentDescriptionPopup = ({
         <p>Email: {email}</p>
         <p>Contact Number: {mobile_phone}</p>
         <p>Is it an Emergency? : {is_emergency ? '✔' : '✘'}</p>
-        <p>Appointment Type: {appointment_type}</p>
+        <p>Appointment Type: {appointment_type ? appointment_type : ''}</p>
         <p>Description: {description ?? 'NA'}</p>
         <p>Requested Date: {new Date(requested_date!).toDateString()}</p>
         <p>Requested Time: {requested_time}</p>

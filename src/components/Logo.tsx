@@ -9,29 +9,31 @@ import whiteLogo from '@public/connectient-logo-white.png';
 
 const Logo = () => {
   const { theme } = useTheme();
-  const [systemTheme, setSystemTheme] = useState<MediaQueryList>();
+  const [systemTheme, setSystemTheme] = useState<boolean>();
+  const [logo, setLogo] = useState<StaticImageData>(blacklogo);
 
   useEffect(() => {
-    setSystemTheme(window.matchMedia('(prefers-color-scheme: dark)'));
+    setSystemTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
   }, []);
 
-  const getLogoAsPerTheme = (): StaticImageData => {
-    if (theme === 'light') {
-      return blacklogo;
-    } else if (theme === 'dark') {
-      return whiteLogo;
+  useEffect(() => {
+    if (systemTheme) {
+      setLogo(whiteLogo);
     } else {
-      if (systemTheme && systemTheme.matches) {
-        return whiteLogo;
+      if (theme === 'system') {
+        setLogo(blacklogo);
+      } else if (theme === 'dark') {
+        setLogo(whiteLogo);
       } else {
-        return blacklogo;
+        setLogo(blacklogo);
       }
     }
-  };
+  }, [systemTheme, theme]);
+
   return (
     <Link href="/">
       <Image
-        src={getLogoAsPerTheme()}
+        src={logo}
         alt="Connectient logo, icon with two people communicating"
         className="w-36 md:w-44"
       />

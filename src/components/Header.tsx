@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
   NavigationMenu,
@@ -11,12 +13,23 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
-import Logo from './Logo';
-import ThemeModeToggle from './ThemeModeToggle';
 
-const Header = () => {
+import Logo from '@components/Logo';
+import ThemeModeToggle from '@components/ThemeModeToggle';
+
+type HeaderProps = {
+  menuList: {
+    name: string;
+    link: string;
+  }[];
+};
+
+const Header = ({ menuList }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
+
+  const router = useRouter();
+  const supabase = createClientComponentClient<Database>();
 
   const handleMenuItemsClick = useCallback(() => {
     if (windowWidth < 768) {
@@ -43,6 +56,48 @@ const Header = () => {
   useEffect(() => {
     handleMenuItemsClick();
   }, [handleMenuItemsClick]);
+
+  const renderNavigationMenuItems = () => {
+    return menuList.map((menuItem) => {
+      if (menuItem.name === 'Logout') {
+        const handleLogout = () => {
+          supabase.auth
+            .signOut()
+            .then(() => {
+              router.refresh();
+            })
+            .finally(() => {
+              handleMenuItemsClick();
+            });
+        };
+
+        return (
+          <NavigationMenuItem key={menuItem.name}>
+            <Link href={menuItem.link} legacyBehavior passHref>
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
+                onClick={handleLogout}
+              >
+                {menuItem.name}
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        );
+      }
+      return (
+        <NavigationMenuItem key={menuItem.name}>
+          <Link href={menuItem.link} legacyBehavior passHref>
+            <NavigationMenuLink
+              className={navigationMenuTriggerStyle()}
+              onClick={handleMenuItemsClick}
+            >
+              {menuItem.name}
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+      );
+    });
+  };
 
   return (
     <header className="bg-background">
@@ -73,36 +128,7 @@ const Header = () => {
           {isMenuOpen && (
             <NavigationMenu className="bg-background px-6 absolute top-16 right-4 shadow rounded-lg md:relative md:top-0 md:right-0 md:shadow-none">
               <NavigationMenuList className="w-full h-64 flex flex-col gap-2 md:h-auto md:flex-row">
-                <NavigationMenuItem>
-                  <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                      onClick={handleMenuItemsClick}
-                    >
-                      Home
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link href="/" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                      onClick={handleMenuItemsClick}
-                    >
-                      Features
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link href="/appointment" legacyBehavior passHref>
-                    <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
-                      onClick={handleMenuItemsClick}
-                    >
-                      Request Appointment
-                    </NavigationMenuLink>
-                  </Link>
-                </NavigationMenuItem>
+                {renderNavigationMenuItems()}
               </NavigationMenuList>
             </NavigationMenu>
           )}
