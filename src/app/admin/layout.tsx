@@ -4,7 +4,10 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-import { ADMIN_PORTAL_LAYOUT_MENU } from '@/lib/constants';
+import {
+  ADMIN_PORTAL_LAYOUT_MENU,
+  ADMIN_PORTAL_FOOTER_MENU,
+} from '@/lib/constants';
 
 const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -43,7 +46,7 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
         menuList={[...ADMIN_PORTAL_LAYOUT_MENU, ...getAuthenticationMenuLink()]}
       />
       {children}
-      <Footer />
+      <Footer menuList={ADMIN_PORTAL_FOOTER_MENU} />
     </div>
   );
 };

@@ -4,7 +4,18 @@ export const PATIENT_PORTAL_LAYOUT_MENU = [
   { name: 'Request Appointment', link: '/appointment' },
 ];
 
+export const PATIENT_PORTAL_FOOTER_MENU = [
+  { name: 'Home', link: '/' },
+  { name: 'Features', link: '/' },
+  { name: 'Request Appointment', link: '/appointment' },
+];
+
 export const ADMIN_PORTAL_LAYOUT_MENU = [
+  { name: 'Home', link: '/admin' },
+  { name: 'Features', link: '/admin' },
+];
+
+export const ADMIN_PORTAL_FOOTER_MENU = [
   { name: 'Home', link: '/admin' },
   { name: 'Features', link: '/admin' },
 ];

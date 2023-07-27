@@ -2,7 +2,14 @@ import Link from 'next/link';
 import { Facebook, Instagram } from 'lucide-react';
 import Logo from '@components/Logo';
 
-const Footer = () => {
+type FooterProps = {
+  menuList: {
+    name: string;
+    link: string;
+  }[];
+};
+
+const Footer = ({ menuList }: FooterProps) => {
   return (
     <footer className="bg-background text-base">
       <div className="m-auto max-w-7xl w-full py-6 px-4 flex flex-col gap-4">
@@ -24,15 +31,15 @@ const Footer = () => {
             </address>
           </div>
           <div className="min-w-fit flex flex-col gap-2 items-center md:items-start">
-            <Link href="/" className="hover:underline ease-in-out">
-              Home
-            </Link>
-            <Link href="/" className="hover:underline ease-in-out">
-              Features
-            </Link>
-            <Link href="/appointment" className="hover:underline ease-in-out">
-              Request Appointment
-            </Link>
+            {menuList.map((menuItem) => (
+              <Link
+                key={menuItem.name}
+                href={menuItem.link}
+                className="hover:underline ease-in-out"
+              >
+                {menuItem.name}
+              </Link>
+            ))}
           </div>
           <div className="w-full flex gap-2 md:flex-col justify-center md:justify-start md:items-end">
             <a

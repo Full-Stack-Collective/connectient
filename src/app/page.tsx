@@ -4,6 +4,7 @@ import Hero from '@/components/Hero';
 import Features from '@/components/Features';
 import {
   PATIENT_PORTAL_LAYOUT_MENU,
+  PATIENT_PORTAL_FOOTER_MENU,
   PATIENT_PORTAL_FEATURES,
 } from '@/lib/constants';
 
@@ -35,7 +36,7 @@ const Home = () => {
         calloutBtn={heroCalloutBtn}
       />
       <Features features={PATIENT_PORTAL_FEATURES} />
-      <Footer />
+      <Footer menuList={PATIENT_PORTAL_FOOTER_MENU} />
     </div>
   );
 };
