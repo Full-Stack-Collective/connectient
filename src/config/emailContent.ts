@@ -41,7 +41,7 @@ export const generateEmailContent = (data: Appointment) => {
 const CONFIRMATION_MESSAGE_FIELDS: ContactMessageFields = {
   first_name: 'First Name: ',
   last_name: 'Last Name: ',
-  appointment_type: 'Appointmet Type: ',
+  appointment_type: 'Appointment Type: ',
   scheduled_date: 'Appointment Date: ',
   scheduled_time: 'Appointment Time: ',
 };
