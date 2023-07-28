@@ -1,4 +1,4 @@
-styles/globals.css
+src/app/globals.css
 styles/Home.module.css
 coverage
 public

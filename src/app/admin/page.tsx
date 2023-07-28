@@ -1,32 +1,37 @@
-import styles from '../styles.module.css';
-import test from '@styles/test.module.css';
-import LoginForm from '@/components/LoginForm';
-import AppointmentDashboard from '@/components/AppointmentDashboard';
-import { cookies } from 'next/headers';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import AdminLogout from '@/components/AdminLogout';
+import Hero from '@/components/Hero';
+import Features from '@/components/Features';
 
-export default async function Admin() {
-  const supabase = createServerComponentClient<Database>({ cookies });
+import { ADMIN_PORTAL_FEATURES } from '@/lib/constants';
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+const Admin = () => {
+  const getHeroTitle = () => (
+    <>
+      An{' '}
+      <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
+        Efficient Appointment Management System
+      </span>{' '}
+      to empower Healthcare Administrators
+    </>
+  );
+
+  const heroSubtitle =
+    'Empowers healthcare providers and administrators with a powerful tool to efficiently manage and oversee all requested appointments in one centralized location. Simplify your appointment management process and enhance productivity with our comprehensive and intuitive dashboard.';
+
+  const heroCalloutBtn = {
+    text: 'Get Started',
+    link: '/admin/unauthenticated',
+  };
 
   return (
-    <main className={styles.main}>
-      {!session ? (
-        <>
-          <h1 className={test.text}>Welcome to the Admin page!</h1>
-          <p>Please enter your username and password to be granted access.</p>
-          <LoginForm />
-        </>
-      ) : (
-        <>
-          <AdminLogout />
-          <AppointmentDashboard />
-        </>
-      )}
-    </main>
+    <>
+      <Hero
+        title={getHeroTitle()}
+        subtitle={heroSubtitle}
+        calloutBtn={heroCalloutBtn}
+      />
+      <Features features={ADMIN_PORTAL_FEATURES} />
+    </>
   );
-}
+};
+
+export default Admin;

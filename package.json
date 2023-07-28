@@ -12,32 +12,43 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@radix-ui/react-dropdown-menu": "^2.0.5",
+    "@radix-ui/react-navigation-menu": "^1.1.3",
+    "@radix-ui/react-slot": "^1.0.2",
     "@supabase/auth-helpers-nextjs": "^0.7.2",
     "@supabase/supabase-js": "^2.26.0",
     "@types/node": "20.3.1",
     "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5",
-    "autoprefixer": "10.4.14",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
     "eslint-config-next": "13.4.5",
+    "lucide-react": "^0.263.1",
     "next": "13.4.5",
     "nodemailer": "^6.9.3",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.45.0",
+    "tailwind-merge": "^1.14.0",
+    "tailwindcss-animate": "^1.0.6",
     "typescript": "5.1.3"
   },
   "devDependencies": {
     "@types/nodemailer": "^6.4.8",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
+    "autoprefixer": "^10.4.14",
     "eslint": "8.42.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.0",
     "lint-staged": "^13.2.2",
+    "postcss": "^8.4.27",
     "prettier": "^2.8.8",
     "stylelint": "^15.7.0",
     "stylelint-config-prettier-scss": "^1.0.0",
-    "stylelint-config-standard-scss": "^9.0.0"
+    "stylelint-config-standard-scss": "^9.0.0",
+    "tailwindcss": "^3.3.3"
   }
 }
