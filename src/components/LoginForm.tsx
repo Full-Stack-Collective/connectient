@@ -48,6 +48,7 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
+    mode: 'onChange',
   });
 
   const onSubmit = ({ email, password }: z.infer<typeof formSchema>) => {
@@ -129,7 +130,14 @@ const LoginForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="mt-4 w-full text-lg">
+          <Button
+            type="submit"
+            className="mt-4 w-full text-lg"
+            disabled={
+              !form.formState.isDirty ||
+              (form.formState.isDirty && !form.formState.isValid)
+            }
+          >
             Login
           </Button>
         </form>
