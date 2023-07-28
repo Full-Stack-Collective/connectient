@@ -99,7 +99,11 @@ const LoginForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem className="flex flex-col gap-1">
-                <FormLabel className="text-lg">Email</FormLabel>
+                <FormLabel className="text-lg">
+                  <span className="after:content-['*'] after:ml-0.5 after:text-red-500">
+                    Email
+                  </span>
+                </FormLabel>
                 <FormControl>
                   <Input type="email" {...field} />
                 </FormControl>
@@ -113,7 +117,11 @@ const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem className="flex flex-col gap-1">
-                <FormLabel className="text-lg">Password</FormLabel>
+                <FormLabel className="text-lg">
+                  <span className="after:content-['*'] after:ml-0.5 after:text-red-500">
+                    Password
+                  </span>
+                </FormLabel>
                 <FormControl>
                   <Input type="password" {...field} />
                 </FormControl>
