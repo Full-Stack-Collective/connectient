@@ -9,22 +9,63 @@ import ErrorPopup from './ErrorPopup';
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
 import 'react-phone-number-input/style.css';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+// <-- UI -->
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
+import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { Textarea } from '@/components/ui/textarea';
+
+const formSchema = z.object({
+  first_name: z
+    .string()
+    .min(2, { message: 'First name should be at least 2 characters' }),
+  last_name: z
+    .string()
+    .min(2, { message: 'Last name should be at least 2 characters' }),
+  mobile_phone: z.string({ required_error: 'Phone number is required' }),
+  email: z.string().email(),
+  requested_date: z.string().datetime(),
+  requested_time: z.string(),
+  appointment_type: z.string(),
+  description: z.string().optional(),
+  is_emergency: z.boolean().default(false),
+});
 
 const AppointmentForm = () => {
   const [, startTransition] = useTransition();
-  const [createdAppointment, setCreatedAppointment] =
-    useState<Appointment | null>(null);
+  const [createdAppointment, setCreatedAppointment] = useState<z.infer<
+    typeof formSchema
+  > | null>(null);
   const [isAppointmentDetailsPopupOpen, setIsAppointmentDetailsPopupOpen] =
     useState(false);
+
   const [errorMessage, setErrorMessage] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
 
-  const defaultValues: Appointment = {
+  const defaultValues = {
     first_name: '',
     last_name: '',
     mobile_phone: '',
     email: '',
-    dob: '',
     requested_date: '',
     requested_time: '',
     appointment_type: '',
@@ -32,21 +73,15 @@ const AppointmentForm = () => {
     is_emergency: false,
   };
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors, isValid, isDirty },
-    reset,
-  } = useForm<Appointment>({
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues,
-    mode: 'onChange',
   });
 
-  const onSubmit = handleSubmit((createdAppointment) => {
+  const onSubmit = (createdAppointment: z.infer<typeof formSchema>) => {
     setCreatedAppointment(createdAppointment);
     setIsPreviewMode(true);
-  });
+  };
 
   const handleConfirmAppointment = (createdAppointment: Appointment) => {
     startTransition(() => {
@@ -54,7 +89,7 @@ const AppointmentForm = () => {
         .then((createdAppointment) => {
           console.log('Appointment created:', createdAppointment);
           setIsAppointmentDetailsPopupOpen(true);
-          reset(defaultValues);
+          form.reset(defaultValues);
           setErrorMessage('');
           setIsPreviewMode(false);
         })
@@ -96,262 +131,211 @@ const AppointmentForm = () => {
           <p>Emergency: {createdAppointment?.is_emergency}</p>
           <button onClick={handleGoBack}>Go Back </button>
 
-          <button onClick={() => handleConfirmAppointment(createdAppointment!)}>
+          <button onClick={() => handleConfirmAppointment(createdAppointment)}>
             Submit
           </button>
         </>
       ) : (
         <>
           <p>Submit the form below to request an appointment.</p>
-          <form
-            className={styles.apptForm}
-            onSubmit={(event) => void onSubmit(event)}
-          >
-            <div className={styles.apptFormSection}>
-              <label
-                htmlFor="first_name"
-                className={`${styles.inputLabel} ${styles.required}`}
-              >
-                First name:{''}
-              </label>
-              <input
-                type="text"
-                id="first_name"
-                className={styles.input}
-                placeholder="Enter first name"
-                {...register('first_name', {
-                  required: 'First name is required.',
-                  minLength: {
-                    value: 2,
-                    message: 'First name should be at least 2 chars long.',
-                  },
-                })}
-              />
-              <p className={styles.error}>
-                {errors.first_name && errors.first_name.message}
-              </p>
-            </div>
-            <div className={styles.apptFormSection}>
-              <label
-                htmlFor="last_name"
-                className={`${styles.inputLabel} ${styles.required}`}
-              >
-                Last name:{' '}
-              </label>
-              <input
-                type="text"
-                id="last_name"
-                className={styles.input}
-                placeholder="Enter last name"
-                {...register('last_name', {
-                  required: 'Last name is required.',
-                  minLength: {
-                    value: 2,
-                    message: 'Last name should be at least 2 chars long.',
-                  },
-                })}
-              />
-              <p className={styles.error}>
-                {errors.last_name && errors.last_name.message}
-              </p>
-            </div>
-            <div className={styles.apptFormSection}>
-              <label
-                htmlFor="mobile_phone"
-                className={`${styles.inputLabel} ${styles.required}`}
-              >
-                Phone contact:{' '}
-              </label>
-              <PhoneInputWithCountry
-                id="mobile_phone"
-                international={true}
-                addInternationalOption={false}
-                countryCallingCodeEditable={false}
-                countryOptionsOrder={['TT']}
-                limitMaxLength={true}
-                defaultCountry="TT"
-                control={control}
-                name="mobile_phone"
-                defaultValue=""
-                rules={{
-                  required: 'Phone number is required.',
-                  validate: (value: string) =>
-                    isPossiblePhoneNumber(`${value}`) ||
-                    'Please enter a valid phone number.',
-                }}
-              />
-              <p className={styles.error}>
-                {errors.mobile_phone && errors.mobile_phone.message}
-              </p>
-            </div>
-            <div className={styles.apptFormSection}>
-              <label
-                htmlFor="email"
-                className={`${styles.inputLabel} ${styles.required}`}
-              >
-                Email:{' '}
-              </label>
-              <input
-                type="text"
-                id="email"
-                className={styles.input}
-                placeholder="Enter email"
-                {...register('email', {
-                  required: 'Email is required.',
-                  validate: {
-                    maxLength: (v) =>
-                      v.length <= 50 ||
-                      'The email should have at most 50 characters',
-                    matchPattern: (v) =>
-                      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-                      'Email address must be a valid address.',
-                  },
-                })}
-              />
-              <p className={styles.error}>
-                {errors.email && errors.email.message}
-              </p>
-            </div>
-            <div className={styles.apptFormSection}>
-              <label
-                htmlFor="dob"
-                className={`${styles.inputLabel} ${styles.required}`}
-              >
-                Date of birth:{' '}
-              </label>
-              <input
-                type="date"
-                id="dob"
-                className={styles.input}
-                {...register('dob', {
-                  required: 'Date of birth is required.',
-                })}
-              />
-              <p className={styles.error}>{errors.dob && errors.dob.message}</p>
-            </div>
-            <div className={styles.apptFormSection}>
-              <label
-                htmlFor="requested_date"
-                className={`${styles.inputLabel} ${styles.required}`}
-              >
-                Appointment date:{' '}
-              </label>
-              <input
-                type="date"
-                id="requested_date"
-                className={styles.input}
-                {...register('requested_date', {
-                  required: 'Appointment date is required.',
-                })}
-              />
-              <p className={styles.error}>
-                {errors.requested_date && errors.requested_date.message}
-              </p>
-            </div>
-            <div className={styles.apptFormSection}>
-              <label
-                htmlFor="requested_time"
-                className={`${styles.inputLabel} ${styles.required}`}
-              >
-                Appointment Time Preference:{' '}
-              </label>
-              <select
-                id="requested_time"
-                className={styles.input}
-                {...register('requested_time', {
-                  required: 'Appointment time preference is required.',
-                })}
-              >
-                <option value="morning">Morning</option>
-                <option value="afternoon">Afternoon</option>
-                <option value="flexible">Flexible</option>
-              </select>
-              <p className={styles.error}>
-                {errors.requested_time && errors.requested_time.message}
-              </p>
-            </div>
-            <div className={styles.apptFormSection}>
-              <label
-                htmlFor="appointment_type"
-                className={`${styles.inputLabel} ${styles.required}`}
-              >
-                Appointment type:{' '}
-              </label>
-              <select
-                id="appointment_type"
-                className={styles.input}
-                {...register('appointment_type', {
-                  required: 'Appointment type is required.',
-                })}
-              >
-                <option value="examination">Examination</option>
-                <option value="cleaning">Cleaning/Polishing</option>
-                <option value="extraction">Extraction</option>
-                <option value="fillings">Fillings</option>
-                <option value="other">Something else</option>
-              </select>
-              <p className={styles.error}>
-                {errors.appointment_type && errors.appointment_type.message}
-              </p>
-            </div>
-            <div className={styles.apptFormSection}>
-              <label htmlFor="description" className={styles.inputLabel}>
-                If something else:{' '}
-              </label>
-              <textarea
-                id="description"
-                className={styles.input}
-                placeholder="Enter description here"
-                {...register('description')}
-              />
-            </div>
-            <fieldset className={styles.fieldset}>
-              <legend className={`${styles.inputLabel} ${styles.required}`}>
-                Is this an emergency?
-              </legend>
-              <div className={styles.input}>
-                <input
-                  type="radio"
-                  id="emergencyChoice1"
-                  value="yes"
-                  {...register('is_emergency', {
-                    required: 'This field is required.',
-                  })}
-                />
-                <label htmlFor="emergencyChoice1" className={styles.inputLabel}>
-                  Yes
-                </label>
-                <input
-                  type="radio"
-                  id="emergencyChoice2"
-                  value="no"
-                  {...register('is_emergency', {
-                    required: 'This field is required.',
-                  })}
-                />
-                <label htmlFor="emergencyChoice2" className={styles.inputLabel}>
-                  No
-                </label>
-              </div>
-              <p className={styles.error}>
-                {errors.is_emergency && errors.is_emergency.message}
-              </p>
-            </fieldset>
 
-            <div className={styles.apptFormSection}>
-              <button
-                className={
-                  !isDirty || (isDirty && !isValid)
-                    ? styles.submitButtonDisabled
-                    : styles.submitButton
-                }
-                type="submit"
-                disabled={!isDirty || (isDirty && !isValid)}
-              >
-                Submit
-              </button>
-            </div>
-          </form>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <FormField
+                control={form.control}
+                name="first_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="last_name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} type="text" />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className={styles.apptFormSection}>
+                <label
+                  htmlFor="mobile_phone"
+                  className={`${styles.inputLabel} ${styles.required}`}
+                >
+                  Phone contact:{' '}
+                </label>
+                <PhoneInputWithCountry
+                  id="mobile_phone"
+                  international={true}
+                  addInternationalOption={false}
+                  countryCallingCodeEditable={false}
+                  countryOptionsOrder={['TT']}
+                  limitMaxLength={true}
+                  defaultCountry="TT"
+                  control={form.control}
+                  name="mobile_phone"
+                  defaultValue=""
+                  rules={{
+                    required: 'Phone number is required.',
+                    validate: (value: string) =>
+                      isPossiblePhoneNumber(`${value}`) ||
+                      'Please enter a valid phone number.',
+                  }}
+                />
+                {/* <p className={styles.error}>
+                {errors.mobile_phone && errors.mobile_phone.message}
+              </p> */}
+              </div>
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="patient@essentialdentaltt.com"
+                        {...field}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* date picker */}
+
+              <FormField
+                control={form.control}
+                name="requested_time"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Appointment Time Preference</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a time of day" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="morning">Morning</SelectItem>
+                        <SelectItem value="afternoon">Afternoon</SelectItem>
+                        <SelectItem value="flexible">Flexible</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      Choose flexible if no preference.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="appointment_type"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Appointment Time Preference</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a time of day" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="examination">Examination</SelectItem>
+                        <SelectItem value="cleaning">
+                          Cleaning/Polishing
+                        </SelectItem>
+                        <SelectItem value="extraction">Extraction</SelectItem>
+                        <SelectItem value="filling">Filling</SelectItem>
+                        <SelectItem value="other">Something Else</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Bio</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Tell us a little bit about yourself"
+                        className="resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      You can <span>@mention</span> other users and
+                      organizations.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="is_emergency"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>Is this an emergency?</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={true} />
+                          </FormControl>
+                          <FormLabel className="font-normal">Yes</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={false} />
+                          </FormControl>
+                          <FormLabel className="font-normal">No</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button type="submit">Submit</Button>
+            </form>
+          </Form>
         </>
       )}
 

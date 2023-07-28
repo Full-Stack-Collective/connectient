@@ -21,6 +21,12 @@ module.exports = {
         'next/core-web-vitals',
         'prettier',
       ],
+      rules: {
+        '@typescript-eslint/no-empty-interface': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        '@typescript-eslint/no-misused-promises': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
+      },
     },
   ],
-}
+};
