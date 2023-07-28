@@ -2,13 +2,21 @@
 import supabase from '@/db/supabase';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import type LoginFormData from '@/types/LoginFormData';
 import { PostgrestError } from '@supabase/supabase-js';
 
-export const loginFormAction = (data: LoginFormData): void => {
-  console.log(
-    `User Name: ${data.userName} | User Password: ${data.userPassword}`,
-  );
+export const loginFormAction = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  const supabase = createServerActionClient<Database>({ cookies });
+  const { data } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  return data;
 };
 
 export const createAppointmentFormAction = async (
