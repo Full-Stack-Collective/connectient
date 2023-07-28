@@ -30,7 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
-import { RadioGroup, RadioGroupItem } from './ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -38,9 +37,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { format, isPast, isSunday, addMonths } from 'date-fns';
+import {
+  format,
+  isPast,
+  isSunday,
+  addMonths,
+  addBusinessDays,
+  startOfTomorrow,
+} from 'date-fns';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Checkbox } from './ui/checkbox';
 
 const formSchema = z.object({
   first_name: z
@@ -55,7 +62,7 @@ const formSchema = z.object({
   requested_time: z.string(),
   appointment_type: z.string(),
   description: z.string().optional(),
-  is_emergency: z.string().default('no'),
+  is_emergency: z.boolean().default(false),
 });
 
 const AppointmentForm = () => {
@@ -73,11 +80,11 @@ const AppointmentForm = () => {
     last_name: '',
     mobile_phone: '+1868',
     email: '',
-    requested_date: '',
+    requested_date: addBusinessDays(startOfTomorrow(), 1),
     requested_time: '',
     appointment_type: '',
     description: '',
-    is_emergency: 'no',
+    is_emergency: false,
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -140,7 +147,11 @@ const AppointmentForm = () => {
           <p>Emergency: {createdAppointment?.is_emergency}</p>
           <button onClick={handleGoBack}>Go Back </button>
 
-          <button onClick={() => handleConfirmAppointment(createdAppointment)}>
+          <button
+            onClick={() =>
+              handleConfirmAppointment(createdAppointment as Appointment)
+            }
+          >
             Submit
           </button>
         </>
@@ -357,29 +368,19 @@ const AppointmentForm = () => {
                 control={form.control}
                 name="is_emergency"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>Is this an emergency?</FormLabel>
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                     <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue="no"
-                        className="flex space-x-1"
-                      >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="yes" />
-                          </FormControl>
-                          <FormLabel className="font-normal">Yes</FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem checked value="no" />
-                          </FormControl>
-                          <FormLabel className="font-normal">No</FormLabel>
-                        </FormItem>
-                      </RadioGroup>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
                     </FormControl>
-                    <FormMessage />
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>This is an emergency</FormLabel>
+                      <FormDescription>
+                        We&apos;ll try to prioritise your case
+                      </FormDescription>
+                    </div>
                   </FormItem>
                 )}
               />
