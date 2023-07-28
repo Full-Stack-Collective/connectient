@@ -3,7 +3,7 @@
 import { useTransition, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from '@styles/appointmentForm.module.css';
-import { createAppointmentFormAction } from './actions';
+import { createAppointmentFormAction, emailHandler } from './actions';
 import AppointmentDetailsPopup from './AppointmentDetailsPopup';
 import ErrorPopup from './ErrorPopup';
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
@@ -57,6 +57,16 @@ const AppointmentForm = () => {
           reset(defaultValues);
           setErrorMessage('');
           setIsPreviewMode(false);
+          emailHandler(createdAppointment)
+            .then((appointmentData) => {
+              console.log(
+                'Sucessfully sent email for appointment: ',
+                appointmentData,
+              );
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.error('Failed to create appointment:', error);

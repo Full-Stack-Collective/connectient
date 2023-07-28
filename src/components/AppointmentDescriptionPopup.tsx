@@ -1,8 +1,13 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { updateAppointment } from './actions';
+import {
+  emailConfirmationHandler,
+  getAppointment,
+  updateAppointment,
+} from './actions';
 import styles from '@styles/appointmentDescriptionPopup.module.css';
+import ConfirmationEmailData from '@/types/ConfirmationEmailData';
 
 type AppointmentDescriptionPopupProps = {
   isOpen: boolean;
@@ -39,7 +44,21 @@ const AppointmentDescriptionPopup = ({
   const handleConfirmScheduleChange = () => {
     if (id) {
       setIsChecked((prevValue) => {
-        startTransition(() => updateAppointment(id, !prevValue));
+        startTransition(async () => {
+          await updateAppointment(id, !prevValue);
+          if (isChecked === false) {
+            const data = await getAppointment(id);
+            if (!data) {
+              throw new Error('Invalid data.');
+            }
+            const appFromDB: ConfirmationEmailData = data[0];
+            await emailConfirmationHandler(appFromDB);
+            console.log(
+              'Successfully sent confirmation email for: ',
+              appFromDB,
+            );
+          }
+        });
         return !prevValue;
       });
     }
