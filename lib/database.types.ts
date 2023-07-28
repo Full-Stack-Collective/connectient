@@ -16,7 +16,6 @@ export interface Database {
           appointment_type: string | null;
           mobile_phone: string;
           email: string;
-          dob: string | null;
           requested_date: string | null;
           requested_time: string | null;
           description: string | null;
@@ -35,12 +34,11 @@ export interface Database {
           created_at?: string | null;
           created_by?: string | null;
           description?: string | null;
-          dob?: string | null;
           email: string;
           first_name: string;
           id?: string;
           is_cancelled?: boolean | null;
-          is_emergency?: boolean | null;
+          is_emergency?: string | null;
           is_scheduled?: boolean | null;
           last_name: string;
           mobile_phone: string;
@@ -55,7 +53,6 @@ export interface Database {
           created_at?: string | null;
           created_by?: string | null;
           description?: string | null;
-          dob?: string | null;
           email?: string;
           first_name?: string;
           id?: string;
