@@ -12,7 +12,7 @@ const getAllAppointments = async () => {
 const AppointmentDemo = async () => {
   const { data }: { data: Appointment[] | null } = await getAllAppointments();
   return (
-    <div className="container mx-auto py-10">
+    <div className="flex-1 container mx-auto py-10">
       <DataTable columns={columns} data={data!} />
     </div>
   );
