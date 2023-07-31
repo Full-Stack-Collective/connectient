@@ -1,26 +1,21 @@
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
+import { columns } from './columns';
+import { DataTable } from './data-table';
+
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
 
-import AppointmentDashboard from '@/components/AppointmentDashboard';
+const getAllAppointments = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  return await supabase.from('Appointments').select();
+};
 
-const Dashboard = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies });
-
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  // If user not authemticated, redirect to login
-  if (!session) {
-    redirect('/admin/unauthenticated');
-  }
-
+const AppointmentDemo = async () => {
+  const { data }: { data: Appointment[] | null } = await getAllAppointments();
   return (
-    <main className="flex-1 flex justify-center items-center">
-      <AppointmentDashboard />
-    </main>
+    <div className="container mx-auto py-10 bg-background">
+      <DataTable columns={columns} data={data!} />
+    </div>
   );
 };
 
-export default Dashboard;
+export default AppointmentDemo;
