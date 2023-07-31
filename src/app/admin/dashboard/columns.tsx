@@ -1,6 +1,9 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
+import { Button } from '@/components/ui/button';
+import { ArrowUpDown } from 'lucide-react';
+import { JsxElement } from 'typescript';
 
 export const columns: ColumnDef<Appointment>[] = [
   {
@@ -9,11 +12,33 @@ export const columns: ColumnDef<Appointment>[] = [
   },
   {
     accessorKey: 'first_name',
-    header: () => <div className="py-4 text-lg">First Name</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="my-4 text-lg"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          First Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'last_name',
-    header: () => <div className="py-4 text-lg">Last Name</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="my-4 text-lg"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Last Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'mobile_phone',
@@ -21,7 +46,18 @@ export const columns: ColumnDef<Appointment>[] = [
   },
   {
     accessorKey: 'email',
-    header: () => <div className="py-4 text-lg">Email</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="my-4 text-lg"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'appointment_type',
@@ -35,7 +71,18 @@ export const columns: ColumnDef<Appointment>[] = [
   },
   {
     accessorKey: 'requested_date',
-    header: () => <div className="py-4 text-lg">Requested Date</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="my-4 text-lg"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Requested Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const dateISOFormat: string = row.getValue('requested_date');
       return new Date(dateISOFormat).toDateString();
@@ -61,7 +108,18 @@ export const columns: ColumnDef<Appointment>[] = [
   },
   {
     accessorKey: 'scheduled_date',
-    header: () => <div className="py-4 text-lg">Scheduled Date</div>,
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="my-4 text-lg"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Scheduled Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
       const isAppointmentScheduled: boolean = row.getValue('is_scheduled');
       const dateISOFormat: string = row.getValue('scheduled_date');
