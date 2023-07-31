@@ -56,7 +56,9 @@ const formSchema = z.object({
   last_name: z
     .string()
     .min(2, { message: 'Last name should be at least 2 characters' }),
-  mobile_phone: z.string({ required_error: 'Phone number is required' }),
+  mobile_phone: z
+    .string({ required_error: 'Phone number is required' })
+    .min(10, { message: 'Phone number is too short' }),
   email: z.string().email(),
   requested_date: z.date({ required_error: 'A date is required' }),
   requested_time: z.string(),
@@ -231,10 +233,7 @@ const AppointmentForm = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="patient@essentialdentaltt.com"
-                        {...field}
-                      />
+                      <Input placeholder="hello@email.com" {...field} />
                     </FormControl>
 
                     <FormMessage />
