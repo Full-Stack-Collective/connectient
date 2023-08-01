@@ -285,7 +285,7 @@ const AppointmentForm = () => {
                       <SelectContent>
                         <SelectItem value="morning">Morning</SelectItem>
                         <SelectItem value="afternoon">Afternoon</SelectItem>
-                        <SelectItem value="flexible">Flexible</SelectItem>
+                        <SelectItem value="flexible">Anytime</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription>
