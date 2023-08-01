@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 
 import {
   ColumnDef,
+  ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -23,8 +25,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { DataTablePagination } from '@/app/admin/dashboard/data-table-pagination';
-import { DataTableViewOptions } from '@/app/admin/dashboard/data-table-view-options';
+import { DataTablePagination } from './data-table-pagination';
+import { DataTableToolbar } from './data-table-toolbar';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -37,6 +39,7 @@ export const DataTable = <TData, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const supabase = createClientComponentClient<Database>();
   const router = useRouter();
@@ -69,18 +72,21 @@ export const DataTable = <TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
     onColumnVisibilityChange: setColumnVisibility,
+    onColumnFiltersChange: setColumnFilters,
     state: {
       sorting,
       columnVisibility,
+      columnFilters,
     },
   });
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center">
-        <DataTableViewOptions table={table} />
+        <DataTableToolbar table={table} />
       </div>
       <div className="rounded-md border bg-background">
         <Table>
