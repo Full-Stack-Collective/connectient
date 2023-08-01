@@ -1,113 +1,148 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
-import type LoginFormData from '@/types/LoginFormData';
-import styles from '@styles/loginForm.module.css';
 import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from './ui/use-toast';
+
+import { loginFormAction } from './actions';
+
+// Define Login Form schema
+const formSchema = z.object({
+  email: z.string().nonempty('Email is required').email('Not a valid email'),
+  password: z
+    .string()
+    .nonempty('Password is required')
+    .min(8, 'Password should be atleast 8 chars long'),
+});
+
+// React component for logging in admins
 const LoginForm = () => {
   const router = useRouter();
-  const supabase = createClientComponentClient<Database>();
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [, startTransition] = useTransition();
+  const { toast } = useToast();
 
-  const [loginErrorMessage, setloginErrorMessage] = useState('');
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid, isDirty },
-  } = useForm<LoginFormData>({
-    defaultValues: {
-      userName: '',
-      userPassword: '',
-    },
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [isFormSubmitted]);
+
+  const defaultValues = {
+    email: '',
+    password: '',
+  };
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues,
     mode: 'onChange',
   });
 
-  const onSubmit = handleSubmit(async (data) => {
-    // Log in the browser
-    setloginErrorMessage('');
-    const { userName, userPassword } = data;
+  const onSubmit = ({ email, password }: z.infer<typeof formSchema>) => {
+    setIsFormSubmitted(true);
 
-    const {
-      data: { user, session },
-    } = await supabase.auth.signInWithPassword({
-      email: userName,
-      password: userPassword,
+    startTransition(() => {
+      // Authenticate the user
+      loginFormAction({ email, password })
+        .then((data) => {
+          // If the user is not in our system
+          if (!data.user || !data.session) {
+            toast({
+              title: 'Oops! Admin Discovery Failed',
+              description:
+                "We couldn't find your admin profile in the digital realm.",
+            });
+          } else {
+            // If the user is  authenticated
+            toast({
+              title: 'Admin Login Achieved',
+              description:
+                "You've joined forces to ensure the smoothest scheduling journey for patients.",
+            });
+            router.refresh();
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
-
-    if (!user || !session) setloginErrorMessage('Invalid login');
-    router.refresh();
-  });
+  };
 
   return (
-    <form
-      className={styles.loginForm}
-      onSubmit={(event) => void onSubmit(event)}
-    >
-      <div className={styles.loginFormSection}>
-        <label
-          className={`${styles.inputLabel} ${styles.required}`}
-          htmlFor="userName"
+    <main className="flex-1 flex flex-col justify-center items-center">
+      <h1 className="mt-8 mb-6 w-full max-w-lg text-4xl font-extrabold tracking-wide leading-2 text-center md:leading-snug">
+        Unlock the Gateway to{' '}
+        <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
+          Seamless Scheduling
+        </span>
+      </h1>
+      <Form {...form}>
+        <form
+          onSubmit={(event) => void form.handleSubmit(onSubmit)(event)}
+          className="p-4 w-full max-w-md border bg-background rounded-lg flex flex-col gap-4"
         >
-          Username
-        </label>
-        <input
-          className={styles.input}
-          type="text"
-          id="userName"
-          placeholder="Enter username"
-          {...register('userName', {
-            required: 'Username is required.',
-            minLength: {
-              value: 4,
-              message: 'Username should be at least 4 chars long',
-            },
-          })}
-        />
-        <p className={styles.error}>
-          {errors.userName && errors.userName.message}
-        </p>
-      </div>
-      <div className={styles.loginFormSection}>
-        <label
-          className={`${styles.inputLabel} ${styles.required}`}
-          htmlFor="userPassword"
-        >
-          Password
-        </label>
-        <input
-          className={styles.input}
-          type="password"
-          id="userPassword"
-          placeholder="Enter password"
-          {...register('userPassword', {
-            required: 'Password is required.',
-            minLength: {
-              value: 8,
-              message: 'Password should be at least 8 chars long',
-            },
-          })}
-        />
-        <p className={styles.error}>
-          {errors.userPassword && errors.userPassword.message}
-        </p>
-      </div>
-      <div className={styles.loginFormSection}>
-        <button
-          className={
-            !isDirty || (isDirty && !isValid)
-              ? styles.submitButtonDisabled
-              : styles.submitButton
-          }
-          type="submit"
-          disabled={!isDirty || (isDirty && !isValid)}
-        >
-          Submit
-        </button>
-        <p className={styles.error}>{loginErrorMessage}</p>
-      </div>
-    </form>
+          {/* Email */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="flex flex-col gap-1">
+                <FormLabel className="text-lg">
+                  <span className="after:content-['*'] after:ml-0.5 after:text-red-500">
+                    Email
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input type="email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Password */}
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="flex flex-col gap-1">
+                <FormLabel className="text-lg">
+                  <span className="after:content-['*'] after:ml-0.5 after:text-red-500">
+                    Password
+                  </span>
+                </FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button
+            type="submit"
+            className="mt-4 w-full text-lg"
+            disabled={
+              !form.formState.isDirty ||
+              (form.formState.isDirty && !form.formState.isValid)
+            }
+          >
+            Login
+          </Button>
+        </form>
+      </Form>
+    </main>
   );
 };
 

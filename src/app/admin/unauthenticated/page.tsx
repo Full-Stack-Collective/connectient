@@ -15,11 +15,7 @@ const Unauthenticated = async () => {
     redirect('/admin/dashboard');
   }
 
-  return (
-    <main className="flex-1 flex justify-center items-center">
-      <LoginForm />
-    </main>
-  );
+  return <LoginForm />;
 };
 
 export default Unauthenticated;

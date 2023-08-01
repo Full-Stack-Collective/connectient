@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -12,6 +13,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Button } from '@/components/ui/button';
+import { useToast } from './ui/use-toast';
 import { Menu, X } from 'lucide-react';
 
 import Logo from '@components/Logo';
@@ -30,6 +32,7 @@ const Header = ({ menuList }: HeaderProps) => {
 
   const router = useRouter();
   const supabase = createClientComponentClient<Database>();
+  const { toast } = useToast();
 
   const handleMenuItemsClick = useCallback(() => {
     if (windowWidth < 768) {
@@ -64,6 +67,11 @@ const Header = ({ menuList }: HeaderProps) => {
           supabase.auth
             .signOut()
             .then(() => {
+              toast({
+                title: 'Admin Departure Confirmed',
+                description:
+                  'Time to recharge and return for more seamless appointments!',
+              });
               router.refresh();
             })
             .finally(() => {
