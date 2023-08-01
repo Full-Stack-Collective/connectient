@@ -48,7 +48,6 @@ import { cn } from '@/lib/utils';
 import { Checkbox } from './ui/checkbox';
 
 import { useToast } from '@/components/ui/use-toast';
-import { capitalizeWord } from '@/utils/utils';
 import { ToastAction } from './ui/toast';
 import AppointmentPreview from './AppointmentPreview';
 
