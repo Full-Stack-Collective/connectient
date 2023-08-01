@@ -1,10 +1,8 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import { Button } from '@/components/ui/button';
-import { ArrowUpDown } from 'lucide-react';
 
-import { DataTableColumnHeader } from '@/components/DataTableColumnHeader';
+import { DataTableColumnHeader } from '@/app/admin/dashboard/data-table-column-header';
 
 export const columns: ColumnDef<Appointment>[] = [
   {

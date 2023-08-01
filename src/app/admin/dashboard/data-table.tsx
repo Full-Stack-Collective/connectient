@@ -1,5 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 
 import {
   ColumnDef,
@@ -21,8 +23,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-import { DataTablePagination } from '@components/DataTablePagination';
-import { DataTableViewOptions } from '@/components/DataTableViewOptions';
+import { DataTablePagination } from '@/app/admin/dashboard/data-table-pagination';
+import { DataTableViewOptions } from '@/app/admin/dashboard/data-table-view-options';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -35,6 +37,31 @@ export const DataTable = <TData, TValue>({
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
+  const supabase = createClientComponentClient<Database>();
+  const router = useRouter();
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime appointment dashboard')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'Appointments',
+        },
+        () => {
+          router.refresh();
+        },
+      )
+      .subscribe();
+
+    return () => {
+      // eslint-disable-next-line
+      supabase.removeChannel(channel);
+    };
+  }, [supabase, router]);
 
   const table = useReactTable({
     data,

@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
 } from '@components/ui/dropdown-menu';
 
-import { ADMIN_DASHBOARD_COLUMN_HEADERS } from '../lib/constants';
+import { ADMIN_DASHBOARD_COLUMN_HEADERS } from '../../../lib/constants';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
