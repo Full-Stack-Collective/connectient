@@ -18,7 +18,7 @@ export function DataTableToolbar<TData>({
 
   return (
     <div className="w-full flex items-center justify-between">
-      <div className="flex flex-1 items-center space-x-2">
+      <div className="w-full flex flex-1 items-center space-x-2">
         <Input
           placeholder="Filter patients..."
           value={
@@ -27,7 +27,7 @@ export function DataTableToolbar<TData>({
           onChange={(event) =>
             table.getColumn('full_name')?.setFilterValue(event.target.value)
           }
-          className="h-8 w-[150px] lg:w-[250px]"
+          className="h-8 w-full  md:w-[250px]"
         />
         {isFiltered && (
           <Button

@@ -65,7 +65,7 @@ const AppointmentDemo = async () => {
         defaultValue="emergency"
         className="border p-2 rounded-md bg-background"
       >
-        <TabsList>
+        <TabsList className="flex flex-col h-full gap-2 py-2 sm:inline-flex sm:flex-row sm:p-1">
           <TabsTrigger value="emergency">Emergency</TabsTrigger>
           <TabsTrigger value="normal">Normal</TabsTrigger>
           <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
