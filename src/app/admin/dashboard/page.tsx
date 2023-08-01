@@ -1,16 +1,54 @@
-import { columns } from './columns';
-import { DataTable } from './data-table';
-
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 
-const getAllAppointments = async () => {
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+import { columns } from './columns';
+import { DataTable } from './data-table';
+
+const getEmergencyAppointments = async () => {
   const supabase = createServerComponentClient({ cookies });
-  return await supabase.from('Appointments').select();
+  return await supabase
+    .from('Appointments')
+    .select()
+    .match({ is_emergency: true, is_scheduled: false, is_cancelled: false });
+};
+
+const getNormalAppointments = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  return await supabase
+    .from('Appointments')
+    .select()
+    .match({ is_emergency: false, is_scheduled: false, is_cancelled: false });
+};
+
+const getScheduledAppointments = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  return await supabase
+    .from('Appointments')
+    .select()
+    .match({ is_scheduled: true, is_cancelled: false });
+};
+
+const getCancelledAppointments = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  return await supabase
+    .from('Appointments')
+    .select()
+    .match({ is_cancelled: true });
 };
 
 const AppointmentDemo = async () => {
-  const { data }: { data: Appointment[] | null } = await getAllAppointments();
+  // Get all the data
+  const { data: emergencyAppointments }: { data: Appointment[] | null } =
+    await getEmergencyAppointments();
+  const { data: normalAppointments }: { data: Appointment[] | null } =
+    await getNormalAppointments();
+  const { data: scheduledAppointments }: { data: Appointment[] | null } =
+    await getScheduledAppointments();
+  const { data: cancelledAppointments }: { data: Appointment[] | null } =
+    await getCancelledAppointments();
+
   return (
     <main className="flex-1 container mx-auto pt-4 pb-10">
       <h1 className="mt-8 mb-12 w-full text-4xl font-extrabold tracking-wide leading-2 text-center md:leading-snug">
@@ -19,7 +57,47 @@ const AppointmentDemo = async () => {
           Elevating Patient Experiences
         </span>
       </h1>
-      <DataTable columns={columns} data={data!} />
+      <Tabs
+        defaultValue="emergency"
+        className="border p-2 rounded-md bg-background"
+      >
+        <TabsList>
+          <TabsTrigger value="emergency">Emergency</TabsTrigger>
+          <TabsTrigger value="normal">Normal</TabsTrigger>
+          <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
+          <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+        </TabsList>
+        <TabsContent value="emergency">
+          <p className="text-sm p-4 text-muted-foreground">
+            Emergency appointments section requires your immediate attention to
+            schedule the appointments.
+          </p>
+          <DataTable columns={columns} data={emergencyAppointments!} />
+        </TabsContent>
+        <TabsContent value="normal">
+          <p className="text-sm p-4 text-muted-foreground">
+            Normal appointments section has all the appointments that are not an
+            emergency, have not been scheduled yet, and have not been cancelled.
+          </p>
+          <DataTable columns={columns} data={normalAppointments!} />
+        </TabsContent>
+        <TabsContent value="scheduled">
+          <p className="text-sm p-4 text-muted-foreground">
+            Scheduled appointments section has all the appointments that have
+            been scheduled recently.
+          </p>
+          <DataTable columns={columns} data={scheduledAppointments!} />
+        </TabsContent>
+        <TabsContent value="cancelled">
+          <p className="text-sm p-4 text-muted-foreground">
+            Cancelled appointments section has all the appointments that have
+            been cancelled recently.
+          </p>
+          <DataTable columns={columns} data={cancelledAppointments!} />
+        </TabsContent>
+      </Tabs>
+
+      {/* <DataTable columns={columns} data={data!} /> */}
     </main>
   );
 };

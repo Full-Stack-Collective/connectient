@@ -10,6 +10,10 @@ export const columns: ColumnDef<Appointment>[] = [
   {
     accessorKey: 'is_emergency',
     header: () => <p className="py-4 ">Emergency</p>,
+    cell: ({ row }) => {
+      const isEmergency: boolean = row.getValue('is_emergency');
+      return <p className="text-center">{isEmergency ? '✔' : '✘'}</p>;
+    },
   },
   {
     accessorKey: 'first_name',
