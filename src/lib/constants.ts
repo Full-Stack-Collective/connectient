@@ -61,16 +61,13 @@ export const ADMIN_PORTAL_FEATURES = [
 export const ADMIN_DASHBOARD_COLUMN_HEADERS: {
   [key: string]: string;
 } = {
-  is_emergency: 'Emergency',
-  first_name: 'First Name',
-  last_name: 'Last Name',
+  status: 'Status',
+  full_name: 'Full Name',
   mobile_phone: 'Contact',
   email: 'Email',
   appointment_type: 'Appointment Type',
   requested_date: 'Requested Date',
   requested_time: 'Requested Time',
-  is_scheduled: 'Is Scheduled',
   scheduled_date: 'Scheduled Date',
   scheduled_time: 'Scheduled Time',
-  is_cancelled: 'Cancelled',
 };

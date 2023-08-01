@@ -2,33 +2,49 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 
+import { Badge } from '@/components/ui/badge';
 import { DataTableColumnHeader } from '@/app/admin/dashboard/data-table-column-header';
 
 export const columns: ColumnDef<Appointment>[] = [
   {
-    accessorKey: 'is_emergency',
-    header: () => <p className="py-4 ">Emergency</p>,
+    id: 'status',
+    header: () => <p className="py-4 ">Status</p>,
     cell: ({ row }) => {
-      const isEmergency: boolean = row.getValue('is_emergency');
-      return <p className="text-center">{isEmergency ? '✔' : '✘'}</p>;
+      const statusList: string[] = [];
+      const isEmergency = row.original['is_emergency'];
+      const isScheduled = row.original['is_scheduled'];
+      const isCancelled = row.original['is_cancelled'];
+      if (isEmergency) {
+        statusList.push('Emergency');
+      }
+      if (isScheduled && !isCancelled) {
+        statusList.push('Scheduled');
+      }
+      if (isCancelled) {
+        statusList.push('Cancelled');
+      }
+      if (!isScheduled && !isCancelled) {
+        statusList.push('Waiting');
+      }
+      return (
+        <div className="flex gap-2">
+          {statusList.map((status, index) => (
+            <Badge key={index} variant="secondary">
+              {status}
+            </Badge>
+          ))}
+        </div>
+      );
     },
   },
   {
-    accessorKey: 'first_name',
+    id: 'full_name',
+    accessorFn: (row) => `${row.first_name} ${row.last_name}`,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="First Name" />
+      <DataTableColumnHeader column={column} title="Full Name" />
     ),
     cell: ({ row }) => (
-      <p className="text-center">{row.getValue('first_name')}</p>
-    ),
-  },
-  {
-    accessorKey: 'last_name',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Last Name" />
-    ),
-    cell: ({ row }) => (
-      <p className="text-center">{row.getValue('last_name')}</p>
+      <p className="text-center">{row.getValue('full_name')}</p>
     ),
   },
   {
@@ -86,22 +102,12 @@ export const columns: ColumnDef<Appointment>[] = [
     },
   },
   {
-    accessorKey: 'is_scheduled',
-    header: () => <div className="py-4 w-20 text-center">Scheduled</div>,
-    cell: ({ row }) => {
-      const isAppointmentScheduled: boolean = row.getValue('is_scheduled');
-      return (
-        <p className="text-center">{isAppointmentScheduled ? '✔' : '✘'}</p>
-      );
-    },
-  },
-  {
     accessorKey: 'scheduled_date',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Scheduled Date" />
     ),
     cell: ({ row }) => {
-      const isAppointmentScheduled: boolean = row.getValue('is_scheduled');
+      const isAppointmentScheduled = row.original['is_scheduled'];
       const dateISOFormat: string = row.getValue('scheduled_date');
       return (
         <p className="text-center">
@@ -116,17 +122,10 @@ export const columns: ColumnDef<Appointment>[] = [
     accessorKey: 'scheduled_time',
     header: () => <div className="py-4 w-40 text-center">Scheduled Time</div>,
     cell: ({ row }) => {
-      const isAppointmentScheduled: boolean = row.getValue('is_scheduled');
+      const isAppointmentScheduled = row.original['is_scheduled'];
       return (
         <p className="text-center">{isAppointmentScheduled ? '✔' : '✘'}</p>
       );
     },
-  },
-  {
-    accessorKey: 'is_cancelled',
-    header: () => <div className="py-4 w-20 text-center">Cancelled</div>,
-    cell: ({ row }) => (
-      <p className="text-center">{row.getValue('is_cancelled') ? '✔' : '✘'}</p>
-    ),
   },
 ];
