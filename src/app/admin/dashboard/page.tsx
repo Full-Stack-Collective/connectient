@@ -11,7 +11,8 @@ const getEmergencyAppointments = async () => {
   return await supabase
     .from('Appointments')
     .select()
-    .match({ is_emergency: true, is_scheduled: false, is_cancelled: false });
+    .match({ is_emergency: true, is_scheduled: false, is_cancelled: false })
+    .order('created_at', { ascending: false });
 };
 
 const getNormalAppointments = async () => {
@@ -19,7 +20,8 @@ const getNormalAppointments = async () => {
   return await supabase
     .from('Appointments')
     .select()
-    .match({ is_emergency: false, is_scheduled: false, is_cancelled: false });
+    .match({ is_emergency: false, is_scheduled: false, is_cancelled: false })
+    .order('created_at', { ascending: false });
 };
 
 const getScheduledAppointments = async () => {
@@ -27,7 +29,8 @@ const getScheduledAppointments = async () => {
   return await supabase
     .from('Appointments')
     .select()
-    .match({ is_scheduled: true, is_cancelled: false });
+    .match({ is_scheduled: true, is_cancelled: false })
+    .order('created_at', { ascending: false });
 };
 
 const getCancelledAppointments = async () => {
@@ -35,7 +38,8 @@ const getCancelledAppointments = async () => {
   return await supabase
     .from('Appointments')
     .select()
-    .match({ is_cancelled: true });
+    .match({ is_cancelled: true })
+    .order('created_at', { ascending: false });
 };
 
 const AppointmentDemo = async () => {
