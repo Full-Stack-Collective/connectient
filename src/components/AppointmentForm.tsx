@@ -3,7 +3,6 @@
 import { useTransition, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { createAppointmentFormAction } from './actions';
-import AppointmentDetailsPopup from './AppointmentDetailsPopup';
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
 import 'react-phone-number-input/style.css';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
@@ -222,7 +221,10 @@ const AppointmentForm = () => {
             Let&apos;s request your appointment.
           </h2>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 bg-background"
+            >
               <FormField
                 control={form.control}
                 name="first_name"
