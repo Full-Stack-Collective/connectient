@@ -4,7 +4,6 @@ import { useTransition, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { createAppointmentFormAction } from './actions';
 import AppointmentDetailsPopup from './AppointmentDetailsPopup';
-import ErrorPopup from './ErrorPopup';
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
 import 'react-phone-number-input/style.css';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
@@ -48,6 +47,18 @@ import {
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Checkbox } from './ui/checkbox';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from './ui/card';
+
+import { useToast } from '@/components/ui/use-toast';
+import { capitalizeWord } from '@/utils/utils';
+import { ToastAction } from './ui/toast';
 
 const formSchema = z.object({
   first_name: z
@@ -74,8 +85,9 @@ const AppointmentForm = () => {
   const [isAppointmentDetailsPopupOpen, setIsAppointmentDetailsPopupOpen] =
     useState(false);
 
-  const [errorMessage, setErrorMessage] = useState('');
   const [isPreviewMode, setIsPreviewMode] = useState(false);
+
+  const { toast } = useToast();
 
   const defaultValues = {
     first_name: '',
@@ -95,7 +107,6 @@ const AppointmentForm = () => {
   });
 
   const onSubmit = (createdAppointment: Appointment) => {
-    console.table(createdAppointment);
     setCreatedAppointment(createdAppointment);
     setIsPreviewMode(true);
   };
@@ -104,17 +115,20 @@ const AppointmentForm = () => {
     startTransition(() => {
       createAppointmentFormAction(createdAppointment)
         .then((createdAppointment) => {
-          console.log('Appointment created:', createdAppointment);
-          setIsAppointmentDetailsPopupOpen(true);
+          toast({
+            title: 'Your request was submitted',
+            description: "We'll be in touch as soon as we can",
+          });
           form.reset();
-          setErrorMessage('');
           setIsPreviewMode(false);
         })
         .catch((error) => {
           console.error('Failed to create appointment:', error);
-          setErrorMessage(
-            'Appointment request not sent, please try again or call the phone number 123-123-1234',
-          );
+          toast({
+            title: 'Uh-oh. Something went wrong',
+            description: 'Please try again or call the office',
+            action: <ToastAction altText="Try again">Try again</ToastAction>,
+          });
         });
     });
   };
@@ -126,43 +140,82 @@ const AppointmentForm = () => {
     <>
       {isPreviewMode ? (
         /// Convert to card?
-        <>
-          <h2>Appointment Preview</h2>
-          <p>
-            Name: {createdAppointment?.first_name}{' '}
-            {createdAppointment?.last_name}
-          </p>
-          <p>Email: {createdAppointment?.email}</p>
-          <p>Phone: {createdAppointment?.mobile_phone}</p>
-          <p>
-            Requested Appointment Date:{' '}
-            {createdAppointment?.requested_date?.toLocaleDateString('en-us', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })}
-          </p>
-          <p>
-            Requested Appointment Time: {createdAppointment?.requested_time}
-          </p>
-          <p>
-            Requested Appointment Type: {createdAppointment?.appointment_type}
-          </p>
-          {createdAppointment?.description && (
-            <p>Description: {createdAppointment?.description}</p>
-          )}
-          <p>Emergency: {createdAppointment?.is_emergency}</p>
-          <button onClick={handleGoBack}>Go Back </button>
+        <Card className="my-12 text-base">
+          <CardHeader>
+            <CardTitle>Does this look right?</CardTitle>
+            <CardDescription>Confirm your details to submit</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>
+              <span className="font-semibold">Appointment for: </span>{' '}
+              {createdAppointment?.first_name} {createdAppointment?.last_name}
+            </p>
+          </CardContent>
+          <CardContent>
+            <p>
+              <span className="font-semibold">Email: </span>
+              {createdAppointment?.email}
+            </p>
+          </CardContent>
+          <CardContent>
+            <p>
+              <span className="font-semibold">Phone: </span>{' '}
+              {createdAppointment?.mobile_phone}
+            </p>
+          </CardContent>
+          <CardContent>
+            <p>
+              <span className="font-semibold">Requested Date: </span>
+              {createdAppointment?.requested_date?.toLocaleDateString('en-us', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              })}
+            </p>
+          </CardContent>
 
-          <button
-            onClick={() =>
-              handleConfirmAppointment(createdAppointment as Appointment)
-            }
-          >
-            Submit
-          </button>
-        </>
+          <CardContent>
+            <p>
+              <span className="font-semibold">Preferred Time: </span>
+              {createdAppointment?.requested_time}
+            </p>
+          </CardContent>
+          <CardContent>
+            <p>
+              <span className="font-semibold">Procedure Type: </span>
+              {createdAppointment?.appointment_type &&
+                capitalizeWord(createdAppointment?.appointment_type)}
+            </p>
+          </CardContent>
+
+          {createdAppointment?.description ? (
+            <CardContent>
+              <p>
+                <span className="font-semibold">Additional Details: </span>
+                {capitalizeWord(createdAppointment.description)}
+              </p>
+            </CardContent>
+          ) : null}
+
+          {createdAppointment?.is_emergency ? (
+            <CardContent>
+              <p>This is an emergency</p>
+            </CardContent>
+          ) : null}
+
+          <CardFooter className="flex justify-around my-4">
+            {' '}
+            <Button variant="outline" onClick={handleGoBack}>
+              Go Back{' '}
+            </Button>
+            <Button
+              onClick={() => handleConfirmAppointment(createdAppointment!)}
+            >
+              Submit
+            </Button>
+          </CardFooter>
+        </Card>
       ) : (
         <div className="my-8">
           <h2 className="font-semibold">
@@ -394,22 +447,6 @@ const AppointmentForm = () => {
             </form>
           </Form>
         </div>
-      )}
-
-      {createdAppointment && isAppointmentDetailsPopupOpen && (
-        <AppointmentDetailsPopup
-          appointment={createdAppointment}
-          isOpen={isAppointmentDetailsPopupOpen}
-          onClose={() => setIsAppointmentDetailsPopupOpen(false)}
-        />
-      )}
-
-      {errorMessage && (
-        <ErrorPopup
-          isOpen={errorMessage !== ''}
-          onClose={() => setErrorMessage('')}
-          errorMessage={errorMessage}
-        />
       )}
     </>
   );
