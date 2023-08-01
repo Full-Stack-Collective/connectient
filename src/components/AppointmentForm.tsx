@@ -83,7 +83,7 @@ const AppointmentForm = () => {
     mobile_phone: '+1868',
     email: '',
     requested_date: addBusinessDays(startOfTomorrow(), 1),
-    requested_time: '',
+    requested_time: 'flexible',
     appointment_type: '',
     description: '',
     is_emergency: false,
@@ -94,10 +94,10 @@ const AppointmentForm = () => {
     defaultValues,
   });
 
-  const onSubmit = (createdAppointment: z.infer<typeof formSchema>) => {
+  const onSubmit = (createdAppointment: Appointment) => {
     console.table(createdAppointment);
-    // setCreatedAppointment(createdAppointment);
-    // setIsPreviewMode(true);
+    setCreatedAppointment(createdAppointment);
+    setIsPreviewMode(true);
   };
 
   const handleConfirmAppointment = (createdAppointment: Appointment) => {
@@ -135,7 +135,13 @@ const AppointmentForm = () => {
           <p>Email: {createdAppointment?.email}</p>
           <p>Phone: {createdAppointment?.mobile_phone}</p>
           <p>
-            Requested Appointment Date: {createdAppointment?.requested_date}
+            Requested Appointment Date:{' '}
+            {createdAppointment?.requested_date?.toLocaleDateString('en-us', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
           </p>
           <p>
             Requested Appointment Time: {createdAppointment?.requested_time}

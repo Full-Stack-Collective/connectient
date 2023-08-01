@@ -32,7 +32,15 @@ const AppointmentDetailsPopup = ({
       </p>
       <p>Email: {email}</p>
       <p>Phone: {mobile_phone}</p>
-      <p>Requested Appointment Date: {requested_date}</p>
+      <p>
+        Requested Appointment Date:{' '}
+        {requested_date?.toLocaleDateString('en-us', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+        })}
+      </p>
       <p>Requested Appointment Time: {requested_time}</p>
       <p>Requested Appointment Type: {appointment_type}</p>
       {description && <p>Description: {description}</p>}
