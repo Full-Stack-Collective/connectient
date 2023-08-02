@@ -136,8 +136,8 @@ const AppointmentForm = () => {
           handleGoBack={handleGoBack}
         />
       ) : (
-        <div className="my-8">
-          <h2 className="font-semibold">
+        <div className="my-8 max-w-xs w-full">
+          <h2 className="font-semibold text-xl my-5">
             Let&apos;s request your appointment.
           </h2>
           <Form {...form}>
@@ -236,7 +236,7 @@ const AppointmentForm = () => {
                           <Button
                             variant={'outline'}
                             className={cn(
-                              'w-[240px] pl-3 text-left font-normal',
+                              'w-full pl-3 text-left font-normal',
                               !field.value && 'text-muted-foreground',
                             )}
                           >
