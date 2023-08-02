@@ -1,5 +1,6 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -42,7 +43,24 @@ const getCancelledAppointments = async () => {
     .order('created_at', { ascending: false });
 };
 
+const getAllAppointments = async () => {
+  const supabase = createServerComponentClient({ cookies });
+  return await supabase
+    .from('Appointments')
+    .select()
+    .order('created_at', { ascending: false });
+};
+
 const AppointmentDemo = async () => {
+  const supabase = createServerComponentClient<Database>({ cookies });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    redirect('/admin/unauthenticated');
+  }
   // Get all the data
   const { data: emergencyAppointments }: { data: Appointment[] | null } =
     await getEmergencyAppointments();
@@ -52,6 +70,8 @@ const AppointmentDemo = async () => {
     await getScheduledAppointments();
   const { data: cancelledAppointments }: { data: Appointment[] | null } =
     await getCancelledAppointments();
+  const { data: allAppointments }: { data: Appointment[] | null } =
+    await getAllAppointments();
 
   return (
     <main className="flex-1 container mx-auto pt-4 pb-10">
@@ -70,6 +90,7 @@ const AppointmentDemo = async () => {
           <TabsTrigger value="normal">Normal</TabsTrigger>
           <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
           <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+          <TabsTrigger value="all">All</TabsTrigger>
         </TabsList>
         <TabsContent value="emergency">
           <p className="text-sm p-4 text-muted-foreground">
@@ -98,6 +119,13 @@ const AppointmentDemo = async () => {
             been cancelled recently.
           </p>
           <DataTable columns={columns} data={cancelledAppointments!} />
+        </TabsContent>
+        <TabsContent value="all">
+          <p className="text-sm p-4 text-muted-foreground">
+            &apos;All&apos; appointments section has all the appointments
+            regardless of the status.
+          </p>
+          <DataTable columns={columns} data={allAppointments!} />
         </TabsContent>
       </Tabs>
 

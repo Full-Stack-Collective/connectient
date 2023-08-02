@@ -55,13 +55,6 @@ export const columns: ColumnDef<Appointment>[] = [
     ),
   },
   {
-    accessorKey: 'email',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
-    ),
-    cell: ({ row }) => <p className="text-center">{row.getValue('email')}</p>,
-  },
-  {
     accessorKey: 'appointment_type',
     header: () => <div className="py-4 w-32 text-center">Appointment Type</div>,
     cell: ({ row }) => {
@@ -98,33 +91,6 @@ export const columns: ColumnDef<Appointment>[] = [
             ? requestedTime.charAt(0).toUpperCase() + requestedTime.slice(1)
             : 'N/A'}
         </p>
-      );
-    },
-  },
-  {
-    accessorKey: 'scheduled_date',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Scheduled Date" />
-    ),
-    cell: ({ row }) => {
-      const isAppointmentScheduled = row.original['is_scheduled'];
-      const dateISOFormat: string = row.getValue('scheduled_date');
-      return (
-        <p className="text-center">
-          {isAppointmentScheduled
-            ? new Date(dateISOFormat).toDateString()
-            : '✘'}
-        </p>
-      );
-    },
-  },
-  {
-    accessorKey: 'scheduled_time',
-    header: () => <div className="py-4 w-40 text-center">Scheduled Time</div>,
-    cell: ({ row }) => {
-      const isAppointmentScheduled = row.original['is_scheduled'];
-      return (
-        <p className="text-center">{isAppointmentScheduled ? '✔' : '✘'}</p>
       );
     },
   },

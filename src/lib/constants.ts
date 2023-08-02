@@ -64,10 +64,7 @@ export const ADMIN_DASHBOARD_COLUMN_HEADERS: {
   status: 'Status',
   full_name: 'Full Name',
   mobile_phone: 'Contact',
-  email: 'Email',
   appointment_type: 'Appointment Type',
   requested_date: 'Requested Date',
   requested_time: 'Requested Time',
-  scheduled_date: 'Scheduled Date',
-  scheduled_time: 'Scheduled Time',
 };
