@@ -4,7 +4,7 @@ import { useTransition, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styles from '@styles/appointmentForm.module.css';
 import { createAppointmentFormAction, emailHandler } from './actions';
-import { AppointmentDetailsPopup } from './AppointmentDetailsPopup';
+import AppointmentDetailsPopup from './AppointmentDetailsPopup';
 import ErrorPopup from './ErrorPopup';
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
 import 'react-phone-number-input/style.css';
@@ -375,7 +375,7 @@ const AppointmentForm = () => {
 
       {errorMessage && (
         <ErrorPopup
-          isOpen={errorMessage !== ''}
+          open={errorMessage !== ''}
           onClose={() => setErrorMessage('')}
           errorMessage={errorMessage}
         />

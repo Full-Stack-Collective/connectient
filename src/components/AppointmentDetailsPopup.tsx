@@ -15,7 +15,7 @@ type AppointmentDetailsPopupProps = {
   appointment: Appointment;
 };
 
-export const AppointmentDetailsPopup = ({
+const AppointmentDetailsPopup = ({
   open,
   onClose,
   appointment,
@@ -59,3 +59,5 @@ export const AppointmentDetailsPopup = ({
     </Dialog>
   );
 };
+
+export default AppointmentDetailsPopup;
