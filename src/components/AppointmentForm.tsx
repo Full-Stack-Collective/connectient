@@ -53,18 +53,18 @@ import AppointmentPreview from './AppointmentPreview';
 
 const formSchema = z.object({
   first_name: z
-    .string()
+    .string({ required_error: 'First Name is required' })
     .min(2, { message: 'First name should be at least 2 characters' }),
   last_name: z
-    .string()
+    .string({ required_error: 'Last Name is required' })
     .min(2, { message: 'Last name should be at least 2 characters' }),
   mobile_phone: z
     .string({ required_error: 'Phone number is required' })
     .min(10, { message: 'Phone number is too short' }),
-  email: z.string().email(),
+  email: z.string({ required_error: 'Email is required' }).email(),
   requested_date: z.date({ required_error: 'A date is required' }),
   requested_time: z.string(),
-  appointment_type: z.string(),
+  appointment_type: z.string().nonempty('Please select an appointment type'),
   description: z.string().optional(),
   is_emergency: z.boolean().default(false),
 });
@@ -150,7 +150,10 @@ const AppointmentForm = () => {
                 name="first_name"
                 render={({ field }) => (
                   <FormItem className="">
-                    <FormLabel>First Name</FormLabel>
+                    <FormLabel>
+                      First Name
+                      <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -164,7 +167,10 @@ const AppointmentForm = () => {
                 name="last_name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Last Name</FormLabel>
+                    <FormLabel>
+                      Last Name
+                      <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} type="text" />
                     </FormControl>
@@ -180,6 +186,7 @@ const AppointmentForm = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Phone Contact</FormLabel>
+                    <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
                     <FormControl>
                       <PhoneInputWithCountry
                         inputComponent={Input}
@@ -212,7 +219,11 @@ const AppointmentForm = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>
+                      Email
+                      <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                    </FormLabel>
+
                     <FormControl>
                       <Input placeholder="hello@email.com" {...field} />
                     </FormControl>
@@ -229,7 +240,10 @@ const AppointmentForm = () => {
                 name="requested_date"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Appointment Date</FormLabel>
+                    <FormLabel>
+                      Appointment Date
+                      <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                    </FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -300,14 +314,17 @@ const AppointmentForm = () => {
                 name="appointment_type"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Appointment Type</FormLabel>
+                    <FormLabel>
+                      Appointment Type
+                      <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                    </FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select a time of day" />
+                          <SelectValue placeholder="What do you want to get done?" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -364,8 +381,17 @@ const AppointmentForm = () => {
                   </FormItem>
                 )}
               />
-
-              <Button type="submit">Submit</Button>
+              <div className="w-full flex justify-center">
+                <Button
+                  type="submit"
+                  disabled={
+                    !form.formState.isDirty ||
+                    (form.formState.isDirty && !form.formState.isValid)
+                  }
+                >
+                  Request Appointment
+                </Button>
+              </div>
             </form>
           </Form>
         </div>
