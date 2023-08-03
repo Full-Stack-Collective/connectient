@@ -57,3 +57,14 @@ export const ADMIN_PORTAL_FEATURES = [
     desc: 'Allow admins to perform common tasks efficiently, such as confirming, rescheduling, or canceling appointments',
   },
 ];
+
+export const ADMIN_DASHBOARD_COLUMN_HEADERS: {
+  [key: string]: string;
+} = {
+  status: 'Status',
+  full_name: 'Full Name',
+  mobile_phone: 'Contact',
+  appointment_type: 'Appointment Type',
+  requested_date: 'Requested Date',
+  requested_time: 'Requested Time',
+};

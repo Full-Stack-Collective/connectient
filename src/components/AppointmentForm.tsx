@@ -2,7 +2,7 @@
 
 import { useTransition, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { createAppointmentFormAction } from './actions';
+import { createAppointmentFormAction, emailHandler } from './actions';
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
 import 'react-phone-number-input/style.css';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
@@ -50,6 +50,7 @@ import { Checkbox } from './ui/checkbox';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from './ui/toast';
 import AppointmentPreview from './AppointmentPreview';
+import Error from 'next/error';
 
 const formSchema = z.object({
   first_name: z
@@ -112,6 +113,16 @@ const AppointmentForm = () => {
           });
           form.reset();
           setIsPreviewMode(false);
+          emailHandler(createdAppointment)
+            .then((appointmentData) => {
+              console.log(
+                'Sucessfully sent email for appointment: ',
+                appointmentData,
+              );
+            })
+            .catch((error: Error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.error('Failed to create appointment:', error);
