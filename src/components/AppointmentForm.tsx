@@ -368,14 +368,14 @@ const AppointmentForm = () => {
       {createdAppointment && isAppointmentDetailsPopupOpen && (
         <AppointmentDetailsPopup
           appointment={createdAppointment}
-          isOpen={isAppointmentDetailsPopupOpen}
+          open={isAppointmentDetailsPopupOpen}
           onClose={() => setIsAppointmentDetailsPopupOpen(false)}
         />
       )}
 
       {errorMessage && (
         <ErrorPopup
-          isOpen={errorMessage !== ''}
+          open={errorMessage !== ''}
           onClose={() => setErrorMessage('')}
           errorMessage={errorMessage}
         />

@@ -6,17 +6,24 @@ import {
   getAppointment,
   updateAppointment,
 } from './actions';
-import styles from '@styles/appointmentDescriptionPopup.module.css';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
 
 type AppointmentDescriptionPopupProps = {
-  isOpen: boolean;
+  open: boolean;
   onClose: () => void;
   clickedAppointment: Appointment;
 };
 
 const AppointmentDescriptionPopup = ({
-  isOpen,
+  open,
   onClose,
   clickedAppointment,
 }: AppointmentDescriptionPopupProps) => {
@@ -65,42 +72,48 @@ const AppointmentDescriptionPopup = ({
   };
 
   return (
-    <div className={`${styles.popup} ${isOpen ? styles.opened : ''}`}>
-      <div className={styles.popupContainer}>
-        <p>Name: {`${first_name} ${last_name}`}</p>
-        <p>Date of Birth: {new Date(dob!).toDateString()}</p>
-        <p>Email: {email}</p>
-        <p>Contact Number: {mobile_phone}</p>
-        <p>Is it an Emergency? : {is_emergency ? '✔' : '✘'}</p>
-        <p>Appointment Type: {appointment_type ? appointment_type : ''}</p>
-        <p>Description: {description ?? 'NA'}</p>
-        <p>Requested Date: {new Date(requested_date!).toDateString()}</p>
-        <p>Requested Time: {requested_time}</p>
-        <p>Has appointment been scheduled? : {is_scheduled ? '✔' : '✘'}</p>
-        <p>
-          Scheduled Date:{' '}
-          {is_scheduled ? new Date(scheduled_date!).toDateString() : 'NA'}
-        </p>
-        <p>Who scheduled the appointment? : {scheduled_by ?? 'NA'}</p>
-        <p>Has appointment been cancelled? : {is_cancelled ? '✔' : '✘'}</p>
-        <hr />
-        <label>
-          Confirm if you have called the patient and scheduled the appointment?
-          <input
-            type="checkbox"
-            checked={isChecked!}
-            onChange={handleConfirmScheduleChange}
-          />
-        </label>
-        <button
-          className={styles.closeButton}
-          aria-label="Close Popup"
-          onClick={onClose}
-        >
-          ✘
-        </button>
-      </div>
-    </div>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Appointment Details</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <p>Name: {`${first_name} ${last_name}`}</p>
+          <p>Date of Birth: {new Date(dob!).toDateString()}</p>
+          <p>Email: {email}</p>
+          <p>Contact Number: {mobile_phone}</p>
+          <p>Is it an Emergency? : {is_emergency ? '✔' : '✘'}</p>
+          <p>Appointment Type: {appointment_type ? appointment_type : ''}</p>
+          <p>Description: {description ?? 'NA'}</p>
+          <p>Requested Date: {new Date(requested_date!).toDateString()}</p>
+          <p>Requested Time: {requested_time}</p>
+          <p>Has appointment been scheduled? : {is_scheduled ? '✔' : '✘'}</p>
+          <p>
+            Scheduled Date:{' '}
+            {is_scheduled ? new Date(scheduled_date!).toDateString() : 'NA'}
+          </p>
+          <p>Who scheduled the appointment? : {scheduled_by ?? 'NA'}</p>
+          <p>Has appointment been cancelled? : {is_cancelled ? '✔' : '✘'}</p>
+          <hr />
+          <div className="items-top flex space-x-2">
+            <Checkbox
+              id="confirm"
+              checked={isChecked!}
+              onChange={handleConfirmScheduleChange}
+            />
+            <div className="grid gap-1.5 leading-none">
+              <Label
+                htmlFor="confirm"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Confirm if you have called the patient and scheduled the
+                appointment?
+              </Label>
+            </div>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
 
