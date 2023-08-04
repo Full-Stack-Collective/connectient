@@ -44,9 +44,10 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
     <div className="m-auto max-w-7xl w-full min-h-screen py-2 px-4 flex flex-col">
       <Header
         menuList={[...ADMIN_PORTAL_LAYOUT_MENU, ...getAuthenticationMenuLink()]}
+        logoLink="/admin"
       />
       {children}
-      <Footer menuList={ADMIN_PORTAL_FOOTER_MENU} />
+      <Footer menuList={ADMIN_PORTAL_FOOTER_MENU} logoLink="/admin" />
     </div>
   );
 };

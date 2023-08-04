@@ -7,15 +7,16 @@ type FooterProps = {
     name: string;
     link: string;
   }[];
+  logoLink: string;
 };
 
-const Footer = ({ menuList }: FooterProps) => {
+const Footer = ({ menuList, logoLink }: FooterProps) => {
   return (
     <footer className="bg-background text-base">
       <div className="m-auto max-w-7xl w-full py-6 px-4 flex flex-col gap-4">
         <div className="w-full flex flex-col gap-4 md:flex-row">
           <div className="w-full flex flex-col gap-2 items-center md:items-start">
-            <Logo />
+            <Logo link={logoLink} />
             <address className="ml-2 text-center md:text-start">
               <p>1054 SS Erin Road, Debe.</p>
               <p>Trinidad & Tobago</p>

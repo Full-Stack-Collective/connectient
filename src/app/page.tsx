@@ -29,14 +29,14 @@ const Home = () => {
 
   return (
     <div className="m-auto max-w-7xl w-full py-2 px-4">
-      <Header menuList={PATIENT_PORTAL_LAYOUT_MENU} />
+      <Header menuList={PATIENT_PORTAL_LAYOUT_MENU} logoLink="/" />
       <Hero
         title={getHeroTitle()}
         subtitle={heroSubtitle}
         calloutBtn={heroCalloutBtn}
       />
       <Features features={PATIENT_PORTAL_FEATURES} />
-      <Footer menuList={PATIENT_PORTAL_FOOTER_MENU} />
+      <Footer menuList={PATIENT_PORTAL_FOOTER_MENU} logoLink="/" />
     </div>
   );
 };

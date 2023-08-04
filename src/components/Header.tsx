@@ -24,9 +24,10 @@ type HeaderProps = {
     name: string;
     link: string;
   }[];
+  logoLink: string;
 };
 
-const Header = ({ menuList }: HeaderProps) => {
+const Header = ({ menuList, logoLink }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
 
@@ -110,7 +111,7 @@ const Header = ({ menuList }: HeaderProps) => {
   return (
     <header className="bg-background">
       <div className="m-auto max-w-7xl w-full py-6 px-4 flex justify-between relative">
-        <Logo />
+        <Logo link={logoLink} />
         <div className="flex gap-4 items-center">
           <ThemeModeToggle />
           {!isMenuOpen && windowWidth < 768 && (
