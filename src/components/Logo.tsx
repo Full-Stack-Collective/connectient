@@ -17,16 +17,12 @@ const Logo = () => {
   }, []);
 
   useEffect(() => {
-    if (systemTheme) {
+    if (theme === 'system') {
+      systemTheme ? setLogo(whiteLogo) : setLogo(blacklogo);
+    } else if (theme === 'dark') {
       setLogo(whiteLogo);
     } else {
-      if (theme === 'system') {
-        setLogo(blacklogo);
-      } else if (theme === 'dark') {
-        setLogo(whiteLogo);
-      } else {
-        setLogo(blacklogo);
-      }
+      setLogo(blacklogo);
     }
   }, [systemTheme, theme]);
 
