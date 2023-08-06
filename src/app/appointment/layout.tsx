@@ -8,9 +8,9 @@ import {
 
 const AppointmentLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="m-auto max-w-7xl w-full py-2 px-4">
+    <div className="min-h-screen py-2 flex flex-col">
       <Header menuList={PATIENT_PORTAL_LAYOUT_MENU} logoLink="/" />
-      {children}
+      <div className="px-4 py-2 m-auto max-w-7xl w-full">{children}</div>
       <Footer menuList={PATIENT_PORTAL_FOOTER_MENU} logoLink="/" />
     </div>
   );
