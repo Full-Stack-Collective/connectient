@@ -20,11 +20,17 @@ const Footer = ({ menuList, logoLink }: FooterProps) => {
             <p>1054 SS Erin Road, Debe.</p>
             <p>Trinidad & Tobago</p>
             <p>
-              <a href="tel:8683871325" className="no-underline">
+              <a
+                href="tel:8683871325"
+                className="no-underline hover:underline ease-in-out"
+              >
                 (868) 387-1325
               </a>
               {' | '}
-              <a href="tel:8683613469" className="no-underline">
+              <a
+                href="tel:8683613469"
+                className="no-underline hover:underline ease-in-out"
+              >
                 (868) 361-3469
               </a>
             </p>
