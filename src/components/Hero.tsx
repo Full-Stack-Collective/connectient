@@ -19,15 +19,18 @@ const Hero = ({ title, subtitle, calloutBtn }: HeroProps) => {
         {title}
       </h1>
       <p className="mb-8 text-center max-w-4xl">{subtitle}</p>
-      <Button
-        asChild
-        size="lg"
-        className="uppercase font-sans text-sm sm:text-base tracking-wide max-w-sm"
-      >
-        <Link href={calloutBtn.link}>
-          {calloutBtn.text} <ChevronRight className="h-4 w-4" />
-        </Link>
-      </Button>
+      <div className="w-max-w-sm p-[2px] transition-all ease-in-out duration-300 rounded-lg hover:bg-gradient-to-r hover:from-blue-400 hover:to-rose-500">
+        <Button
+          asChild
+          size="lg"
+          className="uppercase font-sans text-sm sm:text-base tracking-wide group"
+        >
+          <Link href={calloutBtn.link}>
+            {calloutBtn.text}{' '}
+            <ChevronRight className="h-4 w-4 transition-all ease-in-out group-hover:scale-125 group-hover:translate-x-1" />
+          </Link>
+        </Button>
+      </div>
     </main>
   );
 };

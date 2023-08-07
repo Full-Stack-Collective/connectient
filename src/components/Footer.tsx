@@ -22,14 +22,14 @@ const Footer = ({ menuList, logoLink }: FooterProps) => {
             <p>
               <a
                 href="tel:8683871325"
-                className="no-underline hover:underline ease-in-out"
+                className="no-underline transition-all hover:underline ease-in-out"
               >
                 (868) 387-1325
               </a>
               {' | '}
               <a
                 href="tel:8683613469"
-                className="no-underline hover:underline ease-in-out"
+                className="no-underline transition-all hover:underline ease-in-out"
               >
                 (868) 361-3469
               </a>
@@ -41,7 +41,7 @@ const Footer = ({ menuList, logoLink }: FooterProps) => {
             <Link
               key={menuItem.name}
               href={menuItem.link}
-              className="hover:underline ease-in-out"
+              className="hover:underline transition-all ease-in-out"
             >
               {menuItem.name}
             </Link>
@@ -50,13 +50,13 @@ const Footer = ({ menuList, logoLink }: FooterProps) => {
         <div className="w-full flex gap-2 md:flex-col justify-center md:justify-start md:items-end">
           <a
             href="https://www.facebook.com/southtrinidaddentist/"
-            className="no-underline flex gap-1 hover:underline ease-in-out"
+            className="no-underline transition-all flex gap-1 hover:underline ease-in-out"
           >
             <Facebook /> Facebook
           </a>
           <a
             href="https://www.instagram.com/essentialdentalsolutions/"
-            className="no-underline flex gap-1 hover:underline ease-in-out"
+            className="no-underline transition-all flex gap-1 hover:underline ease-in-out"
           >
             <Instagram /> Instagram
           </a>
