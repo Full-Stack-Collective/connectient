@@ -3,7 +3,8 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Badge } from '@/components/ui/badge';
-import { DataTableColumnHeader } from '@/app/admin/dashboard/data-table-column-header';
+import { DataTableColumnHeader } from './data-table-column-header';
+import { DataTableRowActions } from './data-table-row-actions';
 
 export const columns: ColumnDef<Appointment>[] = [
   {
@@ -93,5 +94,9 @@ export const columns: ColumnDef<Appointment>[] = [
         </p>
       );
     },
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
