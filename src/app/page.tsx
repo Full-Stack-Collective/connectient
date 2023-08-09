@@ -28,15 +28,17 @@ const Home = () => {
   };
 
   return (
-    <div className="m-auto max-w-7xl w-full py-2 px-4">
-      <Header menuList={PATIENT_PORTAL_LAYOUT_MENU} />
-      <Hero
-        title={getHeroTitle()}
-        subtitle={heroSubtitle}
-        calloutBtn={heroCalloutBtn}
-      />
-      <Features features={PATIENT_PORTAL_FEATURES} />
-      <Footer menuList={PATIENT_PORTAL_FOOTER_MENU} />
+    <div className="min-h-screen py-2 flex flex-col">
+      <Header menuList={PATIENT_PORTAL_LAYOUT_MENU} logoLink="/" />
+      <div className="px-4 py-2 m-auto max-w-7xl w-full">
+        <Hero
+          title={getHeroTitle()}
+          subtitle={heroSubtitle}
+          calloutBtn={heroCalloutBtn}
+        />
+        <Features features={PATIENT_PORTAL_FEATURES} />
+      </div>
+      <Footer menuList={PATIENT_PORTAL_FOOTER_MENU} logoLink="/" />
     </div>
   );
 };

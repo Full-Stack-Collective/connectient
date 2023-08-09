@@ -7,7 +7,7 @@ import { useTheme } from 'next-themes';
 import blacklogo from '@public/connectient-logo.png';
 import whiteLogo from '@public/connectient-logo-white.png';
 
-const Logo = () => {
+const Logo = ({ link = '' }: { link: string }) => {
   const { theme } = useTheme();
   const [systemTheme, setSystemTheme] = useState<boolean>();
   const [logo, setLogo] = useState<StaticImageData>(blacklogo);
@@ -17,21 +17,17 @@ const Logo = () => {
   }, []);
 
   useEffect(() => {
-    if (systemTheme) {
+    if (theme === 'system') {
+      systemTheme ? setLogo(whiteLogo) : setLogo(blacklogo);
+    } else if (theme === 'dark') {
       setLogo(whiteLogo);
     } else {
-      if (theme === 'system') {
-        setLogo(blacklogo);
-      } else if (theme === 'dark') {
-        setLogo(whiteLogo);
-      } else {
-        setLogo(blacklogo);
-      }
+      setLogo(blacklogo);
     }
   }, [systemTheme, theme]);
 
   return (
-    <Link href="/">
+    <Link href={link} className="">
       <Image
         src={logo}
         alt="Connectient logo, icon with two people communicating"

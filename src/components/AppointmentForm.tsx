@@ -51,6 +51,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from './ui/toast';
 import AppointmentPreview from './AppointmentPreview';
 import Error from 'next/error';
+import AppointmentDetailsPopup from './AppointmentDetailsPopup';
+import ErrorPopup from './ErrorPopup';
 
 const formSchema = z.object({
   first_name: z
@@ -406,6 +408,14 @@ const AppointmentForm = () => {
             </form>
           </Form>
         </div>
+      )}
+
+      {createdAppointment && isAppointmentDetailsPopupOpen && (
+        <AppointmentDetailsPopup
+          appointment={createdAppointment}
+          open={isAppointmentDetailsPopupOpen}
+          onClose={() => setIsAppointmentDetailsPopupOpen(false)}
+        />
       )}
     </>
   );

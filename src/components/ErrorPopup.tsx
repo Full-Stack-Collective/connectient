@@ -1,14 +1,29 @@
-import { Popup } from './Popup';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
 type ErrorPopupProps = {
-  isOpen: boolean;
+  open: boolean;
   onClose: () => void;
   errorMessage: string;
 };
-const ErrorPopup = ({ isOpen, onClose, errorMessage }: ErrorPopupProps) => {
+
+const ErrorPopup = ({ open, onClose, errorMessage }: ErrorPopupProps) => {
   return (
-    <Popup isOpen={isOpen} onClose={onClose}>
-      <p>{errorMessage}</p>
-    </Popup>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Error!</DialogTitle>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <p>{errorMessage}</p>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 };
+
 export default ErrorPopup;

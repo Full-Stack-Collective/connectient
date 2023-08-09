@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import styles from '@styles/appointmentDashboard.module.css';
-import AppointmentDescriptionPopup from '@components/AppointmentDescriptionPopup';
+import AppointmentDescriptionPopup from './AppointmentDescriptionPopup';
 
 type DashboardRowProps = {
   appointment: Appointment;
@@ -45,7 +45,7 @@ const DashboardRow = ({ appointment }: DashboardRowProps) => {
       </div>
       {isAppointementDescriptionPopupOpen ? (
         <AppointmentDescriptionPopup
-          isOpen={isAppointementDescriptionPopupOpen}
+          open={isAppointementDescriptionPopupOpen}
           onClose={() => setIsAppointementDescriptionPopupOpen(false)}
           clickedAppointment={appointment}
         />
