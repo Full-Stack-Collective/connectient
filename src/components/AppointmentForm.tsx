@@ -113,11 +113,8 @@ const AppointmentForm = () => {
           });
           setIsAppointmentDetailsPopupOpen(false);
           emailHandler(createdAppointment)
-            .then((appointmentData) => {
-              console.log(
-                'Sucessfully sent email for appointment: ',
-                appointmentData,
-              );
+            .then(() => {
+              console.log('Sucessfully sent email for appointment');
             })
             .catch((error: Error) => {
               console.log(error);
