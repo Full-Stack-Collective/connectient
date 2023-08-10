@@ -111,6 +111,7 @@ const AppointmentForm = () => {
             description: "We'll be in touch as soon as we can",
           });
           form.reset();
+          setCreatedAppointment(defaultValues);
           setIsAppointmentDetailsPopupOpen(false);
           emailHandler(createdAppointment)
             .then((appointmentData) => {
