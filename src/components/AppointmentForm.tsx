@@ -8,6 +8,8 @@ import 'react-phone-number-input/style.css';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
+import Error from 'next/error';
+import AppointmentDetailsPopup from './AppointmentDetailsPopup';
 
 // <-- UI -->
 import { Button } from '@/components/ui/button';
@@ -46,13 +48,8 @@ import {
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Checkbox } from './ui/checkbox';
-
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from './ui/toast';
-import AppointmentPreview from './AppointmentPreview';
-import Error from 'next/error';
-import AppointmentDetailsPopup from './AppointmentDetailsPopup';
-import ErrorPopup from './ErrorPopup';
 
 const formSchema = z.object({
   first_name: z
@@ -78,6 +75,7 @@ const AppointmentForm = () => {
     useState<Appointment | null>(null);
   const [isAppointmentDetailsPopupOpen, setIsAppointmentDetailsPopupOpen] =
     useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
 
@@ -104,6 +102,7 @@ const AppointmentForm = () => {
   };
 
   const handleConfirmAppointment = (createdAppointment: Appointment) => {
+    setIsLoading(true);
     startTransition(() => {
       createAppointmentFormAction(createdAppointment)
         .then((createdAppointment) => {
@@ -131,16 +130,13 @@ const AppointmentForm = () => {
             description: 'Please try again or call the office',
             action: <ToastAction altText="Try again">Try again</ToastAction>,
           });
-        });
+        })
+        .finally(() => setIsLoading(false));
     });
-  };
-  const handleGoBack = () => {
-    setIsAppointmentDetailsPopupOpen(false);
   };
 
   return (
     <>
-      (
       <div className="my-8 max-w-xs w-full">
         <h2 className="font-semibold text-xl my-5">
           Let&apos;s request your appointment.
@@ -307,7 +303,7 @@ const AppointmentForm = () => {
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Choose flexible if no preference.
+                    Choose anytime if no preference.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -353,7 +349,7 @@ const AppointmentForm = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Any additional details?</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Tell us anything we should know"
@@ -400,11 +396,12 @@ const AppointmentForm = () => {
           </form>
         </Form>
       </div>
-      )
+
       {createdAppointment && isAppointmentDetailsPopupOpen && (
         <AppointmentDetailsPopup
           createdAppointment={createdAppointment}
           open={isAppointmentDetailsPopupOpen}
+          isLoading={isLoading}
           handleConfirmAppointment={handleConfirmAppointment}
           onClose={() => setIsAppointmentDetailsPopupOpen(false)}
         />

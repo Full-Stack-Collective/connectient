@@ -10,9 +10,11 @@ import {
 } from '@/components/ui/dialog';
 import { capitalizeWord } from '@/utils/utils';
 import { Button } from './ui/button';
+import { ButtonLoading } from './ui/button-loading';
 
 type AppointmentDetailsPopupProps = {
   open: boolean;
+  isLoading: boolean;
   onClose: () => void;
   createdAppointment: Appointment;
   handleConfirmAppointment: (appointment: Appointment) => void;
@@ -21,6 +23,7 @@ type AppointmentDetailsPopupProps = {
 const AppointmentDetailsPopup = ({
   open,
   onClose,
+  isLoading,
   createdAppointment,
   handleConfirmAppointment,
 }: AppointmentDetailsPopupProps) => {
@@ -35,6 +38,13 @@ const AppointmentDetailsPopup = ({
     description,
     appointment_type,
   } = createdAppointment;
+
+  const formatTimeOfDay = (appointmentTime: string) => {
+    if (!appointmentTime) return 'Unsure';
+    if (appointmentTime === 'flexible') return 'Anytime';
+    else return capitalizeWord(appointmentTime);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
@@ -65,12 +75,10 @@ const AppointmentDetailsPopup = ({
           </p>
           <p>
             <span className="font-semibold">Preferred Time: </span>
-            {requested_time === 'flexible'
-              ? 'Anytime'
-              : capitalizeWord(requested_time as string)}
+            {requested_time && formatTimeOfDay(requested_time)}
           </p>
           <p>
-            <span className="font-semibold">Procedure Type: </span>
+            <span className="font-semibold">Procedure: </span>
             {appointment_type && capitalizeWord(appointment_type)}
           </p>
           {description ? (
@@ -85,9 +93,15 @@ const AppointmentDetailsPopup = ({
           <Button variant="outline" onClick={onClose}>
             Go Back{' '}
           </Button>
-          <Button onClick={() => handleConfirmAppointment(createdAppointment)}>
-            Submit
-          </Button>
+          {isLoading ? (
+            <ButtonLoading />
+          ) : (
+            <Button
+              onClick={() => handleConfirmAppointment(createdAppointment)}
+            >
+              Submit
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>
