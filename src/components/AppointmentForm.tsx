@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition, useState } from 'react';
+import { useTransition, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { createAppointmentFormAction, emailHandler } from './actions';
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
@@ -96,6 +96,7 @@ const AppointmentForm = () => {
     defaultValues,
   });
 
+  const { formState } = form;
   const onSubmit = (createdAppointment: Appointment) => {
     setCreatedAppointment(createdAppointment);
     setIsAppointmentDetailsPopupOpen(true);
@@ -110,8 +111,6 @@ const AppointmentForm = () => {
             title: 'Your request was submitted',
             description: "We'll be in touch as soon as we can",
           });
-          form.reset();
-          setCreatedAppointment(defaultValues);
           setIsAppointmentDetailsPopupOpen(false);
           emailHandler(createdAppointment)
             .then((appointmentData) => {
@@ -135,6 +134,12 @@ const AppointmentForm = () => {
         .finally(() => setIsLoading(false));
     });
   };
+
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      form.reset();
+    }
+  }, [formState, form]);
 
   return (
     <>
