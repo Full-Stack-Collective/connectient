@@ -7,7 +7,6 @@ export default function Appointment() {
       <main className="flex-1 flex flex-col gap-2 justify-center items-center">
         <AppointmentForm />
       </main>
-      <Toaster />
     </>
   );
 }
