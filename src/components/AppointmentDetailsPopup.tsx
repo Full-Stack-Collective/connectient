@@ -8,17 +8,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { capitalizeWord } from '@/utils/utils';
+import { Button } from './ui/button';
+import { ButtonLoading } from './ui/button-loading';
 
 type AppointmentDetailsPopupProps = {
   open: boolean;
+  isLoading: boolean;
   onClose: () => void;
-  appointment: Appointment;
+  createdAppointment: Appointment;
+  handleConfirmAppointment: (appointment: Appointment) => void;
 };
 
 const AppointmentDetailsPopup = ({
   open,
   onClose,
-  appointment,
+  isLoading,
+  createdAppointment,
+  handleConfirmAppointment,
 }: AppointmentDetailsPopupProps) => {
   const {
     first_name,
@@ -30,30 +37,71 @@ const AppointmentDetailsPopup = ({
     is_emergency,
     description,
     appointment_type,
-  } = appointment;
+  } = createdAppointment;
+
+  const formatTimeOfDay = (appointmentTime: string) => {
+    if (!appointmentTime) return 'Unsure';
+    if (appointmentTime === 'flexible') return 'Anytime';
+    else return capitalizeWord(appointmentTime);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Your appointment request was sent!</DialogTitle>
-          <DialogDescription>
-            You&#8217;ll receive an email shortly with this request information.
-          </DialogDescription>
+          <DialogTitle>Does this look right?</DialogTitle>
+          <DialogDescription>Confirm your details to submit</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <p>
-            Name: {first_name} {last_name}
+            <span className="font-semibold">Appointment for: </span>{' '}
+            {first_name} {last_name}
           </p>
-          <p>Email: {email}</p>
-          <p>Phone: {mobile_phone}</p>
-          <p>Requested Appointment Date: {requested_date}</p>
-          <p>Requested Appointment Time: {requested_time}</p>
-          <p>Requested Appointment Type: {appointment_type}</p>
-          {description && <p>Description: {description}</p>}
-          <p>Emergency: {is_emergency}</p>
+          <p>
+            <span className="font-semibold">Email: </span>
+            {email}
+          </p>
+          <p>
+            <span className="font-semibold">Phone: </span> {mobile_phone}
+          </p>
+          <p>
+            <span className="font-semibold">Requested Date: </span>
+            {requested_date?.toLocaleDateString('en-us', {
+              weekday: 'long',
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+          </p>
+          <p>
+            <span className="font-semibold">Preferred Time: </span>
+            {requested_time && formatTimeOfDay(requested_time)}
+          </p>
+          <p>
+            <span className="font-semibold">Procedure: </span>
+            {appointment_type && capitalizeWord(appointment_type)}
+          </p>
+          {description ? (
+            <p>
+              <span className="font-semibold">Additional Details: </span>
+              {capitalizeWord(description)}
+            </p>
+          ) : null}
+          {is_emergency ? <p>This is an emergency</p> : null}
         </div>
         <DialogFooter>
-          <p>Thank you!</p>
+          <Button variant="outline" onClick={onClose}>
+            Go Back{' '}
+          </Button>
+          {isLoading ? (
+            <ButtonLoading />
+          ) : (
+            <Button
+              onClick={() => handleConfirmAppointment(createdAppointment)}
+            >
+              Submit
+            </Button>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>
