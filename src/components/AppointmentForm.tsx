@@ -94,6 +94,7 @@ const AppointmentForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues,
+    mode: 'onChange',
   });
 
   const { formState } = form;
