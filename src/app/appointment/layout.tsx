@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const dynamic = 'force-dynamic'; //remove this when proper fix has been implemented
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
