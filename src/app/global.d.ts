@@ -6,4 +6,5 @@ declare global {
   type Appointment = DB['public']['Tables']['Appointments']['Insert'];
   type AppointmentType =
     DB['public']['Tables']['Enums']['appointment_type_enum'];
+  type Practice = DB['public']['Tables']['Practice']['Row'];
 }
