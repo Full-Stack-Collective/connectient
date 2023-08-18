@@ -1,3 +1,4 @@
+import { AppointmentFooter } from '@/components/AppointmentFooter';
 import AppointmentForm from '@/components/AppointmentForm';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
@@ -14,12 +15,12 @@ export default async function Appointment({
 
   const { data } = await supabase
     .from('Practice')
-    .select('id, name, logo')
+    .select()
     .eq('practice_code', practiceCode);
 
   if (!data || data?.length < 1) redirect('/');
 
-  const [{ id, name, logo }] = data as Practice[];
+  const [{ id, name, logo, street_addresss, city, phone }] = data as Practice[];
 
   return (
     <>
@@ -37,6 +38,12 @@ export default async function Appointment({
           ) : null}
         </div>
         <AppointmentForm practiceId={id} />
+        <AppointmentFooter
+          name={name}
+          streetAddress={street_addresss!}
+          city={city}
+          phone={phone!}
+        />
       </main>
     </>
   );

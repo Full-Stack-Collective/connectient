@@ -13,7 +13,7 @@ const AppointmentLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="min-h-screen py-2 flex flex-col">
       <Header menuList={PATIENT_PORTAL_LAYOUT_MENU} logoLink="/" />
       <div className="px-4 py-2 m-auto max-w-7xl w-full">{children}</div>
-      <Footer menuList={PATIENT_PORTAL_FOOTER_MENU} logoLink="/" />
+      <Footer logoLink="/" />
     </div>
   );
 };
