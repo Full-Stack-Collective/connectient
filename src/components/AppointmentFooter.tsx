@@ -1,4 +1,4 @@
-import { ChevronLeft, Facebook, Instagram } from 'lucide-react';
+import { ChevronRight, Facebook, Instagram } from 'lucide-react';
 import Link from 'next/link';
 import { buttonVariants } from './ui/button';
 
@@ -24,9 +24,12 @@ export const AppointmentFooter = ({
   return (
     <footer>
       {website ? (
-        <Link href={website} className={buttonVariants({ variant: 'outline' })}>
-          <ChevronLeft />
-          Back to {name}
+        <Link
+          href={website}
+          className={buttonVariants({ variant: 'outline', size: 'sm' })}
+        >
+          To the {name} website
+          <ChevronRight />
         </Link>
       ) : null}
 
