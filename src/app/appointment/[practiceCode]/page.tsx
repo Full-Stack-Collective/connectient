@@ -14,7 +14,7 @@ export default async function Appointment({
 
   const { data } = await supabase
     .from('Practice')
-    .select('id, name')
+    .select('id, name, logo')
     .eq('practice_code', practiceCode);
 
   if (!data || data?.length < 1) redirect('/');
@@ -24,10 +24,18 @@ export default async function Appointment({
   return (
     <>
       <main className="flex-1 flex flex-col gap-2 justify-center items-center">
-        {name ? (
-          <h1 className="text-2xl font-semibold">Welcome to {name}</h1>
-        ) : null}
-
+        <div>
+          {name ? (
+            <h1 className="text-2xl font-semibold">Welcome to {name}</h1>
+          ) : null}
+          {logo ? (
+            <img
+              src={logo}
+              className="h-28 w-28 object-contain mx-auto"
+              alt={`Logo for a dental practice called ${name}`}
+            />
+          ) : null}
+        </div>
         <AppointmentForm practiceId={id} />
       </main>
     </>
