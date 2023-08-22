@@ -91,19 +91,16 @@ export const getAppointment = async (appointmentId: string | undefined) => {
   }
 };
 
-export const updateAppointment = async (
-  appointmentId: string,
-  isScheduled: boolean,
-) => {
+export const cancelAppointment = async (appointmentId: string) => {
   const supabase = createServerActionClient<Database>({ cookies });
   try {
     const { error }: { error: PostgrestError | null } = await supabase
       .from('Appointments')
-      .update({ is_scheduled: isScheduled })
+      .update({ is_cancelled: true })
       .eq('id', appointmentId);
 
     if (error) {
-      throw new Error('Failed to update appointment schedule.');
+      throw new Error('Failed to cancel appointment schedule.');
     }
   } catch (error) {
     console.error(error);
