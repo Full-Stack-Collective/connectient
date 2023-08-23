@@ -34,6 +34,7 @@ export const createAppointmentFormAction = async (
       .insert([appointmentData]);
 
     if (error || !appointmentData) {
+      console.log(error);
       throw new Error('Failed to create appointment');
     }
     return appointmentData;

@@ -36,10 +36,6 @@ const LoginForm = () => {
   const [, startTransition] = useTransition();
   const { toast } = useToast();
 
-  useEffect(() => {
-    form.reset(defaultValues);
-  }, [isFormSubmitted]);
-
   const defaultValues = {
     email: '',
     password: '',
@@ -80,6 +76,10 @@ const LoginForm = () => {
         });
     });
   };
+
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [isFormSubmitted, defaultValues, form]);
 
   return (
     <main className="flex-1 flex flex-col justify-center items-center">

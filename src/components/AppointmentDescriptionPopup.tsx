@@ -31,7 +31,6 @@ const AppointmentDescriptionPopup = ({
     id,
     first_name,
     last_name,
-    dob,
     email,
     mobile_phone,
     requested_date,
@@ -79,7 +78,6 @@ const AppointmentDescriptionPopup = ({
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <p>Name: {`${first_name} ${last_name}`}</p>
-          <p>Date of Birth: {new Date(dob!).toDateString()}</p>
           <p>Email: {email}</p>
           <p>Contact Number: {mobile_phone}</p>
           <p>Is it an Emergency? : {is_emergency ? '✔' : '✘'}</p>

@@ -15,7 +15,6 @@ export interface Database {
           created_at: string | null;
           created_by: string | null;
           description: string | null;
-          dob: string | null;
           email: string;
           first_name: string;
           id: string;
@@ -24,7 +23,8 @@ export interface Database {
           is_scheduled: boolean | null;
           last_name: string;
           mobile_phone: string;
-          requested_date: string | null;
+          practice_id: string | null;
+          requested_date: Date | null;
           requested_time: string | null;
           scheduled_by: string | null;
           scheduled_date: string | null;
@@ -35,7 +35,6 @@ export interface Database {
           created_at?: string | null;
           created_by?: string | null;
           description?: string | null;
-          dob?: string | null;
           email: string;
           first_name: string;
           id?: string;
@@ -44,6 +43,7 @@ export interface Database {
           is_scheduled?: boolean | null;
           last_name: string;
           mobile_phone: string;
+          practice_id?: string | null;
           requested_date?: Date | null;
           requested_time?: string | null;
           scheduled_by?: string | null;
@@ -55,7 +55,6 @@ export interface Database {
           created_at?: string | null;
           created_by?: string | null;
           description?: string | null;
-          dob?: string | null;
           email?: string;
           first_name?: string;
           id?: string;
@@ -64,6 +63,7 @@ export interface Database {
           is_scheduled?: boolean | null;
           last_name?: string;
           mobile_phone?: string;
+          practice_id?: string | null;
           requested_date?: string | null;
           requested_time?: string | null;
           scheduled_by?: string | null;
@@ -75,6 +75,12 @@ export interface Database {
             foreignKeyName: 'Appointments_created_by_fkey';
             columns: ['created_by'];
             referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'Appointments_practice_id_fkey';
+            columns: ['practice_id'];
+            referencedRelation: 'Practice';
             referencedColumns: ['id'];
           },
           {
@@ -123,12 +129,6 @@ export interface Database {
             referencedRelation: 'users';
             referencedColumns: ['id'];
           },
-          {
-            foreignKeyName: 'Personnel_practice_fkey';
-            columns: ['practice'];
-            referencedRelation: 'Practice';
-            referencedColumns: ['id'];
-          },
         ];
       };
       Practice: {
@@ -136,28 +136,37 @@ export interface Database {
           city: string;
           created_at: string | null;
           email: string | null;
-          id: number;
+          id: string;
+          logo: string | null;
           name: string;
           owner: string | null;
           phone: string | null;
+          practice_code: string | null;
+          street_addresss: string | null;
         };
         Insert: {
           city: string;
           created_at?: string | null;
           email?: string | null;
-          id?: number;
+          id?: string;
+          logo?: string | null;
           name: string;
           owner?: string | null;
           phone?: string | null;
+          practice_code?: string | null;
+          street_addresss?: string | null;
         };
         Update: {
           city?: string;
           created_at?: string | null;
           email?: string | null;
-          id?: number;
+          id?: string;
+          logo?: string | null;
           name?: string;
           owner?: string | null;
           phone?: string | null;
+          practice_code?: string | null;
+          street_addresss?: string | null;
         };
         Relationships: [
           {
@@ -170,43 +179,43 @@ export interface Database {
       };
       Users: {
         Row: {
-          appointments: string | null;
           created_at: string | null;
           email: string | null;
           first_name: string;
           id: string;
           last_name: string;
           mobile_phone: string;
+          practice_id: string | null;
         };
         Insert: {
-          appointments?: string | null;
           created_at?: string | null;
           email?: string | null;
           first_name: string;
           id: string;
           last_name: string;
           mobile_phone: string;
+          practice_id?: string | null;
         };
         Update: {
-          appointments?: string | null;
           created_at?: string | null;
           email?: string | null;
           first_name?: string;
           id?: string;
           last_name?: string;
           mobile_phone?: string;
+          practice_id?: string | null;
         };
         Relationships: [
-          {
-            foreignKeyName: 'Users_appointments_fkey';
-            columns: ['appointments'];
-            referencedRelation: 'Appointments';
-            referencedColumns: ['id'];
-          },
           {
             foreignKeyName: 'Users_id_fkey';
             columns: ['id'];
             referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'Users_practice_id_fkey';
+            columns: ['practice_id'];
+            referencedRelation: 'Practice';
             referencedColumns: ['id'];
           },
         ];
