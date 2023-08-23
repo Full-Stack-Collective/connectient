@@ -69,13 +69,14 @@ const formSchema = z.object({
   is_emergency: z.boolean().default(false),
 });
 
-const AppointmentForm = () => {
+const AppointmentForm = ({ practiceId }: { practiceId: string }) => {
   const [, startTransition] = useTransition();
   const [createdAppointment, setCreatedAppointment] =
     useState<Appointment | null>(null);
   const [isAppointmentDetailsPopupOpen, setIsAppointmentDetailsPopupOpen] =
     useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const { toast } = useToast();
 
@@ -86,7 +87,7 @@ const AppointmentForm = () => {
     email: '',
     requested_date: addBusinessDays(startOfTomorrow(), 1),
     requested_time: 'flexible',
-    appointment_type: '',
+    appointment_type: 'examination',
     description: '',
     is_emergency: false,
   };
@@ -99,15 +100,17 @@ const AppointmentForm = () => {
 
   const { formState } = form;
   const onSubmit = (createdAppointment: Appointment) => {
-    setCreatedAppointment(createdAppointment);
+    setCreatedAppointment({ ...createdAppointment, practice_id: practiceId });
     setIsAppointmentDetailsPopupOpen(true);
   };
 
   const handleConfirmAppointment = (createdAppointment: Appointment) => {
     setIsLoading(true);
+    setIsSubmitted(false);
     startTransition(() => {
       createAppointmentFormAction(createdAppointment)
         .then((createdAppointment) => {
+          setIsSubmitted(true);
           toast({
             title: 'Your request was submitted',
             description: "We'll be in touch as soon as we can",
@@ -134,10 +137,10 @@ const AppointmentForm = () => {
   };
 
   useEffect(() => {
-    if (formState.isSubmitSuccessful) {
+    if (isSubmitted) {
       form.reset();
     }
-  }, [formState, form]);
+  }, [isSubmitted, form]);
 
   return (
     <>
@@ -333,7 +336,7 @@ const AppointmentForm = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="examination">Examination</SelectItem>
+                      <SelectItem value="examination">Consultation</SelectItem>
                       <SelectItem value="cleaning">
                         Cleaning/Polishing
                       </SelectItem>

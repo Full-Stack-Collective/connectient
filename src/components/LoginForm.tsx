@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
+import { useState, useEffect, useTransition, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import * as z from 'zod';
@@ -36,14 +36,12 @@ const LoginForm = () => {
   const [, startTransition] = useTransition();
   const { toast } = useToast();
 
-  useEffect(() => {
-    form.reset(defaultValues);
-  }, [isFormSubmitted]);
-
-  const defaultValues = {
-    email: '',
-    password: '',
-  };
+  const defaultValues = useMemo(() => {
+    return {
+      email: '',
+      password: '',
+    };
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -80,6 +78,10 @@ const LoginForm = () => {
         });
     });
   };
+
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [isFormSubmitted, defaultValues, form]);
 
   return (
     <main className="flex-1 flex flex-col justify-center items-center">
