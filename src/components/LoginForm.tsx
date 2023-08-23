@@ -79,7 +79,7 @@ const LoginForm = () => {
 
   useEffect(() => {
     form.reset(defaultValues);
-  }, [isFormSubmitted, defaultValues, form]);
+  }, [isFormSubmitted]);
 
   return (
     <main className="flex-1 flex flex-col justify-center items-center">
