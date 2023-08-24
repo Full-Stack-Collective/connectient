@@ -109,23 +109,19 @@ export const cancelAppointment = async (appointmentId: string) => {
 
 export const scheduleAppointment = async (
   appointmentId: string,
-  scheduledDate: Date,
+  scheduledDate: string,
   scheduledTime: string,
 ) => {
   const supabase = createServerActionClient<Database>({ cookies });
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('Appointments')
       .update({
         is_scheduled: true,
-        scheduled_date: scheduledDate.toString(),
+        scheduled_date: scheduledDate,
         scheduled_time: scheduledTime,
       })
-      .eq('id', appointmentId)
-      .select();
-
-    console.log(data);
-
+      .eq('id', appointmentId);
     if (error) {
       throw new Error('Failed to schedule appointment schedule.');
     }

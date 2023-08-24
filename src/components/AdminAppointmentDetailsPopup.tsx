@@ -1,7 +1,21 @@
 'use client';
 
 import { useTransition, useState } from 'react';
-import { cancelAppointment } from './actions';
+import { useForm } from 'react-hook-form';
+import { useToast } from '@/components/ui/use-toast';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  format,
+  parseISO,
+  isPast,
+  isSunday,
+  addMonths,
+  addBusinessDays,
+  startOfTomorrow,
+} from 'date-fns';
+
+import { cancelAppointment, scheduleAppointment } from './actions';
 
 // <-- UI -->
 import {
@@ -10,16 +24,46 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from '@/components/ui/use-toast';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Calendar as CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type AppointmentDescriptionPopupProps = {
   open: boolean;
   onClose: () => void;
   clickedAppointment: Appointment;
 };
+
+// Define Schedule Appointment Form schema
+const formSchema = z.object({
+  scheduled_date: z.date({ required_error: 'A date is required' }),
+  scheduled_time: z.string().nonempty('A time is required'),
+});
 
 const AdminAppointmentDetailsPopup = ({
   open,
@@ -39,6 +83,7 @@ const AdminAppointmentDetailsPopup = ({
     appointment_type,
     is_scheduled,
     scheduled_date,
+    scheduled_time,
     scheduled_by,
     is_cancelled,
   } = clickedAppointment;
@@ -49,9 +94,59 @@ const AdminAppointmentDetailsPopup = ({
   const [isAppointmentCancelled, setIsAppointmentCancelled] = useState(
     Boolean(is_cancelled!),
   );
+  const [isAppointmentScheduled, setIsAppointmentScheduled] = useState(
+    Boolean(is_scheduled!),
+  );
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      scheduled_date: isAppointmentScheduled
+        ? parseISO(clickedAppointment.scheduled_date!)
+        : addBusinessDays(startOfTomorrow(), 1),
+      scheduled_time: isAppointmentScheduled
+        ? clickedAppointment.scheduled_time!.slice(0, -3)
+        : '09:00',
+    },
+    mode: 'onChange',
+  });
+
+  const formatMobilePhone = (phoneNumberString: string) => {
+    const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+    const match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      const intlCode = match[1] ? '+1 ' : '';
+      return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
+    }
+    return null;
+  };
+
+  const generateHoursInterval = (
+    startHourInMinute: number,
+    endHourInMinute: number,
+    interval: number,
+  ) => {
+    const times = [];
+
+    for (let i = 0; startHourInMinute < 24 * 60; i += 1) {
+      if (startHourInMinute > endHourInMinute) break;
+
+      const hh = Math.floor(startHourInMinute / 60); // getting hours of day in 0-24 format
+
+      const mm = startHourInMinute % 60; // getting minutes of the hour in 0-55 format
+
+      times[i] =
+        ('0' + (hh % 24).toString()).slice(-2) +
+        ':' +
+        ('0' + mm.toString()).slice(-2);
+
+      startHourInMinute = startHourInMinute + interval;
+    }
+
+    return times;
+  };
 
   const handleCancelChange = () => {
-    console.log('Change triggered');
     setIsAppointmentCancelled((previousValue) => {
       startTransition(() => {
         cancelAppointment(id!)
@@ -62,8 +157,8 @@ const AdminAppointmentDetailsPopup = ({
                 "The appointment's journey takes a new path as it's officially cancelled.",
             }),
           )
-          .catch((error) => {
-            console.error('Failed to create appointment:', error);
+          .catch((error: Error) => {
+            console.log(error);
             toast({
               title:
                 'Oops, Scheduling Spells Tangled: Appointment Not Cancelled',
@@ -76,14 +171,32 @@ const AdminAppointmentDetailsPopup = ({
     });
   };
 
-  const formatMobilePhone = (phoneNumberString: string) => {
-    const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-    const match = cleaned.match(/^(1|)?(\d{3})(\d{3})(\d{4})$/);
-    if (match) {
-      const intlCode = match[1] ? '+1 ' : '';
-      return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
-    }
-    return null;
+  const onSubmit = ({
+    scheduled_date,
+    scheduled_time,
+  }: {
+    scheduled_date: Date;
+    scheduled_time: string;
+  }) => {
+    startTransition(() => {
+      scheduleAppointment(id!, format(scheduled_date, 'P'), scheduled_time)
+        .then(() =>
+          toast({
+            title: 'Appointment Anchored: Successfully Scheduled!',
+            description:
+              'Congratulations! The appointment is now securely anchored in the schedule.',
+          }),
+        )
+        .catch((error: Error) => {
+          console.log(error);
+          toast({
+            title: 'Oops, Appointment Planetary Alignment Off: Error Detected',
+            description:
+              'Planetary alignment for the appointment is slightly off due to an error.',
+          });
+        });
+    });
+    setIsAppointmentScheduled(true);
   };
 
   const renderStatusBadges = () => {
@@ -162,14 +275,7 @@ const AdminAppointmentDetailsPopup = ({
         </div>
         <div className="flex gap-4">
           <h3 className="font-bold">Requested Date: </h3>
-          <p>
-            {new Date(requested_date!).toLocaleDateString('en-us', {
-              weekday: 'long',
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })}
-          </p>
+          <p>{format(parseISO(requested_date!.toString()), 'PPP')}</p>
         </div>
         <div className="flex gap-4">
           <h3 className="font-bold">Requested Time: </h3>
@@ -182,15 +288,12 @@ const AdminAppointmentDetailsPopup = ({
         <div className="flex gap-4">
           <h3 className="font-bold">Scheduled Date: </h3>
           <p>
-            {is_scheduled
-              ? new Date(scheduled_date!).toLocaleDateString('en-us', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                })
-              : 'N/A'}
+            {is_scheduled ? format(parseISO(scheduled_date!), 'PPP') : 'N/A'}
           </p>
+        </div>
+        <div className="flex gap-4">
+          <h3 className="font-bold">Scheduled Time: </h3>
+          <p>{is_scheduled ? scheduled_time : 'N/A'}</p>
         </div>
         <div className="flex gap-4">
           <h3 className="font-bold">Who scheduled the appointment?: </h3>
@@ -211,6 +314,96 @@ const AdminAppointmentDetailsPopup = ({
           Crafting a Seamless Encounter
         </DialogTitle>
       </DialogHeader>
+      <Form {...form}>
+        <form
+          onSubmit={(event) => void form.handleSubmit(onSubmit)(event)}
+          className="mt-8 space-y-8 bg-background"
+        >
+          <FormField
+            control={form.control}
+            name="scheduled_date"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>
+                  Scheduled Date
+                  <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                </FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-full pl-3 text-left font-normal',
+                          !field.value && 'text-muted-foreground',
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, 'PPP')
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={field.onChange}
+                      disabled={[isSunday, isPast]}
+                      toMonth={addMonths(new Date(), 3)}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="scheduled_time"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Scheduled Time
+                  <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a time to schedule" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <ScrollArea className="h-52">
+                      {generateHoursInterval(60 * 9, 60 * 17, 15).map(
+                        (time) => (
+                          <SelectItem key={time} value={time}>
+                            {time}
+                          </SelectItem>
+                        ),
+                      )}
+                    </ScrollArea>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="mt-4 w-full text-lg">
+            {isAppointmentScheduled
+              ? 'Reschedule Appointment'
+              : 'Schedule Appointment'}
+          </Button>
+        </form>
+      </Form>
     </>
   );
 
