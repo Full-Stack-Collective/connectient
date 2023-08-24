@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition, useState, useEffect } from 'react';
+import { useTransition, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/components/ui/use-toast';
 import * as z from 'zod';
@@ -109,10 +109,10 @@ const AdminAppointmentDetailsPopup = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       scheduled_date: isAppointmentScheduled
-        ? parseISO(clickedAppointment.scheduled_date!)
+        ? parseISO(scheduled_date!)
         : addBusinessDays(startOfTomorrow(), 1),
       scheduled_time: isAppointmentScheduled
-        ? clickedAppointment.scheduled_time?.slice(0, -3)
+        ? scheduled_time?.slice(0, -3)
         : '09:00',
     },
     mode: 'onChange',
