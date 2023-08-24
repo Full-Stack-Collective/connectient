@@ -3,7 +3,6 @@ import AppointmentForm from '@/components/AppointmentForm';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import Image from 'next/image';
 
 const supabase = createServerComponentClient<Database>({ cookies });
 
@@ -31,7 +30,7 @@ export default async function Appointment({
             <h1 className="text-2xl font-semibold">Welcome to {name}</h1>
           ) : null}
           {logo ? (
-            <Image
+            <img
               src={logo}
               className="h-28 w-28 object-contain mx-auto"
               alt={`Logo for a dental practice called ${name}`}
