@@ -58,7 +58,7 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
 
-type AppointmentDescriptionPopupProps = {
+type AdminAppointmentDetailsPopupProps = {
   open: boolean;
   onClose: () => void;
   clickedAppointment: Appointment;
@@ -74,7 +74,7 @@ const AdminAppointmentDetailsPopup = ({
   open,
   onClose,
   clickedAppointment,
-}: AppointmentDescriptionPopupProps) => {
+}: AdminAppointmentDetailsPopupProps) => {
   const {
     id,
     first_name,
