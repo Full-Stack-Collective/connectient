@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition, useState } from 'react';
+import { useTransition, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useToast } from '@/components/ui/use-toast';
 import * as z from 'zod';
@@ -15,7 +15,11 @@ import {
   startOfTomorrow,
 } from 'date-fns';
 
-import { cancelAppointment, scheduleAppointment } from './actions';
+import {
+  cancelAppointment,
+  scheduleAppointment,
+  emailConfirmationHandler,
+} from './actions';
 
 // <-- UI -->
 import {
@@ -52,6 +56,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import ConfirmationEmailData from '@/types/ConfirmationEmailData';
 
 type AppointmentDescriptionPopupProps = {
   open: boolean;
@@ -97,6 +102,8 @@ const AdminAppointmentDetailsPopup = ({
   const [isAppointmentScheduled, setIsAppointmentScheduled] = useState(
     Boolean(is_scheduled!),
   );
+  const [updatedAppointment, setUpdatedAppointment] =
+    useState(clickedAppointment);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -147,27 +154,25 @@ const AdminAppointmentDetailsPopup = ({
   };
 
   const handleCancelChange = () => {
-    setIsAppointmentCancelled((previousValue) => {
-      startTransition(() => {
-        cancelAppointment(id!)
-          .then(() =>
-            toast({
-              title: 'Appointment Unbound: Cancelled Successfully!',
-              description:
-                "The appointment's journey takes a new path as it's officially cancelled.",
-            }),
-          )
-          .catch((error: Error) => {
-            console.log(error);
-            toast({
-              title:
-                'Oops, Scheduling Spells Tangled: Appointment Not Cancelled',
-              description:
-                'Looks like a scheduling hiccup! The appointment remains untouched.',
-            });
+    startTransition(() => {
+      cancelAppointment(id!)
+        .then((data) => {
+          setUpdatedAppointment(data![0]);
+          setIsAppointmentCancelled(true);
+          toast({
+            title: 'Appointment Unbound: Cancelled Successfully!',
+            description:
+              "The appointment's journey takes a new path as it's officially cancelled.",
           });
-      });
-      return !previousValue;
+        })
+        .catch((error: Error) => {
+          console.log(error);
+          toast({
+            title: 'Oops, Scheduling Spells Tangled: Appointment Not Cancelled',
+            description:
+              'Looks like a scheduling hiccup! The appointment remains untouched.',
+          });
+        });
     });
   };
 
@@ -180,13 +185,33 @@ const AdminAppointmentDetailsPopup = ({
   }) => {
     startTransition(() => {
       scheduleAppointment(id!, format(scheduled_date, 'P'), scheduled_time)
-        .then(() =>
+        .then((data) => {
+          setUpdatedAppointment(data![0]);
+          setIsAppointmentScheduled(true);
           toast({
             title: 'Appointment Anchored: Successfully Scheduled!',
             description:
               'Congratulations! The appointment is now securely anchored in the schedule.',
-          }),
-        )
+          });
+          // Send appointment schedule confirmation email
+          const confirmationEmailData: ConfirmationEmailData = {
+            first_name: data![0].first_name,
+            last_name: data![0].last_name,
+            appointment_type: data![0].appointment_type!,
+            scheduled_date: data![0].scheduled_date,
+            scheduled_time: data![0].scheduled_time,
+          };
+          emailConfirmationHandler(confirmationEmailData)
+            .then(() => {
+              console.log(
+                'Successfully sent confirmation email for: ',
+                confirmationEmailData,
+              );
+            })
+            .catch((error: Error) => {
+              console.log(error);
+            });
+        })
         .catch((error: Error) => {
           console.log(error);
           toast({
@@ -196,7 +221,6 @@ const AdminAppointmentDetailsPopup = ({
           });
         });
     });
-    setIsAppointmentScheduled(true);
   };
 
   const renderStatusBadges = () => {
@@ -204,13 +228,13 @@ const AdminAppointmentDetailsPopup = ({
     if (is_emergency) {
       statusList.push('Emergency');
     }
-    if (is_scheduled && !is_cancelled) {
+    if (isAppointmentScheduled && !isAppointmentCancelled) {
       statusList.push('Scheduled');
     }
-    if (is_cancelled) {
+    if (isAppointmentCancelled) {
       statusList.push('Cancelled');
     }
-    if (!is_scheduled && !is_cancelled) {
+    if (!isAppointmentScheduled && !isAppointmentCancelled) {
       statusList.push('Waiting');
     }
 
@@ -288,12 +312,18 @@ const AdminAppointmentDetailsPopup = ({
         <div className="flex gap-4">
           <h3 className="font-bold">Scheduled Date: </h3>
           <p>
-            {is_scheduled ? format(parseISO(scheduled_date!), 'PPP') : 'N/A'}
+            {isAppointmentScheduled
+              ? format(parseISO(updatedAppointment.scheduled_date!), 'PPP')
+              : 'N/A'}
           </p>
         </div>
         <div className="flex gap-4">
           <h3 className="font-bold">Scheduled Time: </h3>
-          <p>{is_scheduled ? scheduled_time : 'N/A'}</p>
+          <p>
+            {isAppointmentScheduled
+              ? updatedAppointment?.scheduled_time
+              : 'N/A'}
+          </p>
         </div>
         <div className="flex gap-4">
           <h3 className="font-bold">Who scheduled the appointment?: </h3>

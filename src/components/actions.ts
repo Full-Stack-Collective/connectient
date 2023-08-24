@@ -94,14 +94,16 @@ export const getAppointment = async (appointmentId: string | undefined) => {
 export const cancelAppointment = async (appointmentId: string) => {
   const supabase = createServerActionClient<Database>({ cookies });
   try {
-    const { error }: { error: PostgrestError | null } = await supabase
+    const { data, error } = await supabase
       .from('Appointments')
       .update({ is_cancelled: true })
-      .eq('id', appointmentId);
+      .eq('id', appointmentId)
+      .select();
 
     if (error) {
       throw new Error('Failed to cancel appointment schedule.');
     }
+    return data;
   } catch (error) {
     console.error(error);
   }
@@ -114,17 +116,20 @@ export const scheduleAppointment = async (
 ) => {
   const supabase = createServerActionClient<Database>({ cookies });
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('Appointments')
       .update({
         is_scheduled: true,
         scheduled_date: scheduledDate,
         scheduled_time: scheduledTime,
       })
-      .eq('id', appointmentId);
+      .eq('id', appointmentId)
+      .select();
+
     if (error) {
       throw new Error('Failed to schedule appointment schedule.');
     }
+    return data;
   } catch (error) {
     console.error(error);
   }
