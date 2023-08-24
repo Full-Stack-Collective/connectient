@@ -105,7 +105,7 @@ const AdminAppointmentDetailsPopup = ({
         ? parseISO(clickedAppointment.scheduled_date!)
         : addBusinessDays(startOfTomorrow(), 1),
       scheduled_time: isAppointmentScheduled
-        ? clickedAppointment.scheduled_time!.slice(0, -3)
+        ? clickedAppointment.scheduled_time?.slice(0, -3)
         : '09:00',
     },
     mode: 'onChange',
@@ -333,6 +333,7 @@ const AdminAppointmentDetailsPopup = ({
                     <FormControl>
                       <Button
                         variant={'outline'}
+                        disabled={is_cancelled!}
                         className={cn(
                           'w-full pl-3 text-left font-normal',
                           !field.value && 'text-muted-foreground',
@@ -375,6 +376,7 @@ const AdminAppointmentDetailsPopup = ({
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  disabled={is_cancelled!}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -397,7 +399,11 @@ const AdminAppointmentDetailsPopup = ({
               </FormItem>
             )}
           />
-          <Button type="submit" className="mt-4 w-full text-lg">
+          <Button
+            type="submit"
+            className="mt-4 w-full text-lg"
+            disabled={is_cancelled!}
+          >
             {isAppointmentScheduled
               ? 'Reschedule Appointment'
               : 'Schedule Appointment'}
