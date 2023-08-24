@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { Badge } from '@/components/ui/badge';
-import { DataTableColumnHeader } from '@/app/admin/dashboard/data-table-column-header';
+import { DataTableColumnHeader } from './data-table-column-header';
 
 export const columns: ColumnDef<Appointment>[] = [
   {

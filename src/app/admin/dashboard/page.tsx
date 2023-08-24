@@ -128,8 +128,6 @@ const AppointmentDemo = async () => {
           <DataTable columns={columns} data={allAppointments!} />
         </TabsContent>
       </Tabs>
-
-      {/* <DataTable columns={columns} data={data!} /> */}
     </main>
   );
 };
