@@ -27,6 +27,7 @@ import {
 
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
+import AdminAppointmentDetailsPopup from '@/components/AdminAppointmentDetailsPopup';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -40,6 +41,8 @@ export const DataTable = <TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [isDetailsPopupOpen, setIsDetailsPopupOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState<Appointment | null>(null);
 
   const supabase = createClientComponentClient<Database>();
   const router = useRouter();
@@ -83,6 +86,11 @@ export const DataTable = <TData, TValue>({
     },
   });
 
+  const handleRowClick = (selectedRow: Appointment) => {
+    setIsDetailsPopupOpen(true);
+    setSelectedRow(selectedRow);
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center">
@@ -90,7 +98,6 @@ export const DataTable = <TData, TValue>({
       </div>
       <div className="rounded-md border bg-background">
         <Table>
-          {' '}
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -115,6 +122,8 @@ export const DataTable = <TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  onClick={() => handleRowClick(row.original as Appointment)}
+                  className="hover:cursor-pointer"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
@@ -139,6 +148,13 @@ export const DataTable = <TData, TValue>({
           </TableBody>
         </Table>
       </div>
+      {isDetailsPopupOpen && (
+        <AdminAppointmentDetailsPopup
+          open={isDetailsPopupOpen}
+          onClose={() => setIsDetailsPopupOpen(false)}
+          clickedAppointment={selectedRow!}
+        />
+      )}
       <DataTablePagination table={table} />
     </div>
   );

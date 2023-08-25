@@ -7,53 +7,43 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { columns } from './columns';
 import { DataTable } from './data-table';
 
-const getEmergencyAppointments = async () => {
-  const supabase = createServerComponentClient({ cookies });
-  return await supabase
+const supabase = createServerComponentClient<Database>({ cookies });
+
+const getEmergencyAppointments = async () =>
+  await supabase
     .from('Appointments')
     .select()
     .match({ is_emergency: true, is_scheduled: false, is_cancelled: false })
     .order('created_at', { ascending: false });
-};
 
-const getNormalAppointments = async () => {
-  const supabase = createServerComponentClient({ cookies });
-  return await supabase
+const getNormalAppointments = async () =>
+  await supabase
     .from('Appointments')
     .select()
     .match({ is_emergency: false, is_scheduled: false, is_cancelled: false })
     .order('created_at', { ascending: false });
-};
 
-const getScheduledAppointments = async () => {
-  const supabase = createServerComponentClient({ cookies });
-  return await supabase
+const getScheduledAppointments = async () =>
+  await supabase
     .from('Appointments')
     .select()
     .match({ is_scheduled: true, is_cancelled: false })
     .order('created_at', { ascending: false });
-};
 
-const getCancelledAppointments = async () => {
-  const supabase = createServerComponentClient({ cookies });
-  return await supabase
+const getCancelledAppointments = async () =>
+  await supabase
     .from('Appointments')
     .select()
     .match({ is_cancelled: true })
     .order('created_at', { ascending: false });
-};
 
-const getAllAppointments = async () => {
-  const supabase = createServerComponentClient({ cookies });
-  return await supabase
+const getAllAppointments = async () =>
+  await supabase
     .from('Appointments')
     .select()
     .order('created_at', { ascending: false });
-};
 
 const AppointmentDemo = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies });
-
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -128,8 +118,6 @@ const AppointmentDemo = async () => {
           <DataTable columns={columns} data={allAppointments!} />
         </TabsContent>
       </Tabs>
-
-      {/* <DataTable columns={columns} data={data!} /> */}
     </main>
   );
 };

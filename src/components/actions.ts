@@ -34,7 +34,6 @@ export const createAppointmentFormAction = async (
       .insert([appointmentData]);
 
     if (error || !appointmentData) {
-      console.log(error);
       throw new Error('Failed to create appointment');
     }
     return appointmentData;
@@ -92,20 +91,45 @@ export const getAppointment = async (appointmentId: string | undefined) => {
   }
 };
 
-export const updateAppointment = async (
+export const cancelAppointment = async (appointmentId: string) => {
+  const supabase = createServerActionClient<Database>({ cookies });
+  try {
+    const { data, error } = await supabase
+      .from('Appointments')
+      .update({ is_cancelled: true })
+      .eq('id', appointmentId)
+      .select();
+
+    if (error) {
+      throw new Error('Failed to cancel appointment schedule.');
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const scheduleAppointment = async (
   appointmentId: string,
-  isScheduled: boolean,
+  scheduledDate: string,
+  scheduledTime: string,
 ) => {
   const supabase = createServerActionClient<Database>({ cookies });
   try {
-    const { error }: { error: PostgrestError | null } = await supabase
+    const { data, error } = await supabase
       .from('Appointments')
-      .update({ is_scheduled: isScheduled })
-      .eq('id', appointmentId);
+      .update({
+        is_scheduled: true,
+        scheduled_date: scheduledDate,
+        scheduled_time: scheduledTime,
+      })
+      .eq('id', appointmentId)
+      .select();
 
     if (error) {
-      throw new Error('Failed to update appointment schedule.');
+      throw new Error('Failed to schedule appointment schedule.');
     }
+    return data;
   } catch (error) {
     console.error(error);
   }
