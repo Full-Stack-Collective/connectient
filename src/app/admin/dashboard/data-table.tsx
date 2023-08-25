@@ -98,7 +98,6 @@ export const DataTable = <TData, TValue>({
       </div>
       <div className="rounded-md border bg-background">
         <Table>
-          {' '}
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
