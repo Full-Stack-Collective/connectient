@@ -49,7 +49,11 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
         logoLink="/admin"
       />
       <div className="px-4 py-2 m-auto max-w-7xl w-full">{children}</div>
-      <Footer menuList={ADMIN_PORTAL_FOOTER_MENU} logoLink="/admin" />
+      <Footer
+        menuList={ADMIN_PORTAL_FOOTER_MENU}
+        logoLink="/admin"
+        isUserPage={true}
+      />
     </div>
   );
 };

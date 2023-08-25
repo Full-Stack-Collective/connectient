@@ -38,7 +38,11 @@ const Home = () => {
         />
         <Features features={PATIENT_PORTAL_FEATURES} />
       </div>
-      <Footer menuList={PATIENT_PORTAL_FOOTER_MENU} logoLink="/" />
+      <Footer
+        menuList={PATIENT_PORTAL_FOOTER_MENU}
+        logoLink="/"
+        isUserPage={false}
+      />
     </div>
   );
 };
