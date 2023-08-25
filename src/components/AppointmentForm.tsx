@@ -111,8 +111,10 @@ const AppointmentForm = ({
   });
 
   const onSubmit = (createdAppointment: Appointment) => {
-    setCreatedAppointment({ ...createdAppointment, practice_id: practiceId });
-    setIsAppointmentDetailsPopupOpen(true);
+    if (formStep == 1) {
+      setCreatedAppointment({ ...createdAppointment, practice_id: practiceId });
+      setIsAppointmentDetailsPopupOpen(true);
+    }
   };
 
   const handleConfirmAppointment = (createdAppointment: Appointment) => {
