@@ -293,10 +293,12 @@ const AdminAppointmentDetailsPopup = ({
               : 'N/A'}
           </p>
         </div>
-        <div className="flex flex-col gap-1">
-          <h3 className="font-bold">Description: </h3>
-          <p className="ml-2">{description ? description : 'N/A'}</p>
-        </div>
+        {description ? (
+          <div className="flex flex-col gap-1">
+            <h3 className="font-bold">Description: </h3>
+            <p className="ml-2">{description}</p>
+          </div>
+        ) : null}
         <div className="flex gap-4">
           <h3 className="font-bold">Requested Date: </h3>
           <p>{format(parseISO(requested_date!.toString()), 'PPP')}</p>
@@ -314,7 +316,7 @@ const AdminAppointmentDetailsPopup = ({
           <p>
             {isAppointmentScheduled
               ? format(parseISO(updatedAppointment.scheduled_date!), 'PPP')
-              : 'N/A'}
+              : 'Not scheduled yet'}
           </p>
         </div>
         <div className="flex gap-4">
@@ -322,13 +324,15 @@ const AdminAppointmentDetailsPopup = ({
           <p>
             {isAppointmentScheduled
               ? updatedAppointment?.scheduled_time
-              : 'N/A'}
+              : 'Not scheduled yet'}
           </p>
         </div>
-        <div className="flex gap-4">
-          <h3 className="font-bold">Who scheduled the appointment?: </h3>
-          <p>{scheduled_by ?? 'N/A'}</p>
-        </div>
+        {scheduled_by ? (
+          <div className="flex gap-4">
+            <h3 className="font-bold">Who scheduled the appointment?: </h3>
+            <p>{scheduled_by}</p>
+          </div>
+        ) : null}
       </div>
     </>
   );
