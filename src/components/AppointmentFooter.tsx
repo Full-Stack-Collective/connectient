@@ -22,47 +22,49 @@ export const AppointmentFooter = ({
   website,
 }: PracticeContactInfo) => {
   return (
-    <footer>
-      {website ? (
-        <Link
-          href={website}
-          className={buttonVariants({ variant: 'outline', size: 'sm' })}
-        >
-          To the {name} website
-          <ChevronRight />
-        </Link>
-      ) : null}
+    <footer className="w-full max-w-7xl bg-background text-sm">
+      <div className="m-auto pt-6 md:pt-4 pb-1 px-4 flex flex-col gap-4 md:flex-row justify-center items-stretch">
+        {website ? (
+          <Link
+            href={website}
+            className={buttonVariants({ variant: 'outline', size: 'sm' })}
+          >
+            To the {name} website
+            <ChevronRight />
+          </Link>
+        ) : null}
 
-      <address className="ml-2 text-center md:text-start text-base font-light not-italic">
-        <p>{name}</p>
-        <p>{streetAddress}</p>
-        <p>{city}</p>
-        <p>
-          <a
-            href={`tel:${phone}}`}
-            className="no-underline transition-all hover:underline ease-in-out"
-          >
-            {phone}
-          </a>
-        </p>
-      </address>
-      <div className="w-full flex gap-2 md:flex-col justify-center md:justify-start md:items-end">
-        {facebook ? (
-          <a
-            href={`https://www.facebook.com/${facebook}/`}
-            className="no-underline transition-all flex gap-1 hover:underline ease-in-out"
-          >
-            <Facebook /> Facebook
-          </a>
-        ) : null}
-        {instagram ? (
-          <a
-            href={`https://www.instagram.com/${instagram}`}
-            className="no-underline transition-all flex gap-1 hover:underline ease-in-out"
-          >
-            <Instagram /> Instagram
-          </a>
-        ) : null}
+        <address className="w-full text-center md:text-start not-italic flex flex-col gap-1 justify-center items-center">
+          <p>{name}</p>
+          <p>{streetAddress}</p>
+          <p>{city}</p>
+          <p>
+            <a
+              href={`tel:${phone}}`}
+              className="no-underline transition-all hover:underline ease-in-out"
+            >
+              {phone}
+            </a>
+          </p>
+        </address>
+        <div className="flex gap-2 md:flex-col justify-center md:justify-start md:items-end">
+          {facebook ? (
+            <a
+              href={`https://www.facebook.com/${facebook}/`}
+              className="no-underline transition-all flex gap-1 hover:underline ease-in-out"
+            >
+              <Facebook /> Facebook
+            </a>
+          ) : null}
+          {instagram ? (
+            <a
+              href={`https://www.instagram.com/${instagram}`}
+              className="no-underline transition-all flex gap-1 hover:underline ease-in-out"
+            >
+              <Instagram /> Instagram
+            </a>
+          ) : null}
+        </div>
       </div>
     </footer>
   );
