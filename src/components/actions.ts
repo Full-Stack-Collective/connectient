@@ -79,7 +79,7 @@ export const getAppointment = async (appointmentId: string | undefined) => {
     const { data, error } = await supabase
       .from('Appointments')
       .select(
-        'first_name, last_name, appointment_type, scheduled_date, scheduled_time',
+        'first_name, last_name, email, appointment_type, scheduled_date, scheduled_time',
       )
       .eq('id', appointmentId);
     if (error) {
