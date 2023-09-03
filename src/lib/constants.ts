@@ -1,22 +1,22 @@
 export const PATIENT_PORTAL_LAYOUT_MENU = [
   { name: 'Home', link: '/' },
   { name: 'Features', link: '/' },
-  { name: 'Request Appointment', link: '/appointment' },
+  { name: 'Login', link: '/admin' },
 ];
 
 export const PATIENT_PORTAL_FOOTER_MENU = [
   { name: 'Home', link: '/' },
   { name: 'Features', link: '/' },
-  { name: 'Request Appointment', link: '/appointment' },
+  // { name: 'Request Appointment', link: '/appointment' },
 ];
 
 export const ADMIN_PORTAL_LAYOUT_MENU = [
-  { name: 'Home', link: '/admin' },
-  { name: 'Features', link: '/admin' },
+  // { name: 'Home', link: '/admin' },
+  // { name: 'Features', link: '/admin' },
 ];
 
 export const ADMIN_PORTAL_FOOTER_MENU = [
-  { name: 'Home', link: '/admin' },
+  { name: 'Home', link: '/' },
   { name: 'Features', link: '/admin' },
 ];
 

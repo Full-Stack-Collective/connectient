@@ -53,6 +53,7 @@ import { cn } from '@/lib/utils';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from './ui/toast';
 import { error } from 'console';
+import Image from 'next/image';
 
 const formSchema = z.object({
   first_name: z
@@ -181,9 +182,10 @@ const AppointmentForm = ({
         <CardHeader>
           <CardTitle className="flex gap-2 items-center justify-center text-center">
             {practiceLogo ? (
-              <img
+              <Image
                 src={practiceLogo}
-                className="h-28 w-28 object-contain"
+                width={128}
+                height={128}
                 alt={`Logo for a dental practice called ${practiceName}`}
               />
             ) : null}

@@ -24,7 +24,7 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
       return [
         {
           name: 'Login',
-          link: '/admin/unauthenticated',
+          link: '/login',
         },
       ];
     }
@@ -46,7 +46,7 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
     <div className="min-h-screen py-2 flex flex-col">
       <Header
         menuList={[...ADMIN_PORTAL_LAYOUT_MENU, ...getAuthenticationMenuLink()]}
-        logoLink="/admin"
+        logoLink="/"
       />
       <div className="px-4 py-2 m-auto max-w-7xl w-full">{children}</div>
       <Footer
