@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'; //remove this when proper fix has been i
 
 import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { headers } from 'next/headers';
 
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -18,13 +19,16 @@ const AdminLayout = async ({ children }: { children: React.ReactNode }) => {
     data: { session },
   } = await supabase.auth.getSession();
 
+  const headersList = headers();
+  const activePath = headersList.get('x-invoke-path');
+
   const getAuthenticationMenuLink = () => {
     // If user not authenticated, display only Login menu
     if (!session) {
       return [
         {
           name: 'Login',
-          link: '/login',
+          link: '/admin/login',
         },
       ];
     }

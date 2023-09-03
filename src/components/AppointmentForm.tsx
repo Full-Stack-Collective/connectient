@@ -189,7 +189,9 @@ const AppointmentForm = ({
                 alt={`Logo for a dental practice called ${practiceName}`}
               />
             ) : null}
-            {practiceName ? practiceName : null}
+            {practiceName ? (
+              <p className="text-xl text-slate-700">{practiceName}</p>
+            ) : null}
           </CardTitle>
         </CardHeader>
         <CardContent>

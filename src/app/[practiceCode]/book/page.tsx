@@ -20,7 +20,7 @@ export default async function Appointment({
 
   if (!data || data?.length < 1) redirect('/');
 
-  const [{ id, name, logo, street_addresss, city, phone }] = data as Practice[];
+  const [{ id, name, logo, street_address, city, phone }] = data as Practice[];
 
   return (
     <>
@@ -39,7 +39,7 @@ export default async function Appointment({
         />
         <AppointmentFooter
           name={name}
-          streetAddress={street_addresss!}
+          streetAddress={street_address as string}
           city={city}
           phone={phone!}
         />
