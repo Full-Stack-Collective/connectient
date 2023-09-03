@@ -2,6 +2,8 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+import LoginForm from '@/components/LoginForm';
+
 const Login = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });
 
@@ -11,7 +13,9 @@ const Login = async () => {
 
   if (session) {
     redirect('/admin/dashboard');
-  } else redirect('/admin/login');
+  }
+
+  return <LoginForm />;
 };
 
 export default Login;

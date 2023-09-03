@@ -1,7 +1,7 @@
 export const PATIENT_PORTAL_LAYOUT_MENU = [
   { name: 'Home', link: '/' },
   { name: 'Features', link: '/' },
-  { name: 'Login', link: '/admin' },
+  { name: 'Login', link: '/admin/login' },
 ];
 
 export const PATIENT_PORTAL_FOOTER_MENU = [
@@ -17,7 +17,7 @@ export const ADMIN_PORTAL_LAYOUT_MENU = [
 
 export const ADMIN_PORTAL_FOOTER_MENU = [
   { name: 'Home', link: '/' },
-  { name: 'Features', link: '/admin' },
+  { name: 'Features', link: '/' },
 ];
 
 export const PATIENT_PORTAL_FEATURES = [
