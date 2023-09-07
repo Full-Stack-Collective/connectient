@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import {
+  Session,
+  createClientComponentClient,
+} from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
@@ -25,9 +28,10 @@ type HeaderProps = {
     link: string;
   }[];
   logoLink: string;
+  session: Session | null;
 };
 
-const Header = ({ menuList, logoLink }: HeaderProps) => {
+const Header = ({ menuList, logoLink, session }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
 

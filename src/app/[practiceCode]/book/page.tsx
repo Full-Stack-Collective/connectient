@@ -1,5 +1,6 @@
 import { AppointmentFooter } from '@/components/AppointmentFooter';
 import AppointmentForm from '@/components/AppointmentForm';
+import AppointmentHeader from '@/components/AppointmentHeader';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -25,18 +26,15 @@ export default async function Appointment({
   return (
     <>
       <main className="flex-1 flex flex-col gap-2 justify-center items-center">
-        <h1 className="mt-8 mb-6 w-full max-w-lg text-4xl font-extrabold tracking-wide leading-2 text-center md:leading-snug">
+        <AppointmentHeader practiceLogo={logo} practiceName={name} />
+        <h2 className="mt-4 mb-6 w-full max-w-lg sm:text-3xl text-2xl font-extrabold tracking-wide leading-2 text-center md:leading-snug">
           Request Your{' '}
           <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
             Next Appointment
           </span>{' '}
           Expedition
-        </h1>
-        <AppointmentForm
-          practiceId={id}
-          practiceName={name}
-          practiceLogo={logo}
-        />
+        </h2>
+        <AppointmentForm practiceId={id} />
         <AppointmentFooter
           name={name}
           streetAddress={street_address as string}

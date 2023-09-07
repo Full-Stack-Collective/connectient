@@ -73,15 +73,7 @@ const formSchema = z.object({
   is_emergency: z.boolean().default(false),
 });
 
-const AppointmentForm = ({
-  practiceId,
-  practiceName,
-  practiceLogo,
-}: {
-  practiceId: string;
-  practiceName: string;
-  practiceLogo: string | null;
-}) => {
+const AppointmentForm = ({ practiceId }: { practiceId: string }) => {
   const [, startTransition] = useTransition();
   const [createdAppointment, setCreatedAppointment] =
     useState<Appointment | null>(null);
@@ -179,21 +171,7 @@ const AppointmentForm = ({
   return (
     <>
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="flex gap-2 items-center justify-center text-center">
-            {practiceLogo ? (
-              <Image
-                src={practiceLogo}
-                width={128}
-                height={128}
-                alt={`Logo for a dental practice called ${practiceName}`}
-              />
-            ) : null}
-            {practiceName ? (
-              <p className="text-xl text-slate-700">{practiceName}</p>
-            ) : null}
-          </CardTitle>
-        </CardHeader>
+        <CardHeader></CardHeader>
         <CardContent>
           <Form {...form}>
             <form
