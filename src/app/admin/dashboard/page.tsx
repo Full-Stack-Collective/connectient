@@ -1,14 +1,17 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-
+import Image from 'next/image';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 import { columns } from './columns';
 import { DataTable } from './data-table';
 
 const supabase = createServerComponentClient<Database>({ cookies });
-
+type Practice = {
+  name: string;
+  logo: string | null;
+};
 const getEmergencyAppointments = async () =>
   await supabase
     .from('Appointments')
@@ -42,7 +45,27 @@ const getAllAppointments = async () =>
     .from('Appointments')
     .select()
     .order('created_at', { ascending: false });
+const getUserPracticeInfo = async (email: string): Promise<Practice | null> => {
+  const userData = await supabase
+    .from('Users')
+    .select('practice_id')
+    .eq('email', email)
+    .single();
 
+  if (userData.error || !userData.data) {
+    return null;
+  }
+
+  const practiceID = userData.data.practice_id;
+
+  const { data: practiceInfo }: { data: Practice[] | null } = await supabase
+    .from('Practice')
+    .select('name, logo')
+    .eq('id', practiceID)
+    .single();
+
+  return practiceInfo || null;
+};
 const AppointmentDemo = async () => {
   const {
     data: { session },
@@ -51,6 +74,9 @@ const AppointmentDemo = async () => {
   if (!session) {
     redirect('/admin/login');
   }
+  const email = session.user.email;
+  const practiceInfo = await getUserPracticeInfo(email);
+
   // Get all the data
   const { data: emergencyAppointments }: { data: Appointment[] | null } =
     await getEmergencyAppointments();
@@ -66,10 +92,27 @@ const AppointmentDemo = async () => {
   return (
     <main className="flex-1 container mx-auto pt-4 pb-10">
       <h1 className="mt-8 mb-12 w-full text-4xl font-extrabold tracking-wide leading-2 text-center md:leading-snug">
-        Connectient Control Tower:{' '}
-        <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
-          Elevating Patient Experiences
-        </span>
+        {practiceInfo ? (
+          <div className="flex items-center">
+            {practiceInfo.logo && (
+              <Image
+                src={practiceInfo.logo}
+                alt={practiceInfo.name || ''}
+                width={260}
+                height={260}
+                className="w-8 h-8 rounded-full mr-2"
+              />
+            )}
+            {practiceInfo.name}
+          </div>
+        ) : (
+          <>
+            Connectient Control Tower:{' '}
+            <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
+              Elevating Patient Experiences
+            </span>
+          </>
+        )}
       </h1>
       <Tabs
         defaultValue="emergency"
