@@ -53,6 +53,7 @@ import { cn } from '@/lib/utils';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from './ui/toast';
 import { error } from 'console';
+import Image from 'next/image';
 
 const formSchema = z.object({
   first_name: z
@@ -72,15 +73,7 @@ const formSchema = z.object({
   is_emergency: z.boolean().default(false),
 });
 
-const AppointmentForm = ({
-  practiceId,
-  practiceName,
-  practiceLogo,
-}: {
-  practiceId: string;
-  practiceName: string;
-  practiceLogo: string | null;
-}) => {
+const AppointmentForm = ({ practiceId }: { practiceId: string }) => {
   const [, startTransition] = useTransition();
   const [createdAppointment, setCreatedAppointment] =
     useState<Appointment | null>(null);
@@ -178,18 +171,7 @@ const AppointmentForm = ({
   return (
     <>
       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="flex gap-2 items-center justify-center text-center">
-            {practiceLogo ? (
-              <img
-                src={practiceLogo}
-                className="h-28 w-28 object-contain"
-                alt={`Logo for a dental practice called ${practiceName}`}
-              />
-            ) : null}
-            {practiceName ? practiceName : null}
-          </CardTitle>
-        </CardHeader>
+        <CardHeader></CardHeader>
         <CardContent>
           <Form {...form}>
             <form

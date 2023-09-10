@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 
 import LoginForm from '@/components/LoginForm';
 
-const Unauthenticated = async () => {
+const Login = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });
 
   const {
@@ -18,4 +18,4 @@ const Unauthenticated = async () => {
   return <LoginForm />;
 };
 
-export default Unauthenticated;
+export default Login;

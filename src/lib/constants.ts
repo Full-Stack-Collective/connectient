@@ -1,23 +1,36 @@
-export const PATIENT_PORTAL_LAYOUT_MENU = [
-  { name: 'Home', link: '/' },
-  { name: 'Features', link: '/' },
-  { name: 'Request Appointment', link: '/appointment' },
-];
+import { Session } from '@supabase/supabase-js';
 
-export const PATIENT_PORTAL_FOOTER_MENU = [
-  { name: 'Home', link: '/' },
-  { name: 'Features', link: '/' },
-  { name: 'Request Appointment', link: '/appointment' },
-];
+export const getNavigationLinks = (supabaseSession: Session) => {
+  // If user not authenticated, display only Login menu
+  if (!supabaseSession) {
+    return [
+      {
+        name: 'Features',
+        link: '/features',
+      },
+      {
+        name: 'Login',
+        link: '/admin/login',
+      },
+    ];
+  }
 
-export const ADMIN_PORTAL_LAYOUT_MENU = [
-  { name: 'Home', link: '/admin' },
-  { name: 'Features', link: '/admin' },
-];
+  // If user is already authenticated, display Logout & Dashboard menu
+  return [
+    {
+      name: 'Dashboard',
+      link: '/admin/dashboard',
+    },
+    {
+      name: 'Logout',
+      link: '/admin',
+    },
+  ];
+};
 
 export const ADMIN_PORTAL_FOOTER_MENU = [
-  { name: 'Home', link: '/admin' },
-  { name: 'Features', link: '/admin' },
+  { name: 'Home', link: '/' },
+  { name: 'Features', link: '/' },
 ];
 
 export const PATIENT_PORTAL_FEATURES = [

@@ -142,7 +142,7 @@ export interface Database {
           owner: string | null;
           phone: string | null;
           practice_code: string | null;
-          street_addresss: string | null;
+          street_address: string | null;
         };
         Insert: {
           city: string;
@@ -154,7 +154,7 @@ export interface Database {
           owner?: string | null;
           phone?: string | null;
           practice_code?: string | null;
-          street_addresss?: string | null;
+          street_address?: string | null;
         };
         Update: {
           city?: string;
@@ -166,7 +166,7 @@ export interface Database {
           owner?: string | null;
           phone?: string | null;
           practice_code?: string | null;
-          street_addresss?: string | null;
+          street_address?: string | null;
         };
         Relationships: [
           {

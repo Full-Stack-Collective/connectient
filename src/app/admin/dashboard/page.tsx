@@ -49,7 +49,7 @@ const AppointmentDemo = async () => {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect('/admin/unauthenticated');
+    redirect('/admin/login');
   }
   // Get all the data
   const { data: emergencyAppointments }: { data: Appointment[] | null } =
