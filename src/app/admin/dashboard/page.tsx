@@ -58,7 +58,7 @@ const getUserPracticeInfo = async (email: string): Promise<Practice | null> => {
 
   const practiceID = userData.data.practice_id;
 
-  const { data: practiceInfo }: { data: Practice[] | null } = await supabase
+  const { data: practiceInfo }: { data: Practice | null } = await supabase
     .from('Practice')
     .select('name, logo')
     .eq('id', practiceID)
@@ -75,6 +75,11 @@ const AppointmentDemo = async () => {
     redirect('/admin/login');
   }
   const email = session.user.email;
+
+  if (!email) {
+    console.error('Something went wrong');
+    return null;
+  }
   const practiceInfo = await getUserPracticeInfo(email);
 
   // Get all the data
@@ -92,28 +97,25 @@ const AppointmentDemo = async () => {
   return (
     <main className="flex-1 container mx-auto pt-4 pb-10">
       <h1 className="mt-8 mb-12 w-full text-4xl font-extrabold tracking-wide leading-2 text-center md:leading-snug">
-        {practiceInfo ? (
-          <div className="flex items-center">
-            {practiceInfo.logo && (
-              <Image
-                src={practiceInfo.logo}
-                alt={practiceInfo.name || ''}
-                width={260}
-                height={260}
-                className="w-8 h-8 rounded-full mr-2"
-              />
-            )}
-            {practiceInfo.name}
-          </div>
-        ) : (
-          <>
-            Connectient Control Tower:{' '}
-            <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
-              Elevating Patient Experiences
-            </span>
-          </>
-        )}
+        Connectient Control Tower:{' '}
+        <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
+          Elevating Patient Experiences
+        </span>
       </h1>
+      {practiceInfo && (
+        <div className=" text-m mb-8 font-bold flex justify-center items-center ">
+          {practiceInfo.logo && (
+            <Image
+              src={practiceInfo.logo}
+              alt={practiceInfo.name || ''}
+              width={120}
+              height={120}
+            />
+          )}
+          {practiceInfo.name} Dashboard
+        </div>
+      )}
+
       <Tabs
         defaultValue="emergency"
         className="border p-2 rounded-md bg-background"
