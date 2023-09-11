@@ -96,14 +96,8 @@ const AppointmentDemo = async () => {
 
   return (
     <main className="flex-1 container mx-auto pt-4 pb-10">
-      <h1 className="mt-8 mb-12 w-full text-4xl font-extrabold tracking-wide leading-2 text-center md:leading-snug">
-        Connectient Control Tower:{' '}
-        <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
-          Elevating Patient Experiences
-        </span>
-      </h1>
       {practiceInfo && (
-        <div className=" text-m mb-8 font-bold flex justify-center items-center ">
+        <div className=" text-3xl font-bold flex justify-center items-center ">
           {practiceInfo.logo && (
             <Image
               src={practiceInfo.logo}
@@ -115,6 +109,12 @@ const AppointmentDemo = async () => {
           {practiceInfo.name} Dashboard
         </div>
       )}
+      <h1 className="mt-4 mb-12 text-2xl w-full  font-extrabold tracking-wide leading-2 text-center md:leading-snug">
+        Connectient Control Tower:{' '}
+        <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
+          Elevating Patient Experiences
+        </span>
+      </h1>
 
       <Tabs
         defaultValue="emergency"
