@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'; //remove this when proper fix has been implemented
+
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';

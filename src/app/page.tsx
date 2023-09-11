@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'; //remove this when proper fix has been implemented
+
 import { cookies } from 'next/headers';
 import {
   Session,

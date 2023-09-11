@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'; //remove this when proper fix has been implemented
+
 import { AppointmentFooter } from '@/components/AppointmentFooter';
 import AppointmentForm from '@/components/AppointmentForm';
 import AppointmentHeader from '@/components/AppointmentHeader';
