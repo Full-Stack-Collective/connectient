@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://connectient.co/" target="_blank">
-    <img src="https://raw.githubusercontent.com/5hraddha/misc/master/images/connectient-logo.png" width=600 alt="connectient logo" />
+    <img src="https://raw.githubusercontent.com/5hraddha/misc/master/images/connectient-logo.png" width=400 alt="connectient logo" />
   </a>
   <p align="center">
     <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" height=20 alt="typescript">
