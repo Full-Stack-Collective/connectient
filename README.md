@@ -14,6 +14,9 @@
 
 **Connectient** is a web application designed to streamline the process of requesting medical appointments for patients while providing healthcare providers with a powerful scheduling and management tool. With a user-friendly interface, robust features, and a commitment to enhancing the patient experience, Connectient aims to bridge the gap between patients and medical practices.
 
+https://github.com/Full-Stack-Collective/connectient/assets/27571141/95480877-f920-4f39-aa85-281ba5df89e0
+
+
 ## Key Features
 
 1. **Patient Appointment Requests**: Patients can easily request appointments with their preferred healthcare providers, choosing dates and times that suit their schedules.
