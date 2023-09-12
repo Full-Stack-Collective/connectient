@@ -4,7 +4,7 @@ import './globals.css';
 
 export const metadata = {
   title: 'Connectient',
-  description: 'Appointment request system',
+  description: 'Appointments Made Easy',
 };
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
