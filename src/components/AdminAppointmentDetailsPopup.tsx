@@ -197,19 +197,21 @@ const AdminAppointmentDetailsPopup = ({
           const confirmationEmailData: ConfirmationEmailData = {
             first_name: data![0].first_name,
             last_name: data![0].last_name,
+            email: data![0].email,
             appointment_type: data![0].appointment_type!,
             scheduled_date: data![0].scheduled_date,
             scheduled_time: data![0].scheduled_time,
           };
           emailConfirmationHandler(confirmationEmailData)
             .then(() => {
-              console.log(
-                'Successfully sent confirmation email for: ',
-                confirmationEmailData,
-              );
+              toast({
+                title: 'Successfully sent confirmation email!',
+                description:
+                  'The patient has been sent an email with the details of this confirmed appointment.',
+              });
             })
             .catch((error: Error) => {
-              console.log(error);
+              console.log('Failed to send confirmation email: ', error);
             });
         })
         .catch((error: Error) => {

@@ -126,9 +126,14 @@ const AppointmentForm = ({ practiceId }: { practiceId: string }) => {
           emailHandler(createdAppointment)
             .then(() => {
               console.log('Sucessfully sent email for appointment');
+              toast({
+                title: 'Request email sent!',
+                description:
+                  'A message was sent to the provided email containing the appointment request information.',
+              });
             })
             .catch((error: Error) => {
-              console.log(error);
+              console.log('Failed to send request email: ', error);
             });
         })
         .catch((error) => {
