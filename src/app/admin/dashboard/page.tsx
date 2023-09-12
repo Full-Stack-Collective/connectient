@@ -116,16 +116,13 @@ const AppointmentDemo = async () => {
         </span>
       </h1>
 
-      <Tabs
-        defaultValue="emergency"
-        className="border p-2 rounded-md bg-background"
-      >
+      <Tabs defaultValue="all" className="border p-2 rounded-md bg-background">
         <TabsList className="flex flex-col h-full gap-2 py-2 sm:inline-flex sm:flex-row sm:p-1">
+          <TabsTrigger value="all">All</TabsTrigger>
           <TabsTrigger value="emergency">Emergency</TabsTrigger>
           <TabsTrigger value="normal">Normal</TabsTrigger>
           <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
           <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
-          <TabsTrigger value="all">All</TabsTrigger>
         </TabsList>
         <TabsContent value="emergency">
           <p className="text-sm p-4 text-muted-foreground">
