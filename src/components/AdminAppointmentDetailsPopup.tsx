@@ -204,10 +204,6 @@ const AdminAppointmentDetailsPopup = ({
           };
           emailConfirmationHandler(confirmationEmailData)
             .then(() => {
-              console.log(
-                'Successfully sent confirmation email for: ',
-                confirmationEmailData,
-              );
               toast({
                 title: 'Successfully sent confirmation email!',
                 description:
