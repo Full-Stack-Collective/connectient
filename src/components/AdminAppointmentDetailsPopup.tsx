@@ -93,7 +93,7 @@ const AdminAppointmentDetailsPopup = ({
     is_cancelled,
   } = clickedAppointment;
 
-  const Seven_30_AM_IN_MINUTES = 60 * 7.5;
+  const SEVEN_30_AM_IN_MINUTES = 60 * 7.5;
   const FIVE_PM_IN_MINUTES = 60 * 17;
   const INTERVAL_IN_MINUTES = 15;
 
@@ -432,7 +432,7 @@ const AdminAppointmentDetailsPopup = ({
                   <SelectContent>
                     <ScrollArea className="h-52">
                       {generateHoursInterval(
-                        Seven_30_AM_IN_MINUTES,
+                        SEVEN_30_AM_IN_MINUTES,
                         FIVE_PM_IN_MINUTES,
                         INTERVAL_IN_MINUTES,
                       ).map((time) => (
