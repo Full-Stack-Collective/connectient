@@ -141,9 +141,9 @@ const AdminAppointmentDetailsPopup = ({
       const hh = Math.floor(startHourInMinute / 60); // getting hours of day in 0-24 format
 
       const mm = startHourInMinute % 60; // getting minutes of the hour in 0-55 format
-      const ampm = hh < 12 ? 'AM' : 'PM';
-      const hh12 = hh % 12 || 12;
-      // const hh12 = hh === 0 ? 12 : hh > 12 ? hh - 12 : hh;
+      const ampm = hh < 12 ? 'AM' : 'PM'; // If hh less than 12, it is AM, otherwise, it is PM
+      const hh12 = hh % 12 || 12; //midnight
+
       times[i] = `${('0' + hh12.toString()).slice(-2)}:${(
         '0' + mm.toString()
       ).slice(-2)} ${ampm}`;
@@ -325,8 +325,13 @@ const AdminAppointmentDetailsPopup = ({
         <div className="flex gap-4">
           <h3 className="font-bold">Scheduled Time: </h3>
           <p>
-            {isAppointmentScheduled
-              ? updatedAppointment?.scheduled_time
+            {isAppointmentScheduled &&
+            updatedAppointment?.scheduled_time &&
+            typeof updatedAppointment.scheduled_time === 'string'
+              ? format(
+                  new Date(`1970-01-01T${updatedAppointment.scheduled_time}`),
+                  'h:mm a',
+                )
               : 'Not scheduled yet'}
           </p>
         </div>
