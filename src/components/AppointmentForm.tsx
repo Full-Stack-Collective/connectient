@@ -2,11 +2,7 @@
 
 import { useTransition, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  createAppointmentFormAction,
-  emailHandler,
-  getPractice,
-} from './actions';
+import { createAppointmentFormAction, emailHandler } from './actions';
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
 import 'react-phone-number-input/style.css';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';

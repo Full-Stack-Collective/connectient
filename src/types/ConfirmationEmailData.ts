@@ -5,6 +5,7 @@ type ConfirmationEmailData = {
   appointment_type: string | null;
   scheduled_date: string | null | undefined;
   scheduled_time: string | null | undefined;
+  practice_id: string | null | undefined;
 };
 
 export default ConfirmationEmailData;

@@ -201,6 +201,7 @@ const AdminAppointmentDetailsPopup = ({
             appointment_type: data![0].appointment_type!,
             scheduled_date: data![0].scheduled_date,
             scheduled_time: data![0].scheduled_time,
+            practice_id: data![0].practice_id,
           };
           emailConfirmationHandler(confirmationEmailData)
             .then(() => {
