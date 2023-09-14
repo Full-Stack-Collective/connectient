@@ -142,8 +142,8 @@ const AdminAppointmentDetailsPopup = ({
 
       const mm = startHourInMinute % 60; // getting minutes of the hour in 0-55 format
       const ampm = hh < 12 ? 'AM' : 'PM';
-      const hh12 = hh === 0 ? 12 : hh > 12 ? hh - 12 : hh;
-
+      const hh12 = hh % 12 || 12;
+      // const hh12 = hh === 0 ? 12 : hh > 12 ? hh - 12 : hh;
       times[i] = `${('0' + hh12.toString()).slice(-2)}:${(
         '0' + mm.toString()
       ).slice(-2)} ${ampm}`;
