@@ -2,7 +2,11 @@
 
 import { useTransition, useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { createAppointmentFormAction, emailHandler } from './actions';
+import {
+  createAppointmentFormAction,
+  emailHandler,
+  getPractice,
+} from './actions';
 import PhoneInputWithCountry from 'react-phone-number-input/react-hook-form';
 import 'react-phone-number-input/style.css';
 import { isPossiblePhoneNumber } from 'react-phone-number-input';
@@ -125,7 +129,6 @@ const AppointmentForm = ({ practiceId }: { practiceId: string }) => {
           setIsAppointmentDetailsPopupOpen(false);
           emailHandler(createdAppointment)
             .then(() => {
-              console.log('Sucessfully sent email for appointment');
               toast({
                 title: 'Request email sent!',
                 description:

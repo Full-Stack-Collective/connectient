@@ -49,9 +49,11 @@ export const createAppointmentFormAction = async (
 
 export const emailHandler = async (appointmentData: Appointment) => {
   try {
+    const practice = await getPractice(appointmentData.practice_id);
+
     await transporter.sendMail({
       ...mailOptions,
-      ...generateEmailContent(appointmentData),
+      ...generateEmailContent(appointmentData, practice[0]),
     });
     return appointmentData;
   } catch (error) {
@@ -84,6 +86,22 @@ export const getAppointment = async (appointmentId: string | undefined) => {
       .eq('id', appointmentId);
     if (error) {
       throw new Error('Failed to find appointment.');
+    }
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getPractice = async (practiceId: string | null | undefined) => {
+  const supabase = createServerActionClient<Database>({ cookies });
+  try {
+    const { data, error } = await supabase
+      .from('Practice')
+      .select('name, city, phone, email, logo, website, street_address')
+      .eq('id', practiceId);
+    if (error) {
+      throw new Error('Failed to find practice.');
     }
     return data;
   } catch (error) {
