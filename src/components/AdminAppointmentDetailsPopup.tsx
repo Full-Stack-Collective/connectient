@@ -93,6 +93,10 @@ const AdminAppointmentDetailsPopup = ({
     is_cancelled,
   } = clickedAppointment;
 
+  const Seven_30_AM_IN_MINUTES = 60 * 7.5;
+  const FIVE_PM_IN_MINUTES = 60 * 17;
+  const INTERVAL_IN_MINUTES = 15;
+
   const [, startTransition] = useTransition();
   const { toast } = useToast();
 
@@ -113,7 +117,7 @@ const AdminAppointmentDetailsPopup = ({
         : addBusinessDays(startOfTomorrow(), 1),
       scheduled_time: isAppointmentScheduled
         ? scheduled_time?.slice(0, -3)
-        : '09:00',
+        : '07:30',
     },
     mode: 'onChange',
   });
@@ -153,9 +157,6 @@ const AdminAppointmentDetailsPopup = ({
 
     return times;
   };
-  const start730amInMinute = 60 * 7.5;
-  const end500pmInMinute = 60 * 17;
-  const intervalInMinute = 15;
 
   const handleCancelChange = () => {
     startTransition(() => {
@@ -431,9 +432,9 @@ const AdminAppointmentDetailsPopup = ({
                   <SelectContent>
                     <ScrollArea className="h-52">
                       {generateHoursInterval(
-                        start730amInMinute,
-                        end500pmInMinute,
-                        intervalInMinute,
+                        Seven_30_AM_IN_MINUTES,
+                        FIVE_PM_IN_MINUTES,
+                        INTERVAL_IN_MINUTES,
                       ).map((time) => (
                         <SelectItem key={time} value={time}>
                           {time}
