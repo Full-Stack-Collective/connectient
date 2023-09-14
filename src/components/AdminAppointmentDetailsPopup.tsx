@@ -153,6 +153,9 @@ const AdminAppointmentDetailsPopup = ({
 
     return times;
   };
+  const start730amInMinute = 60 * 7.5;
+  const end500pmInMinute = 60 * 17;
+  const intervalInMinute = 15;
 
   const handleCancelChange = () => {
     startTransition(() => {
@@ -427,13 +430,15 @@ const AdminAppointmentDetailsPopup = ({
                   </FormControl>
                   <SelectContent>
                     <ScrollArea className="h-52">
-                      {generateHoursInterval(60 * 9, 60 * 17, 15).map(
-                        (time) => (
-                          <SelectItem key={time} value={time}>
-                            {time}
-                          </SelectItem>
-                        ),
-                      )}
+                      {generateHoursInterval(
+                        start730amInMinute,
+                        end500pmInMinute,
+                        intervalInMinute,
+                      ).map((time) => (
+                        <SelectItem key={time} value={time}>
+                          {time}
+                        </SelectItem>
+                      ))}
                     </ScrollArea>
                   </SelectContent>
                 </Select>
