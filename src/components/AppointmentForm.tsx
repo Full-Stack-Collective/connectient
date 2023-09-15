@@ -34,7 +34,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import {
   format,
   isPast,
@@ -52,8 +52,6 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from './ui/toast';
-import { error } from 'console';
-import Image from 'next/image';
 
 const formSchema = z.object({
   first_name: z
@@ -73,7 +71,25 @@ const formSchema = z.object({
   is_emergency: z.boolean().default(false),
 });
 
-const AppointmentForm = ({ practiceId }: { practiceId: string }) => {
+type PracticeInfo = {
+  practiceId: string;
+  practiceName: string;
+  practiceLogo: string;
+  practiceStreet: string;
+  practiceCity: string;
+  practicePhone: string;
+  practiceWebsite: string;
+};
+
+const AppointmentForm = ({
+  practiceId,
+  practiceName,
+  practiceLogo,
+  practiceStreet,
+  practiceCity,
+  practicePhone,
+  practiceWebsite,
+}: PracticeInfo) => {
   const [, startTransition] = useTransition();
   const [createdAppointment, setCreatedAppointment] =
     useState<Appointment | null>(null);
@@ -123,7 +139,16 @@ const AppointmentForm = ({ practiceId }: { practiceId: string }) => {
             description: "We'll be in touch as soon as we can",
           });
           setIsAppointmentDetailsPopupOpen(false);
-          emailHandler(createdAppointment)
+          emailHandler(
+            createdAppointment,
+            practiceId,
+            practiceName,
+            practiceLogo,
+            practiceStreet,
+            practiceCity,
+            practicePhone,
+            practiceWebsite,
+          )
             .then(() => {
               toast({
                 title: 'Request email sent!',

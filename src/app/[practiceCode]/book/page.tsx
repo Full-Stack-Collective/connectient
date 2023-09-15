@@ -23,7 +23,8 @@ export default async function Appointment({
 
   if (!data || data?.length < 1) redirect('/');
 
-  const [{ id, name, logo, street_address, city, phone }] = data as Practice[];
+  const [{ id, name, logo, street_address, city, phone, website }] =
+    data as Practice[];
 
   return (
     <>
@@ -36,7 +37,15 @@ export default async function Appointment({
           </span>{' '}
           Expedition
         </h2>
-        <AppointmentForm practiceId={id} />
+        <AppointmentForm
+          practiceId={id}
+          practiceName={name}
+          practiceLogo={logo!}
+          practiceStreet={street_address as string}
+          practiceCity={city}
+          practicePhone={phone!}
+          practiceWebsite={website!}
+        />
         <AppointmentFooter
           name={name}
           streetAddress={street_address as string}

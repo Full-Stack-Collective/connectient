@@ -47,13 +47,29 @@ export const createAppointmentFormAction = async (
   }
 };
 
-export const emailHandler = async (appointmentData: Appointment) => {
+export const emailHandler = async (
+  appointmentData: Appointment,
+  practiceId: string,
+  practiceName: string,
+  practiceLogo: string,
+  practiceStreet: string,
+  practiceCity: string,
+  practicePhone: string,
+  practiceWebsite: string,
+) => {
   try {
-    const practice = await getPractice(appointmentData.practice_id);
-
     await transporter.sendMail({
       ...mailOptions,
-      ...generateEmailContent(appointmentData, practice[0]),
+      ...generateEmailContent(
+        appointmentData,
+        practiceId,
+        practiceName,
+        practiceLogo,
+        practiceStreet,
+        practiceCity,
+        practicePhone,
+        practiceWebsite,
+      ),
     });
     return appointmentData;
   } catch (error) {
