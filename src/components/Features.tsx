@@ -9,7 +9,10 @@ type FeaturesProps = {
 
 const Features = ({ features }: FeaturesProps) => {
   return (
-    <section className="mb-12 py-4 flex flex-col gap-4 lg:flex-row">
+    <section
+      id="features"
+      className="mb-12 py-4 flex flex-col gap-4 lg:flex-row"
+    >
       {features.map((feature) => (
         <div
           key={feature.title}

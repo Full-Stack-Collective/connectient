@@ -6,7 +6,7 @@ export const getNavigationLinks = (supabaseSession: Session) => {
     return [
       {
         name: 'Features',
-        link: '/features',
+        link: '/#features',
       },
       {
         name: 'Login',
