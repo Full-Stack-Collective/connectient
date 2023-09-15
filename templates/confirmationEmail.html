@@ -87,17 +87,17 @@
         appointment at ${practice.name} has been successfully confirmed. Below
         is the scheduled date and time for your appointment. Cancellations are
         allowed up to 24 hours before your appointment. If you have any
-        questions or concerns, please contact us at ${practice.phone}. We look
+        questions or concerns, please contact us at ${practice.phone!}. We look
         forward to seeing you!
       </p>
       <p style="margin: 0">${practice.name} Staff</p>
-      <p style="margin: 0">${practice.street_address}</p>
+      <p style="margin: 0">${practice.street_address!}</p>
       <p style="margin: 0">${practice.city}</p>
-      <p style="margin: 0">${practice.phone}</p>
-      <p style="margin: 0">${practice.website}</p>
+      <p style="margin: 0">${practice.phone!}</p>
+      <p style="margin: 0">${practice.website!}</p>
       <img
         style="width: 200px"
-        src="${practice.logo}"
+        src="${practice.logo!}"
         alt="${practice.name} logo"
       />
     </div>

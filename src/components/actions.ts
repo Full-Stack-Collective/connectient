@@ -84,7 +84,7 @@ export const emailConfirmationHandler = async (
     const practice = await getPractice(appointmentData.practice_id);
     await transporter.sendMail({
       ...mailOptions,
-      ...generateConfirmationEmailContent(appointmentData, practice[0]),
+      ...generateConfirmationEmailContent(appointmentData, practice![0]),
     });
     return appointmentData;
   } catch (error) {
