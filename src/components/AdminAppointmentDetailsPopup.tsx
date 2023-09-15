@@ -93,6 +93,10 @@ const AdminAppointmentDetailsPopup = ({
     is_cancelled,
   } = clickedAppointment;
 
+  const SEVEN_30_AM_IN_MINUTES = 60 * 7.5;
+  const FIVE_PM_IN_MINUTES = 60 * 17;
+  const INTERVAL_IN_MINUTES = 15;
+
   const [, startTransition] = useTransition();
   const { toast } = useToast();
 
@@ -113,7 +117,7 @@ const AdminAppointmentDetailsPopup = ({
         : addBusinessDays(startOfTomorrow(), 1),
       scheduled_time: isAppointmentScheduled
         ? scheduled_time?.slice(0, -3)
-        : '09:00',
+        : '07:30',
     },
     mode: 'onChange',
   });
@@ -141,11 +145,12 @@ const AdminAppointmentDetailsPopup = ({
       const hh = Math.floor(startHourInMinute / 60); // getting hours of day in 0-24 format
 
       const mm = startHourInMinute % 60; // getting minutes of the hour in 0-55 format
+      const ampm = hh < 12 ? 'AM' : 'PM'; // If hh less than 12, it is AM, otherwise, it is PM
+      const hh12 = hh % 12 || 12; //midnight
 
-      times[i] =
-        ('0' + (hh % 24).toString()).slice(-2) +
-        ':' +
-        ('0' + mm.toString()).slice(-2);
+      times[i] = `${('0' + hh12.toString()).slice(-2)}:${(
+        '0' + mm.toString()
+      ).slice(-2)} ${ampm}`;
 
       startHourInMinute = startHourInMinute + interval;
     }
@@ -324,8 +329,13 @@ const AdminAppointmentDetailsPopup = ({
         <div className="flex gap-4">
           <h3 className="font-bold">Scheduled Time: </h3>
           <p>
-            {isAppointmentScheduled
-              ? updatedAppointment?.scheduled_time
+            {isAppointmentScheduled &&
+            updatedAppointment?.scheduled_time &&
+            typeof updatedAppointment.scheduled_time === 'string'
+              ? format(
+                  new Date(`1970-01-01T${updatedAppointment.scheduled_time}`),
+                  'h:mm a',
+                )
               : 'Not scheduled yet'}
           </p>
         </div>
@@ -421,13 +431,15 @@ const AdminAppointmentDetailsPopup = ({
                   </FormControl>
                   <SelectContent>
                     <ScrollArea className="h-52">
-                      {generateHoursInterval(60 * 9, 60 * 17, 15).map(
-                        (time) => (
-                          <SelectItem key={time} value={time}>
-                            {time}
-                          </SelectItem>
-                        ),
-                      )}
+                      {generateHoursInterval(
+                        SEVEN_30_AM_IN_MINUTES,
+                        FIVE_PM_IN_MINUTES,
+                        INTERVAL_IN_MINUTES,
+                      ).map((time) => (
+                        <SelectItem key={time} value={time}>
+                          {time}
+                        </SelectItem>
+                      ))}
                     </ScrollArea>
                   </SelectContent>
                 </Select>

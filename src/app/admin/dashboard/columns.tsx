@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table';
 
 import { Badge } from '@/components/ui/badge';
 import { DataTableColumnHeader } from './data-table-column-header';
-
+import { format, parseISO } from 'date-fns';
 export const columns: ColumnDef<Appointment>[] = [
   {
     id: 'status',
@@ -76,7 +76,9 @@ export const columns: ColumnDef<Appointment>[] = [
     cell: ({ row }) => {
       const dateISOFormat: string = row.getValue('requested_date');
       return (
-        <p className="text-center">{new Date(dateISOFormat).toDateString()}</p>
+        <p className="text-center">
+          {format(parseISO(dateISOFormat.toString()), 'PPP')}
+        </p>
       );
     },
   },
