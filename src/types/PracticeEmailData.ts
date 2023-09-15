@@ -1,6 +1,6 @@
 type PracticeEmailData = {
-  name: string;
-  city: string;
+  name: string | null;
+  city: string | null;
   phone: string | null;
   email: string | null;
   logo: string | null;

@@ -9,6 +9,7 @@ import {
 } from '@/config/emailContent';
 import { PostgrestError } from '@supabase/supabase-js';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
+import PracticeEmailData from '@/types/PracticeEmailData';
 
 export const loginFormAction = async ({
   email,
@@ -77,32 +78,16 @@ export const emailHandler = async (
 
 export const emailConfirmationHandler = async (
   appointmentData: ConfirmationEmailData,
+  practiceInfo: PracticeEmailData,
 ) => {
   try {
-    const practice = await getPractice(appointmentData.practice_id);
     await transporter.sendMail({
       ...mailOptions,
-      ...generateConfirmationEmailContent(appointmentData, practice![0]),
+      ...generateConfirmationEmailContent(appointmentData, practiceInfo),
     });
     return appointmentData;
   } catch (error) {
-    throw new Error('Failed to send request email.');
-  }
-};
-
-export const getPractice = async (practiceId: string | null | undefined) => {
-  const supabase = createServerActionClient<Database>({ cookies });
-  try {
-    const { data, error } = await supabase
-      .from('Practice')
-      .select('name, city, phone, email, logo, website, street_address')
-      .eq('id', practiceId);
-    if (error) {
-      throw new Error('Failed to find practice.');
-    }
-    return data;
-  } catch (error) {
-    console.error(error);
+    throw new Error('Failed to send confirmation email.');
   }
 };
 

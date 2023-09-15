@@ -57,11 +57,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
+import PracticeEmailData from '@/types/PracticeEmailData';
 
 type AdminAppointmentDetailsPopupProps = {
   open: boolean;
   onClose: () => void;
   clickedAppointment: Appointment;
+  practiceInfo: PracticeEmailData | null;
 };
 
 // Define Schedule Appointment Form schema
@@ -74,6 +76,7 @@ const AdminAppointmentDetailsPopup = ({
   open,
   onClose,
   clickedAppointment,
+  practiceInfo,
 }: AdminAppointmentDetailsPopupProps) => {
   const {
     id,
@@ -194,26 +197,28 @@ const AdminAppointmentDetailsPopup = ({
               'Congratulations! The appointment is now securely anchored in the schedule.',
           });
           // Send appointment schedule confirmation email
-          const confirmationEmailData: ConfirmationEmailData = {
-            first_name: data![0].first_name,
-            last_name: data![0].last_name,
-            email: data![0].email,
-            appointment_type: data![0].appointment_type!,
-            scheduled_date: data![0].scheduled_date,
-            scheduled_time: data![0].scheduled_time,
-            practice_id: data![0].practice_id,
-          };
-          emailConfirmationHandler(confirmationEmailData)
-            .then(() => {
-              toast({
-                title: 'Successfully sent confirmation email!',
-                description:
-                  'The patient has been sent an email with the details of this confirmed appointment.',
+          if (practiceInfo) {
+            const confirmationEmailData: ConfirmationEmailData = {
+              first_name: data![0].first_name,
+              last_name: data![0].last_name,
+              email: data![0].email,
+              appointment_type: data![0].appointment_type!,
+              scheduled_date: data![0].scheduled_date,
+              scheduled_time: data![0].scheduled_time,
+              practice_id: data![0].practice_id,
+            };
+            emailConfirmationHandler(confirmationEmailData, practiceInfo)
+              .then(() => {
+                toast({
+                  title: 'Successfully sent confirmation email!',
+                  description:
+                    'The patient has been sent an email with the details of this confirmed appointment.',
+                });
+              })
+              .catch((error: Error) => {
+                console.log('Failed to send confirmation email: ', error);
               });
-            })
-            .catch((error: Error) => {
-              console.log('Failed to send confirmation email: ', error);
-            });
+          }
         })
         .catch((error: Error) => {
           console.log(error);
