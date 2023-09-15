@@ -49,7 +49,6 @@ export const createAppointmentFormAction = async (
 
 export const emailHandler = async (
   appointmentData: Appointment,
-  practiceId: string,
   practiceName: string,
   practiceLogo: string,
   practiceStreet: string,
@@ -62,7 +61,6 @@ export const emailHandler = async (
       ...mailOptions,
       ...generateEmailContent(
         appointmentData,
-        practiceId,
         practiceName,
         practiceLogo,
         practiceStreet,
@@ -89,24 +87,6 @@ export const emailConfirmationHandler = async (
     return appointmentData;
   } catch (error) {
     throw new Error('Failed to send request email.');
-  }
-};
-
-export const getAppointment = async (appointmentId: string | undefined) => {
-  const supabase = createServerActionClient<Database>({ cookies });
-  try {
-    const { data, error } = await supabase
-      .from('Appointments')
-      .select(
-        'first_name, last_name, email, appointment_type, scheduled_date, scheduled_time',
-      )
-      .eq('id', appointmentId);
-    if (error) {
-      throw new Error('Failed to find appointment.');
-    }
-    return data;
-  } catch (error) {
-    console.error(error);
   }
 };
 

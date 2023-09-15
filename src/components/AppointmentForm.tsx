@@ -141,7 +141,6 @@ const AppointmentForm = ({
           setIsAppointmentDetailsPopupOpen(false);
           emailHandler(
             createdAppointment,
-            practiceId,
             practiceName,
             practiceLogo,
             practiceStreet,
