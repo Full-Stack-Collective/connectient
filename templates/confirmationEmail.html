@@ -84,16 +84,22 @@
       <p>Hi ${data.first_name},</p>
       <p>
         Thanks for using Connectient Appointment Request System! Your
-        appointment at Essential Dental Solutions has been successfully
-        confirmed. Below is the scheduled date and time for your appointment.
-        Cancellations are allowed up to 24 hours before your appointment. If you
-        have any questions or concerns, please contact us at (868) 387-1325. We
-        look forward to seeing you!
+        appointment at ${practice.name!} has been successfully confirmed. Below
+        is the scheduled date and time for your appointment. Cancellations are
+        allowed up to 24 hours before your appointment. If you have any
+        questions or concerns, please contact us at ${practice.phone!}. We look
+        forward to seeing you!
       </p>
-      <p style="margin: 0">Essential Dental Solutions Staff</p>
-      <p style="margin: 0">1054 SS Erin Road, Debe.</p>
-      <p style="margin: 0">Trinidad <span>&#38;</span> Tobago</p>
-      <p style="margin: 0">(868) 387-1325 | (868) 361-3469</p>
+      <p style="margin: 0">${practice.name!} Staff</p>
+      <p style="margin: 0">${practice.street_address!}</p>
+      <p style="margin: 0">${practice.city!}</p>
+      <p style="margin: 0">${practice.phone!}</p>
+      <p style="margin: 0">${practice.website!}</p>
+      <img
+        style="width: 200px"
+        src="${practice.logo!}"
+        alt="${practice.name!} logo"
+      />
     </div>
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr>

@@ -143,6 +143,7 @@ export interface Database {
           phone: string | null;
           practice_code: string | null;
           street_address: string | null;
+          website: string | null;
         };
         Insert: {
           city: string;

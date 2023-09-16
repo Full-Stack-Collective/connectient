@@ -9,6 +9,7 @@ import {
 } from '@/config/emailContent';
 import { PostgrestError } from '@supabase/supabase-js';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
+import PracticeEmailData from '@/types/PracticeEmailData';
 
 export const loginFormAction = async ({
   email,
@@ -47,11 +48,27 @@ export const createAppointmentFormAction = async (
   }
 };
 
-export const emailHandler = async (appointmentData: Appointment) => {
+export const emailHandler = async (
+  appointmentData: Appointment,
+  practiceName: string,
+  practiceLogo: string,
+  practiceStreet: string,
+  practiceCity: string,
+  practicePhone: string,
+  practiceWebsite: string,
+) => {
   try {
     await transporter.sendMail({
       ...mailOptions,
-      ...generateEmailContent(appointmentData),
+      ...generateEmailContent(
+        appointmentData,
+        practiceName,
+        practiceLogo,
+        practiceStreet,
+        practiceCity,
+        practicePhone,
+        practiceWebsite,
+      ),
     });
     return appointmentData;
   } catch (error) {
@@ -61,33 +78,16 @@ export const emailHandler = async (appointmentData: Appointment) => {
 
 export const emailConfirmationHandler = async (
   appointmentData: ConfirmationEmailData,
+  practiceInfo: PracticeEmailData,
 ) => {
   try {
     await transporter.sendMail({
       ...mailOptions,
-      ...generateConfirmationEmailContent(appointmentData),
+      ...generateConfirmationEmailContent(appointmentData, practiceInfo),
     });
     return appointmentData;
   } catch (error) {
-    throw new Error('Failed to send request email.');
-  }
-};
-
-export const getAppointment = async (appointmentId: string | undefined) => {
-  const supabase = createServerActionClient<Database>({ cookies });
-  try {
-    const { data, error } = await supabase
-      .from('Appointments')
-      .select(
-        'first_name, last_name, email, appointment_type, scheduled_date, scheduled_time',
-      )
-      .eq('id', appointmentId);
-    if (error) {
-      throw new Error('Failed to find appointment.');
-    }
-    return data;
-  } catch (error) {
-    console.error(error);
+    throw new Error('Failed to send confirmation email.');
   }
 };
 

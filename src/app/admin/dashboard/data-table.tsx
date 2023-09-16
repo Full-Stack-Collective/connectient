@@ -28,15 +28,18 @@ import {
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
 import AdminAppointmentDetailsPopup from '@/components/AdminAppointmentDetailsPopup';
+import PracticeEmailData from '@/types/PracticeEmailData';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  practiceInfo: PracticeEmailData | null;
 }
 
 export const DataTable = <TData, TValue>({
   columns,
   data,
+  practiceInfo,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -153,6 +156,7 @@ export const DataTable = <TData, TValue>({
           open={isDetailsPopupOpen}
           onClose={() => setIsDetailsPopupOpen(false)}
           clickedAppointment={selectedRow!}
+          practiceInfo={practiceInfo}
         />
       )}
       <DataTablePagination table={table} />
