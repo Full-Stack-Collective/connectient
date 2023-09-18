@@ -58,14 +58,14 @@ export function AdminSignUpForm() {
       // Signup the user if the user doesn't already exists
       signupSupabaseAuthUser({ email, password })
         .then((data) => {
-          console.log(data);
           if (data.user) {
             toast({
               title:
                 "Congrats! You're one step closer to be part of Connectient",
               description:
-                "We've received your registration, & a confirmation email is en route to your inbox.",
+                "We've received your registration. Check your email for confirmation",
             });
+            form.reset();
           }
         })
         .catch(() => {
