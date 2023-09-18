@@ -1,5 +1,6 @@
 'use server';
 import supabase from '@/db/supabase';
+import { PostgrestError } from '@supabase/supabase-js';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { transporter, mailOptions } from '@/config/nodemailer';
@@ -7,7 +8,6 @@ import {
   generateConfirmationEmailContent,
   generateEmailContent,
 } from '@/config/emailContent';
-import { PostgrestError } from '@supabase/supabase-js';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
 import PracticeEmailData from '@/types/PracticeEmailData';
 
@@ -133,4 +133,19 @@ export const scheduleAppointment = async (
   } catch (error) {
     console.error(error);
   }
+};
+
+export const signupSupabaseAuthUser = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}) => {
+  const supabase = createServerActionClient<Database>({ cookies });
+  const { data } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+  return data;
 };

@@ -10,12 +10,12 @@ export default function AppointmentHeader({
 }) {
   return (
     <header className="bg-background">
-      <div className="m-auto max-w-7xl w-full px-4 flex flex-col sm:flex-row justify-between items-center relative">
+      <div className="m-auto max-w-7xl w-full px-4 flex flex-col gap-2 sm:flex-row justify-between items-center relative">
         {practiceLogo && (
           <Image
             src={practiceLogo}
-            width={160}
-            height={160}
+            width={120}
+            height={120}
             alt={`Logo for a dental practice called ${practiceName}`}
           />
         )}
