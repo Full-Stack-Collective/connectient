@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -49,13 +48,14 @@ export function AdminSignUpForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 my-5">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
+              <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
               <FormControl>
                 <Input placeholder="hello@email.com" {...field} />
               </FormControl>
@@ -69,6 +69,7 @@ export function AdminSignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Password</FormLabel>
+              <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
               <FormControl>
                 <Input
                   placeholder="hello@email.com"
@@ -86,6 +87,7 @@ export function AdminSignUpForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Confirm Password</FormLabel>
+              <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
               <FormControl>
                 <Input
                   placeholder="hello@email.com"
