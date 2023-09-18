@@ -1,9 +1,11 @@
 'use client';
 
+import { useTransition } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
-
+import { signupSupabaseAuthUser } from './actions';
+// Import UI components
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,7 +16,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { useToast } from './ui/use-toast';
 
 const formSchema = z
   .object({
@@ -32,27 +35,55 @@ const formSchema = z
   });
 
 export function AdminSignUpForm() {
+  const [, startTransition] = useTransition();
+  const { toast } = useToast();
+  const defaultValues = {
+    email: '',
+    password: '',
+    confirmPassword: '',
+  };
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
-    },
+    defaultValues,
+    mode: 'onChange',
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-  }
+  const onSubmit = ({ email, password }: z.infer<typeof formSchema>) => {
+    startTransition(() => {
+      // Check if the user email already exists in the DB -- need to look into it
+
+      // Signup the user if the user doesn't already exists
+      signupSupabaseAuthUser({ email, password })
+        .then((data) => {
+          console.log(data);
+          if (data.user) {
+            toast({
+              title:
+                "Congrats! You're one step closer to be part of Connectient",
+              description:
+                "We've received your registration, & a confirmation email is en route to your inbox.",
+            });
+          }
+        })
+        .catch(() => {
+          toast({
+            title: 'Shoooooo! A whirlwind error!',
+            description:
+              "Your registration got caught in a whirlwind of tech magic. Hang tight, we're resolving it.",
+          });
+        });
+    });
+  };
 
   return (
     <Card className="w-full max-w-md">
       <CardContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={(event) => void form.handleSubmit(onSubmit)(event)}
             className="space-y-8 my-5 bg-background"
           >
             <FormField
@@ -77,11 +108,7 @@ export function AdminSignUpForm() {
                   <FormLabel>Password</FormLabel>
                   <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
                   <FormControl>
-                    <Input
-                      placeholder="hello@email.com"
-                      {...field}
-                      type="password"
-                    />
+                    <Input placeholder="********" {...field} type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,17 +122,20 @@ export function AdminSignUpForm() {
                   <FormLabel>Confirm Password</FormLabel>
                   <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
                   <FormControl>
-                    <Input
-                      placeholder="hello@email.com"
-                      {...field}
-                      type="password"
-                    />
+                    <Input placeholder="********" {...field} type="password" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={
+                !form.formState.isDirty ||
+                (form.formState.isDirty && !form.formState.isValid)
+              }
+            >
               Register
             </Button>
           </form>
