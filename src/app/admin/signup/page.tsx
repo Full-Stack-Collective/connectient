@@ -1,14 +1,16 @@
 import { AdminSignUpForm } from '@/components/AdminSignUp';
-import React from 'react';
 
 export default function SignUp() {
   return (
-    <div className="max-w-sm mx-auto">
-      <h1 className="font-semibold text-center">
-        Thanks for choosing Connectient
+    <main className="flex-1 flex flex-col justify-center items-center">
+      <h1 className="mt-8 mb-6 w-full max-w-lg text-4xl font-extrabold tracking-wide leading-2 text-center md:leading-snug">
+        Thanks for choosing{' '}
+        <span className="w-full text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-rose-500">
+          Connectient
+        </span>
+        <p className="mt-4 text-sm text-center">Please register your account</p>
       </h1>
-      <p className="text-sm text-center">Please register your account</p>
       <AdminSignUpForm />
-    </div>
+    </main>
   );
 }

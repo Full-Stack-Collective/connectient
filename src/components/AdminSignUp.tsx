@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 const formSchema = z
   .object({
@@ -47,60 +48,69 @@ export function AdminSignUpForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 my-5">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
-              <FormControl>
-                <Input placeholder="hello@email.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
-              <FormControl>
-                <Input
-                  placeholder="hello@email.com"
-                  {...field}
-                  type="password"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
-              <FormControl>
-                <Input
-                  placeholder="hello@email.com"
-                  {...field}
-                  type="password"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Register</Button>
-      </form>
-    </Form>
+    <Card className="w-full max-w-md">
+      <CardContent>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 my-5 bg-background"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                  <FormControl>
+                    <Input placeholder="hello@email.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                  <FormControl>
+                    <Input
+                      placeholder="hello@email.com"
+                      {...field}
+                      type="password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <span className="after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+                  <FormControl>
+                    <Input
+                      placeholder="hello@email.com"
+                      {...field}
+                      type="password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-full">
+              Register
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }
