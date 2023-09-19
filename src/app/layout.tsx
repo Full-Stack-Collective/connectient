@@ -10,9 +10,10 @@ export const metadata = {
     url: 'https://connectient.co/',
     images: [
       {
-        url: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQ5pAUkFjASncLgVEsqVbwyTj0LP1ObO85jakWZEibYYmjHzzQux9-C1zQ2DXiZnAldF_l5_EXyZXQqQf4',
+        url: '/connectient.png',
         width: '400',
         height: '400',
+        alt: 'Connectient Logo',
       },
     ],
   },
