@@ -10,7 +10,7 @@ export default function AppointmentHeader({
 }) {
   return (
     <header className="bg-background">
-      <div className="m-auto max-w-7xl w-full px-4 flex flex-col gap-2 sm:flex-row justify-between items-center relative">
+      <div className="m-auto max-w-7xl w-full px-4 py-4 flex flex-col gap-2 sm:flex-row justify-between items-center relative">
         {practiceLogo && (
           <Image
             src={practiceLogo}
