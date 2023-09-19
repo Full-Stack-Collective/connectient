@@ -1,6 +1,7 @@
 import { Lato } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
+import { Analytics } from '@vercel/analytics/react';
 import './globals.css';
 
 export const metadata = {
@@ -23,6 +24,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="min-h-screen flex flex-col">{children}</div>
           <Toaster />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
