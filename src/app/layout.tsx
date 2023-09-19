@@ -4,8 +4,18 @@ import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 
 export const metadata = {
-  title: 'Connectient',
-  description: 'Appointments Made Easy',
+  openGraph: {
+    title: 'Connectient',
+    description: 'Appointments Made Easy',
+    url: 'https://connectient.co/',
+    images: [
+      {
+        url: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcQ5pAUkFjASncLgVEsqVbwyTj0LP1ObO85jakWZEibYYmjHzzQux9-C1zQ2DXiZnAldF_l5_EXyZXQqQf4',
+        width: '400',
+        height: '400',
+      },
+    ],
+  },
 };
 
 const lato = Lato({
