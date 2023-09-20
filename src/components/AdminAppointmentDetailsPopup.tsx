@@ -58,6 +58,7 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
 import PracticeEmailData from '@/types/PracticeEmailData';
+import { updateRequestCreatedTime } from '@/utils/times';
 
 type AdminAppointmentDetailsPopupProps = {
   open: boolean;
@@ -94,6 +95,7 @@ const AdminAppointmentDetailsPopup = ({
     scheduled_time,
     scheduled_by,
     is_cancelled,
+    created_at,
   } = clickedAppointment;
 
   const SEVEN_30_AM_IN_MINUTES = 60 * 7.5;
@@ -277,7 +279,12 @@ const AdminAppointmentDetailsPopup = ({
           <br />A Peek into the Appointment
         </DialogTitle>
       </DialogHeader>
-      <div className="mt-4 px-2 flex gap-4">{renderStatusBadges()}</div>
+      <div className="mt-4 px-2 flex gap-4">
+        {renderStatusBadges()}
+        {!isAppointmentScheduled
+          ? `${updateRequestCreatedTime(created_at!)}`
+          : ``}
+      </div>
       <div className="grid gap-2 py-2 px-2">
         <div className="flex gap-4">
           <h3 className="font-bold">Name :</h3>
