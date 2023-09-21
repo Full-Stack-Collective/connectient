@@ -10,7 +10,7 @@ export const metadata = {
     url: 'https://connectient.co/',
     images: [
       {
-        url: '/connectient.png',
+        url: '/connectient-logo.png',
         width: '400',
         height: '400',
         alt: 'Connectient Logo',
