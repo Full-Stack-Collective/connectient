@@ -25,6 +25,10 @@
     --ring: 215 20.2% 65.1%;
     --radius: 0.5rem;
     --body-gradient: 210 40% 96.1%;
+    --badge-emergency-background: 0 100% 94.5%;
+    --badge-scheduled-background: 160.4 84.6% 87.3%;
+    --badge-waiting-background: 48.8 100% 87.5%;
+    --badge-cancelled-background: 205.5 100% 90.8%;
   }
 
   .dark {
@@ -48,6 +52,10 @@
     --destructive-foreground: 0 85.7% 97.3%;
     --ring: 217.2 32.6% 17.5%;
     --body-gradient: 222.2 56% 14%;
+    --badge-emergency-background: 0 100% 27%;
+    --badge-scheduled-background: 161.8 88.1% 26.5%;
+    --badge-waiting-background: 31 100% 45.1%;
+    --badge-cancelled-background: 208.8 77.2% 42%;
   }
 }
 

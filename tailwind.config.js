@@ -50,6 +50,12 @@ module.exports = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        badge: {
+          emergency: 'hsl(var(--badge-emergency-background))',
+          scheduled: 'hsl(var(--badge-scheduled-background))',
+          waiting: 'hsl(var(--badge-waiting-background))',
+          cancelled: 'hsl(var(--badge-cancelled-background))',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
