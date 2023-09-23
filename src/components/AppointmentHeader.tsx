@@ -20,7 +20,7 @@ export default function AppointmentHeader({
           />
         )}
         {practiceName ? (
-          <h1 className="text-2xl font-semibold text-slate-600">
+          <h1 className="text-2xl text-center font-semibold text-slate-600">
             {practiceName}
           </h1>
         ) : null}
