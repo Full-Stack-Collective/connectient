@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/server';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'; // Import createServerComponentClient
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import Image from 'next/image';
 export const size = {
