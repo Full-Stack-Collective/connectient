@@ -4,19 +4,12 @@ import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 
 export const metadata = {
-  openGraph: {
-    title: 'Connectient',
-    description: 'Appointments Made Easy',
-    url: 'https://connectient.co/',
-    images: [
-      {
-        url: '/connectient-logo.png',
-        width: '400',
-        height: '400',
-        alt: 'Connectient Logo',
-      },
-    ],
+  title: {
+    default: 'Connectient',
+    template: `%s | Connectient`,
   },
+  description: 'Appointments Made Easy',
+  url: 'https://connectient.co/',
 };
 
 const lato = Lato({

@@ -1,5 +1,4 @@
 export const dynamic = 'force-dynamic'; //remove this when proper fix has been implemented
-import Head from 'next/head';
 
 import { AppointmentFooter } from '@/components/AppointmentFooter';
 import AppointmentForm from '@/components/AppointmentForm';
@@ -9,6 +8,45 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 const supabase = createServerComponentClient<Database>({ cookies });
+
+export async function generateMetadata({
+  params,
+}: {
+  params: {
+    practiceCode: string;
+  };
+}) {
+  try {
+    const { practiceCode } = params;
+    const { data: practice } = await supabase
+      .from('Practice')
+      .select()
+      .eq('practice_code', practiceCode);
+
+    if (!practice || practice.length === 0)
+      // Check if practice exists and has data
+      return {
+        title: 'Not Found',
+        description: 'The page you are looking for does not exist.',
+      };
+
+    const [{ name }] = practice;
+
+    return {
+      title: name,
+      description: name,
+      alternates: {
+        canonical: `/${practiceCode}/book`,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      title: 'Not Found',
+      description: 'The page you are looking for does not exist.',
+    };
+  }
+}
 
 export default async function Appointment({
   params,
@@ -26,25 +64,9 @@ export default async function Appointment({
 
   const [{ id, name, logo, street_address, city, phone, website }] =
     data as Practice[];
-  const ogImage = logo || '/connectient-logo.png';
-  const ogMetadata = {
-    title: name,
-    description: 'Appointments Made hi Easy',
-    url: `https://connectient.co/practice/${practiceCode}`,
-    image: ogImage,
-  };
+
   return (
     <>
-      <head>
-        <title>{ogMetadata.title}</title>
-        <meta property="og:title" content={ogMetadata.title} />
-        <meta property="og:description" content={ogMetadata.description} />
-        <meta property="og:url" content={ogMetadata.url} />
-        <meta property="og:image" content={ogMetadata.image} />
-        <meta property="og:image:width" content="400" />
-        <meta property="og:image:height" content="400" />
-      </head>
-
       <main className="flex-1 flex flex-col gap-2 justify-center items-center">
         <AppointmentHeader practiceLogo={logo} practiceName={name} />
         <h2 className="mt-4 mb-6 w-full max-w-lg sm:text-3xl text-2xl font-extrabold tracking-wide leading-2 text-center md:leading-snug">
