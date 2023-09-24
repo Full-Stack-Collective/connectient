@@ -2,41 +2,11 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Image from 'next/image';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-import { columns } from './columns';
-import { DataTable } from './data-table';
+import { DataTabs } from './data-tabs';
 import PracticeEmailData from '@/types/PracticeEmailData';
 
 const supabase = createServerComponentClient<Database>({ cookies });
-
-const getEmergencyAppointments = async () =>
-  await supabase
-    .from('Appointments')
-    .select()
-    .match({ is_emergency: true, is_scheduled: false, is_cancelled: false })
-    .order('created_at', { ascending: false });
-
-const getNormalAppointments = async () =>
-  await supabase
-    .from('Appointments')
-    .select()
-    .match({ is_emergency: false, is_scheduled: false, is_cancelled: false })
-    .order('created_at', { ascending: false });
-
-const getScheduledAppointments = async () =>
-  await supabase
-    .from('Appointments')
-    .select()
-    .match({ is_scheduled: true, is_cancelled: false })
-    .order('created_at', { ascending: false });
-
-const getCancelledAppointments = async () =>
-  await supabase
-    .from('Appointments')
-    .select()
-    .match({ is_cancelled: true })
-    .order('created_at', { ascending: false });
 
 const getAllAppointments = async () =>
   await supabase
@@ -63,13 +33,13 @@ const getUserPracticeInfo = async (
     await supabase
       .from('Practice')
       .select('name, logo, city, phone, email, website, street_address')
-      .eq('id', practiceID)
+      .eq('id', practiceID!)
       .single();
 
   return practiceInfo || null;
 };
 
-const AppointmentDemo = async () => {
+const AppointmentDashboard = async () => {
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -85,16 +55,7 @@ const AppointmentDemo = async () => {
   }
   const practiceInfo = await getUserPracticeInfo(email);
 
-  // Get all the data
-  const { data: emergencyAppointments }: { data: Appointment[] | null } =
-    await getEmergencyAppointments();
-  const { data: normalAppointments }: { data: Appointment[] | null } =
-    await getNormalAppointments();
-  const { data: scheduledAppointments }: { data: Appointment[] | null } =
-    await getScheduledAppointments();
-  const { data: cancelledAppointments }: { data: Appointment[] | null } =
-    await getCancelledAppointments();
-  const { data: allAppointments }: { data: Appointment[] | null } =
+  const { data: appointments }: { data: Appointment[] | null } =
     await getAllAppointments();
 
   return (
@@ -118,73 +79,9 @@ const AppointmentDemo = async () => {
           Elevating Patient Experiences
         </span>
       </h1>
-
-      <Tabs defaultValue="all" className="border p-2 rounded-md bg-background">
-        <TabsList className="flex flex-col h-full gap-2 py-2 sm:inline-flex sm:flex-row sm:p-1">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="emergency">Emergency</TabsTrigger>
-          <TabsTrigger value="normal">Normal</TabsTrigger>
-          <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
-          <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
-        </TabsList>
-        <TabsContent value="emergency">
-          <p className="text-sm p-4 text-muted-foreground">
-            Emergency appointments section requires your immediate attention to
-            schedule the appointments.
-          </p>
-          <DataTable
-            columns={columns}
-            data={emergencyAppointments!}
-            practiceInfo={practiceInfo}
-          />
-        </TabsContent>
-        <TabsContent value="normal">
-          <p className="text-sm p-4 text-muted-foreground">
-            Normal appointments section has all the appointments that are not an
-            emergency, have not been scheduled yet, and have not been cancelled.
-          </p>
-          <DataTable
-            columns={columns}
-            data={normalAppointments!}
-            practiceInfo={practiceInfo}
-          />
-        </TabsContent>
-        <TabsContent value="scheduled">
-          <p className="text-sm p-4 text-muted-foreground">
-            Scheduled appointments section has all the appointments that have
-            been scheduled recently.
-          </p>
-          <DataTable
-            columns={columns}
-            data={scheduledAppointments!}
-            practiceInfo={practiceInfo}
-          />
-        </TabsContent>
-        <TabsContent value="cancelled">
-          <p className="text-sm p-4 text-muted-foreground">
-            Cancelled appointments section has all the appointments that have
-            been cancelled recently.
-          </p>
-          <DataTable
-            columns={columns}
-            data={cancelledAppointments!}
-            practiceInfo={practiceInfo}
-          />
-        </TabsContent>
-        <TabsContent value="all">
-          <p className="text-sm p-4 text-muted-foreground">
-            &apos;All&apos; appointments section has all the appointments
-            regardless of the status.
-          </p>
-          <DataTable
-            columns={columns}
-            data={allAppointments!}
-            practiceInfo={practiceInfo}
-          />
-        </TabsContent>
-      </Tabs>
+      <DataTabs appointments={appointments} practiceInfo={practiceInfo} />
     </main>
   );
 };
 
-export default AppointmentDemo;
+export default AppointmentDashboard;

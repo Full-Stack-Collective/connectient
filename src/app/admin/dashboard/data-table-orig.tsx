@@ -1,5 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 
 import {
   ColumnDef,
@@ -22,7 +24,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { cn } from '@/lib/utils';
 
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
@@ -33,22 +34,43 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   practiceInfo: PracticeEmailData | null;
-  handleAppointmentClick: (selectedAppointmentId: string) => void;
-  newAppointments: Appointment[];
 }
 
 export const DataTable = <TData, TValue>({
   columns,
   data,
   practiceInfo,
-  handleAppointmentClick,
-  newAppointments,
 }: DataTableProps<TData, TValue>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [isDetailsPopupOpen, setIsDetailsPopupOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<Appointment | null>(null);
+
+  const supabase = createClientComponentClient<Database>();
+  const router = useRouter();
+
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime appointment dashboard')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'Appointments',
+        },
+        () => {
+          router.refresh();
+        },
+      )
+      .subscribe();
+
+    return () => {
+      // eslint-disable-next-line
+      supabase.removeChannel(channel);
+    };
+  }, [supabase, router]);
 
   const table = useReactTable({
     data,
@@ -70,7 +92,6 @@ export const DataTable = <TData, TValue>({
   const handleRowClick = (selectedRow: Appointment) => {
     setIsDetailsPopupOpen(true);
     setSelectedRow(selectedRow);
-    handleAppointmentClick(selectedRow.id!);
   };
 
   return (
@@ -105,15 +126,7 @@ export const DataTable = <TData, TValue>({
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                   onClick={() => handleRowClick(row.original as Appointment)}
-                  className={cn(
-                    'hover:cursor-pointer',
-                    newAppointments.length !== 0 &&
-                      newAppointments.some(
-                        (appointment) =>
-                          appointment.id === (row.original as Appointment).id,
-                      ) &&
-                      'bg-green-200',
-                  )}
+                  className="hover:cursor-pointer"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
