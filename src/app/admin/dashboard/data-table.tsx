@@ -112,7 +112,7 @@ export const DataTable = <TData, TValue>({
                         (appointment) =>
                           appointment.id === (row.original as Appointment).id,
                       ) &&
-                      'bg-green-200',
+                      'bg-highlight',
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (
