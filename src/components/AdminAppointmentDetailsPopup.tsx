@@ -251,6 +251,7 @@ const AdminAppointmentDetailsPopup = ({
     }
     if (!isAppointmentScheduled && !isAppointmentCancelled) {
       statusList.push('Waiting');
+      statusList.push(updateRequestCreatedTime(created_at!));
     }
 
     return statusList.map((status, index) => (
@@ -279,12 +280,7 @@ const AdminAppointmentDetailsPopup = ({
           <br />A Peek into the Appointment
         </DialogTitle>
       </DialogHeader>
-      <div className="mt-4 px-2 flex gap-4">
-        {renderStatusBadges()}
-        {!isAppointmentScheduled
-          ? `${updateRequestCreatedTime(created_at!)}`
-          : ``}
-      </div>
+      <div className="mt-4 px-2 flex gap-4">{renderStatusBadges()}</div>
       <div className="grid gap-2 py-2 px-2">
         <div className="flex gap-4">
           <h3 className="font-bold">Name :</h3>
