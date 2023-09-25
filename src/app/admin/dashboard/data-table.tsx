@@ -27,7 +27,7 @@ import { cn } from '@/lib/utils';
 import { DataTablePagination } from './data-table-pagination';
 import { DataTableToolbar } from './data-table-toolbar';
 import AdminAppointmentDetailsPopup from '@/components/AdminAppointmentDetailsPopup';
-import PracticeEmailData from '@/types/PracticeEmailData';
+import type PracticeEmailData from '@/types/PracticeEmailData';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
