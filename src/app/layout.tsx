@@ -12,17 +12,16 @@ export const metadata: Metadata = {
     template: `%s | Connectient`,
   },
   description: 'Appointments Made Easy',
-  // openGraph: {
-
-  //   images: [
-  //     {
-  //       url: '/connectient-logo.png',
-  //       width: '400',
-  //       height: '400',
-  //       alt: 'Connectient hi Logo',
-  //     },
-  //   ],
-  // },
+  openGraph: {
+    images: [
+      {
+        url: '/connectient-logo.png',
+        width: '400',
+        height: '400',
+        alt: 'Connectient Logo',
+      },
+    ],
+  },
 };
 
 const lato = Lato({
