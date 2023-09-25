@@ -24,17 +24,24 @@ export async function generateMetadata({
       .eq('practice_code', practiceCode);
 
     if (!practice || practice.length === 0)
-      // Check if practice exists and has data
       return {
         title: 'Not Found',
         description: 'The page you are looking for does not exist.',
       };
 
-    const [{ name }] = practice;
+    const [{ name, logo }] = practice;
 
     return {
       title: name,
-      description: name,
+      description: `Appointments Made Easy at ${name}`,
+      images: [
+        {
+          url: logo || '/connectient-logo.png',
+          width: '400',
+          height: '400',
+          alt: `${name} Logo`,
+        },
+      ],
       alternates: {
         canonical: `/${practiceCode}/book`,
       },
