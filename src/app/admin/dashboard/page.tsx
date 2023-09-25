@@ -6,17 +6,18 @@ import Image from 'next/image';
 import { DataTabs } from './data-tabs';
 import PracticeEmailData from '@/types/PracticeEmailData';
 
-const supabase = createServerComponentClient<Database>({ cookies });
-
-const getAllAppointments = async () =>
-  await supabase
+const getAllAppointments = async () => {
+  const supabase = createServerComponentClient<Database>({ cookies });
+  return await supabase
     .from('Appointments')
     .select()
     .order('created_at', { ascending: false });
+};
 
 const getUserPracticeInfo = async (
   email: string,
 ): Promise<PracticeEmailData | null> => {
+  const supabase = createServerComponentClient<Database>({ cookies });
   const userData = await supabase
     .from('Users')
     .select('practice_id')
@@ -40,6 +41,7 @@ const getUserPracticeInfo = async (
 };
 
 const AppointmentDashboard = async () => {
+  const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { session },
   } = await supabase.auth.getSession();

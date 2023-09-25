@@ -69,7 +69,6 @@ export const DataTabs = ({ appointments, practiceInfo }: DataTabsProps) => {
 
   // Check for new appointments everytime page loads or appointments change
   useEffect(() => {
-    // Get list of new appointments
     newAppointments.current = getAllNewAppointments(appointments!);
     setNewEmergencyAppointmentsList(
       newAppointments.current.filter(isEmergency),

@@ -7,8 +7,6 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-const supabase = createServerComponentClient<Database>({ cookies });
-
 export default async function Appointment({
   params,
 }: {
@@ -16,6 +14,7 @@ export default async function Appointment({
 }) {
   const { practiceCode } = params;
 
+  const supabase = createServerComponentClient<Database>({ cookies });
   const { data } = await supabase
     .from('Practice')
     .select()
