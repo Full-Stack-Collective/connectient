@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
-import { format, parseISO, compareDesc } from 'date-fns';
+import { compareDesc } from 'date-fns';
 
 import PracticeEmailData from '@/types/PracticeEmailData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
