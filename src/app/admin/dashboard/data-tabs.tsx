@@ -13,13 +13,10 @@ import { columns } from './columns';
 import { DataTable } from './data-table';
 
 // Get all the new appointments i.e. where modified_at is null
-const getAllNewAppointments = (appointments: Appointment[]): Appointment[] => {
-  return appointments.filter((appointment) => {
-    console.log(appointment.modified_at);
-    console.log(Boolean(appointment.modified_at) === false);
-    return Boolean(appointment.modified_at) === false;
-  });
-};
+const getAllNewAppointments = (appointments: Appointment[]): Appointment[] =>
+  appointments.filter(
+    (appointment) => Boolean(appointment.modified_at) === false,
+  );
 
 type DataTabsProps = {
   appointments: Appointment[] | null;
