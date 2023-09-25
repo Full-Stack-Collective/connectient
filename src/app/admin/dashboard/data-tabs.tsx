@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
+import { format, parseISO, compareDesc } from 'date-fns';
 
 import PracticeEmailData from '@/types/PracticeEmailData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -82,13 +83,21 @@ export const DataTabs = ({
       appointment?.is_cancelled === false,
   );
 
+  // Filter all the scheduled appointments and sort them by the last time they were modified
   const scheduledAppointments = appointments?.filter(
     (appointment) =>
       appointment?.is_scheduled === true && appointment?.is_cancelled === false,
   );
+  scheduledAppointments?.sort((a: Appointment, b: Appointment): number =>
+    compareDesc(new Date(a.modified_at ?? 0), new Date(b.modified_at ?? 0)),
+  );
 
+  // Filter all the cancelled appointments and sort them by the last time they were modified
   const cancelledAppointments = appointments?.filter(
     (appointment) => appointment?.is_cancelled === true,
+  );
+  cancelledAppointments?.sort((a: Appointment, b: Appointment): number =>
+    compareDesc(new Date(a.modified_at ?? 0), new Date(b.modified_at ?? 0)),
   );
 
   return (
