@@ -1,11 +1,13 @@
+/* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from 'next/server';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import Image from 'next/image';
+
 export const size = {
-  width: 400,
-  height: 400,
+  width: 800,
+  height: 500,
 };
+
 // Route segment config
 export const runtime = 'edge';
 export const contentType = 'image/png';
@@ -33,16 +35,34 @@ export default async function og({
 
     return new ImageResponse(
       (
-        <div className="relative flex flex-col items-center">
-          <div className="relative">
-            <Image
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            textAlign: 'center',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            flexWrap: 'nowrap',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              justifyItems: 'center',
+            }}
+          >
+            <img
               src={imageUrl}
               alt={name}
               width={size.width}
               height={size.height}
             />
           </div>
-          <div className="mt-2 text-center">{name}</div>
+          <div style={{ fontSize: 40, color: 'black' }}>{name}</div>
         </div>
       ),
     );

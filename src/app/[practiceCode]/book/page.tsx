@@ -30,18 +30,20 @@ export async function generateMetadata({
       };
 
     const [{ name, logo }] = practice;
+    const imageUrl = logo || '/connectient-logo.png';
 
     return {
       title: name,
       description: `Appointments Made Easy at ${name}`,
-      images: [
-        {
-          url: logo || '/connectient-logo.png',
-          width: '400',
-          height: '400',
-          alt: `${name} Logo`,
-        },
-      ],
+      openGraph: {
+        images: [
+          {
+            url: imageUrl,
+
+            alt: `${name} Logo`,
+          },
+        ],
+      },
       alternates: {
         canonical: `/${practiceCode}/book`,
       },
