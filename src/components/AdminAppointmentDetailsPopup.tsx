@@ -58,6 +58,7 @@ import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
 import PracticeEmailData from '@/types/PracticeEmailData';
+import { updateRequestCreatedTime } from '@/utils/times';
 
 type AdminAppointmentDetailsPopupProps = {
   open: boolean;
@@ -94,6 +95,7 @@ const AdminAppointmentDetailsPopup = ({
     scheduled_time,
     scheduled_by,
     is_cancelled,
+    created_at,
   } = clickedAppointment;
 
   const SEVEN_30_AM_IN_MINUTES = 60 * 7.5;
@@ -249,6 +251,7 @@ const AdminAppointmentDetailsPopup = ({
     }
     if (!isAppointmentScheduled && !isAppointmentCancelled) {
       statusList.push('Waiting');
+      statusList.push(updateRequestCreatedTime(created_at!));
     }
 
     return statusList.map((status, index) => (
