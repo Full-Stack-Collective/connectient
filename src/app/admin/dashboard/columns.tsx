@@ -5,6 +5,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Badge } from '@/components/ui/badge';
 import { DataTableColumnHeader } from './data-table-column-header';
 import { format, parseISO } from 'date-fns';
+import { cn } from '@/lib/utils';
+
 export const columns: ColumnDef<Appointment>[] = [
   {
     id: 'status',
@@ -29,7 +31,16 @@ export const columns: ColumnDef<Appointment>[] = [
       return (
         <div className="flex gap-2">
           {statusList.map((status, index) => (
-            <Badge key={index} variant="secondary">
+            <Badge
+              key={index}
+              variant="secondary"
+              className={cn(
+                status === 'Emergency' && 'bg-badge-emergency',
+                status === 'Cancelled' && 'bg-badge-cancelled',
+                status === 'Waiting' && 'bg-badge-waiting',
+                status === 'Scheduled' && 'bg-badge-scheduled',
+              )}
+            >
               {status}
             </Badge>
           ))}

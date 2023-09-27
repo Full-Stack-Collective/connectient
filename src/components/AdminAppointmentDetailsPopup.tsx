@@ -255,7 +255,16 @@ const AdminAppointmentDetailsPopup = ({
     }
 
     return statusList.map((status, index) => (
-      <Badge key={index} variant="secondary">
+      <Badge
+        key={index}
+        variant="secondary"
+        className={cn(
+          status === 'Emergency' && 'bg-badge-emergency',
+          status === 'Cancelled' && 'bg-badge-cancelled',
+          status === 'Waiting' && 'bg-badge-waiting',
+          status === 'Scheduled' && 'bg-badge-scheduled',
+        )}
+      >
         {status}
       </Badge>
     ));

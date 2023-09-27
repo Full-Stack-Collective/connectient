@@ -22,6 +22,7 @@ module.exports = {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         'body-gradient': 'hsl(var(--body-gradient))',
+        highlight: 'hsl(var(--highlight))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
@@ -49,6 +50,12 @@ module.exports = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
+        },
+        badge: {
+          emergency: 'hsl(var(--badge-emergency-background))',
+          scheduled: 'hsl(var(--badge-scheduled-background))',
+          waiting: 'hsl(var(--badge-waiting-background))',
+          cancelled: 'hsl(var(--badge-cancelled-background))',
         },
       },
       borderRadius: {

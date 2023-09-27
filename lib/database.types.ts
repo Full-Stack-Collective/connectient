@@ -14,6 +14,7 @@ export interface Database {
           appointment_type: string | null;
           created_at: string | null;
           created_by: string | null;
+          modified_at: string | null;
           description: string | null;
           email: string;
           first_name: string;
@@ -34,6 +35,7 @@ export interface Database {
           appointment_type?: string | null;
           created_at?: string | null;
           created_by?: string | null;
+          modified_at?: string | null;
           description?: string | null;
           email: string;
           first_name: string;
@@ -54,6 +56,7 @@ export interface Database {
           appointment_type?: string | null;
           created_at?: string | null;
           created_by?: string | null;
+          modified_at?: string | null;
           description?: string | null;
           email?: string;
           first_name?: string;
