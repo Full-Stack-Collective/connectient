@@ -81,7 +81,7 @@ export const DataTabs = ({ appointments, practiceInfo }: DataTabsProps) => {
         description: `Attention, Commander! You've got ${newAppointments.current.length} new appointment requests. Ready to accept the mission?`,
       });
     }
-  }, [toast, isEmergency, isNormal]);
+  }, []);
 
   // Look for realtime updates in the DB
   useEffect(() => {
