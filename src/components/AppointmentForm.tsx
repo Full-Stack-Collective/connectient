@@ -483,7 +483,7 @@ const AppointmentForm = ({
                     (form.formState.isDirty && !form.formState.isValid)
                   }
                 >
-                  Request Appointment
+                  Send Request
                 </Button>
                 <Button
                   type="button"

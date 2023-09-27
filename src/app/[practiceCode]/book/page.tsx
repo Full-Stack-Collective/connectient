@@ -7,6 +7,55 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
+export async function generateMetadata({
+  params,
+}: {
+  params: {
+    practiceCode: string;
+  };
+}) {
+  const supabase = createServerComponentClient<Database>({ cookies });
+  try {
+    const { practiceCode } = params;
+    const { data: practice } = await supabase
+      .from('Practice')
+      .select()
+      .eq('practice_code', practiceCode);
+
+    if (!practice || practice.length === 0)
+      return {
+        title: 'Not Found',
+        description: 'The page you are looking for does not exist.',
+      };
+
+    const [{ name, logo }] = practice;
+    const imageUrl = logo || '/connectient-logo.png';
+
+    return {
+      title: name,
+      description: `Appointments Made Easy at ${name}`,
+      openGraph: {
+        images: [
+          {
+            url: imageUrl,
+
+            alt: `${name} Logo`,
+          },
+        ],
+      },
+      alternates: {
+        canonical: `/${practiceCode}/book`,
+      },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      title: 'Not Found',
+      description: 'The page you are looking for does not exist.',
+    };
+  }
+}
+
 export default async function Appointment({
   params,
 }: {
