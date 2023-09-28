@@ -63,7 +63,7 @@ const AppointmentDashboard = async () => {
   return (
     <main className="flex-1 container mx-auto pt-4 pb-10">
       {practiceInfo && (
-        <div className=" text-3xl font-bold flex justify-center items-center gap-4">
+        <div className=" text-3xl font-bold flex justify-center text-center items-center gap-4">
           {practiceInfo.logo && (
             <Image
               src={practiceInfo.logo}
