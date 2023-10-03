@@ -13,7 +13,7 @@ const CONTACT_MESSAGE_FIELDS: ContactMessageFields = {
   email: 'Email: ',
   requested_date: 'Requested Date: ',
   requested_time: 'Requested Time: ',
-  appointment_type: 'Appointmet Type: ',
+  appointment_type: 'Appointment Type: ',
   description: 'Description: ',
   is_emergency: 'Is this an emergency? ',
 };
