@@ -27,12 +27,30 @@ export const generateEmailContent = (
   practicePhone: string,
   practiceWebsite: string,
 ) => {
-  delete data.practice_id;
-  const stringData = Object.entries(data).reduce((str: string, [key, val]) => {
-    return (str += `${CONTACT_MESSAGE_FIELDS[key]}: \n${val as string} \n\n`);
-  }, '');
+  const emailData = {
+    first_name: data.first_name,
+    last_name: data.last_name,
+    mobile_phone: data.mobile_phone,
+    email: data.email,
+    requested_date: data.requested_date!.toDateString(),
+    requested_time:
+      data.requested_time!.charAt(0).toUpperCase() +
+      data.requested_time!.slice(1),
+    appointment_type:
+      data.appointment_type!.charAt(0).toUpperCase() +
+      data.appointment_type!.slice(1),
+    description: data.description === '' ? 'None' : data.description,
+    is_emergency: data.is_emergency === true ? 'Yes' : 'No',
+  };
 
-  const htmlData = Object.entries(data).reduce((str, [key, val]) => {
+  const stringData = Object.entries(emailData).reduce(
+    (str: string, [key, val]) => {
+      return (str += `${CONTACT_MESSAGE_FIELDS[key]}: \n${val as string} \n\n`);
+    },
+    '',
+  );
+
+  const htmlData = Object.entries(emailData).reduce((str, [key, val]) => {
     return (str += `<div style="padding: 5px 0;"><h3 class="form-heading" style="display: inline;">${
       CONTACT_MESSAGE_FIELDS[key]
     }</h3><p class="form-answer" style="display: inline;">${

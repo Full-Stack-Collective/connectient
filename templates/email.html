@@ -139,7 +139,19 @@
                             class="padding message-content"
                           >
                             <h2>Appointment Request Information</h2>
-                            <div class="form-container">${htmlData}</div>
+                            <div class="form-container">
+                              <div style="padding: 5px 0">
+                                <h3
+                                  class="form-heading"
+                                  style="display: inline"
+                                >
+                                  ${ CONTACT_MESSAGE_FIELDS[key] }
+                                </h3>
+                                <p class="form-answer" style="display: inline">
+                                  ${ val as string }
+                                </p>
+                              </div>
+                            </div>
                           </td>
                         </tr>
                       </table>
