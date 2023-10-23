@@ -417,7 +417,7 @@ const AdminAppointmentDetailsPopup = ({
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
-                      disabled={[isSunday, isPast]}
+                      disabled={[isSunday]}
                       toMonth={addMonths(new Date(), 3)}
                       initialFocus
                     />
