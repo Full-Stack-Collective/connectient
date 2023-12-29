@@ -71,6 +71,9 @@ export const emailHandler = async (
         practicePhone,
         practiceWebsite,
       ),
+    });
+    await transporter.sendMail({
+      ...mailOptions,
       ...generatePracticeNotificationEmail(practiceEmail),
     });
     return appointmentData;
