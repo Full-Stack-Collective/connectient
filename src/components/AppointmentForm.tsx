@@ -79,6 +79,7 @@ type PracticeInfo = {
   practiceCity: string;
   practicePhone: string;
   practiceWebsite: string;
+  practiceEmail: string;
 };
 
 const AppointmentForm = ({
@@ -89,6 +90,7 @@ const AppointmentForm = ({
   practiceCity,
   practicePhone,
   practiceWebsite,
+  practiceEmail,
 }: PracticeInfo) => {
   const [, startTransition] = useTransition();
   const [createdAppointment, setCreatedAppointment] =
@@ -147,6 +149,7 @@ const AppointmentForm = ({
             practiceCity,
             practicePhone,
             practiceWebsite,
+            practiceEmail,
           )
             .then(() => {
               toast({
