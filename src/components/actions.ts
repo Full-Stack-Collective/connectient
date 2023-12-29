@@ -7,6 +7,7 @@ import { transporter, mailOptions } from '@/config/nodemailer';
 import {
   generateConfirmationEmailContent,
   generateEmailContent,
+  generatePracticeNotificationEmail,
 } from '@/config/emailContent';
 import ConfirmationEmailData from '@/types/ConfirmationEmailData';
 import PracticeEmailData from '@/types/PracticeEmailData';
@@ -56,6 +57,7 @@ export const emailHandler = async (
   practiceCity: string,
   practicePhone: string,
   practiceWebsite: string,
+  practiceEmail: string,
 ) => {
   try {
     await transporter.sendMail({
@@ -69,6 +71,7 @@ export const emailHandler = async (
         practicePhone,
         practiceWebsite,
       ),
+      ...generatePracticeNotificationEmail(practiceEmail),
     });
     return appointmentData;
   } catch (error) {
