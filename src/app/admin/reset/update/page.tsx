@@ -71,7 +71,7 @@ export default function UpdatePassword() {
 
       // Redirect to login page after 3 seconds
       setTimeout(() => {
-        router.push('/login');
+        router.push('/admin/login');
       }, 3000);
     } catch (err: unknown) {
       if (err instanceof Error) {
