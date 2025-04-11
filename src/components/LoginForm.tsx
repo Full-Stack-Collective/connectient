@@ -19,6 +19,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from './ui/use-toast';
 
 import { loginFormAction } from './actions';
+import Link from 'next/link';
 
 // Define Login Form schema
 const formSchema = z.object({
@@ -142,6 +143,12 @@ const LoginForm = () => {
           >
             Login
           </Button>
+          <Link
+            className="mt-8 text-sm text-center"
+            href={'/admin/reset/request'}
+          >
+            Forgot password?
+          </Link>
         </form>
       </Form>
     </main>
